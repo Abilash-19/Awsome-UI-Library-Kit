@@ -1,19 +1,20 @@
-import type { StorybookConfig } from '@storybook/react-vite';
-import { resolve } from 'path';
+import type { StorybookConfig } from "@storybook/react-vite";
+import { resolve, dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const config: StorybookConfig = {
-  "stories": [
-    "../src/**/*.mdx",
-    "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"
-  ],
-  "addons": [
+  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+  addons: [
     "@chromatic-com/storybook",
     "@storybook/addon-vitest",
     "@storybook/addon-a11y",
     "@storybook/addon-docs",
-    "@storybook/addon-onboarding"
+    "@storybook/addon-onboarding",
   ],
-  "framework": "@storybook/react-vite",
+  framework: "@storybook/react-vite",
   async viteFinal(config) {
     return {
       ...config,
@@ -21,7 +22,7 @@ const config: StorybookConfig = {
         ...config.resolve,
         alias: {
           ...config.resolve?.alias,
-          '@': resolve(__dirname, '../src'),
+          "@": resolve(__dirname, "../src"),
         },
       },
     };
