@@ -1,0 +1,50 @@
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+build
+*.tsbuildinfo
+
+# Development files
+src
+*.config.js
+*.config.ts
+tsconfig*.json
+
+# Tests
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+src/test
+
+# Storybook
+.storybook
+**/*.stories.tsx
+storybook-static
+
+# Documentation
+docs
+
+# CI/CD
+.github
+
+# Development tools
+.vscode
+.idea
+.husky
+.lintstagedrc
+.prettierrc
+.prettierignore
+eslint.config.js
+vitest.config.ts
+commitlint.config.js
+
+# Misc
+*.log
+.DS_Store
+.env
+.env.local
+coverage
+.cache

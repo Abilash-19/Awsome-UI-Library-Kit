@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --radius: 0.5rem;
+}
+
+.dark {
+  --color-background: #020617;
+  --color-foreground: #f8fafc;
+}
