@@ -10,13 +10,4 @@ export type {
   SemanticColors,
 } from "../theme";
 
-export { Typography, default } from "./Typography/Typography";
-export type {
-  TypographyProps,
-  TypographyVariant,
-  TypographyWeight,
-} from "./Typography/Typography.types";
-export {
-  VARIANT_ELEMENT_MAP,
-  VARIANT_WEIGHT_MAP,
-} from "./Typography/Typography.types";
+export * from "./Typography";
