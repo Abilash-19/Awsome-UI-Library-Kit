@@ -30,7 +30,7 @@ export const Typography: React.FC<TypographyProps> = ({
   ...rest
 }) => {
   // Determine the HTML element to render
-  const Element = VARIANT_ELEMENT_MAP[variant] || as;
+  const Element = as || VARIANT_ELEMENT_MAP[variant] || "p";
 
   // Determine font weight
   const fontWeight = weight || VARIANT_WEIGHT_MAP[variant];
