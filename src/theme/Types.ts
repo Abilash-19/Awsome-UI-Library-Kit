@@ -1,40 +1,48 @@
-// src/theme/types.ts
+// src/theme/Types.ts
 
 export interface ColorScale {
-    50: string;
-    100: string;
-    200: string;
-    300: string;
-    400: string;
-    500: string;
-    600: string;
-    700: string;
-    800: string;
-    900: string;
-    950: string;
+  50: string;
+  100: string;
+  200: string;
+  300: string;
+  400: string;
+  500: string;
+  600: string;
+  700: string;
+  800: string;
+  900: string;
+  950: string;
 }
 
 export interface SemanticColors {
-    background: string;
-    foreground: string;
-    muted: string;
-    mutedForeground: string;
-    border: string;
-    ring: string;
+  background: string;
+  foreground: string;
+  muted: string;
+  mutedForeground: string;
+  border: string;
+  ring: string;
 }
 
 export interface ThemeColors {
-    primary: ColorScale;
-    secondary: ColorScale;
-    success: ColorScale;
-    warning: ColorScale;
-    error: ColorScale;
-    info: ColorScale;
-    semantic: SemanticColors;
+  primary: ColorScale;
+  secondary: ColorScale;
+  success: ColorScale;
+  warning: ColorScale;
+  error: ColorScale;
+  info: ColorScale;
+  semantic: SemanticColors;
 }
 
 export interface ThemeConfig {
-    colors: ThemeColors;
-    radius: string;
-    fontFamily: string;
+  colors: ThemeColors;
+  radius: string;
+  fontFamily: string;
 }
+
+export type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends (infer U)[]
+    ? DeepPartial<U>[]
+    : T[P] extends object
+      ? DeepPartial<T[P]>
+      : T[P];
+};

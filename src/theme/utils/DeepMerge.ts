@@ -6,11 +6,8 @@
  * @param source - Object to merge into target
  * @returns Merged object
  */
-export const deepMerge = <T extends Record<string, unknown>>(
-  target: T,
-  source: Partial<T>,
-): T => {
-  const output = { ...target };
+export const deepMerge = <T extends object>(target: T, source: any): T => {
+  const output = { ...target } as any;
 
   for (const key in source) {
     if (
@@ -19,13 +16,13 @@ export const deepMerge = <T extends Record<string, unknown>>(
       !Array.isArray(source[key])
     ) {
       output[key] = deepMerge(
-        target[key] as Record<string, unknown>,
+        target[key as keyof T] as Record<string, unknown>,
         source[key] as Record<string, unknown>,
-      ) as T[Extract<keyof T, string>];
+      );
     } else if (source[key] !== undefined) {
-      output[key] = source[key] as T[Extract<keyof T, string>];
+      output[key] = source[key];
     }
   }
 
-  return output;
+  return output as T;
 };

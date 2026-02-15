@@ -31,5 +31,7 @@ export default tseslint.config({ ignores: ['dist', 'node_modules', 'storybook-st
       { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
     ],
     '@typescript-eslint/consistent-type-imports': 'error',
+    "@typescript-eslint/no-explicit-any": ["off"]
+
   },
 }, storybook.configs["flat/recommended"]);

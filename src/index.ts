@@ -1,12 +1,12 @@
 // Import styles
-import './theme/index.css';
+import "./theme/index.css";
 
 // Export components
-export * from './components';
+export * from "./components";
 
 // Export utilities
-export * from './utils';
+export * from "./utils";
 
 // Export theme
-export { theme } from './theme/tokens';
-export type { Theme } from './theme/tokens';
+export { defaultTheme as theme } from "./theme";
+export type { ThemeConfig as Theme } from "./theme";
