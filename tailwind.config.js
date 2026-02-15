@@ -110,6 +110,7 @@ export default {
             // Typography
             fontFamily: {
                 sans: [
+                    'Rubik',
                     'Inter',
                     'ui-sans-serif',
                     'system-ui',
@@ -130,6 +131,7 @@ export default {
                     'monospace',
                 ],
                 display: [
+                    'Rubik',
                     'Inter',
                     'Lexend',
                     'ui-sans-serif',
