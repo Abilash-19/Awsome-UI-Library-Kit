@@ -2,6 +2,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
 import { Modal } from "./Modal";
+import { Button } from "../Button";
 
 const meta: Meta<typeof Modal> = {
   title: "Components/Modal",
@@ -50,12 +51,7 @@ const ModalWrapper = (args: any) => {
 
   return (
     <>
-      <button
-        onClick={() => setIsOpen(true)}
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
-        Open Modal
-      </button>
+      <Button onClick={() => setIsOpen(true)}>Open Modal</Button>
       <Modal {...args} isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>
   );
@@ -72,9 +68,7 @@ export const Default: Story = {
           This is a modal dialog. You can close it by clicking the close button,
           clicking outside, or pressing the Escape key.
         </p>
-        <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-          Action Button
-        </button>
+        <Button>Action Button</Button>
       </div>
     ),
   },
@@ -87,30 +81,10 @@ export const Sizes: Story = {
 
     return (
       <div className="flex gap-2">
-        <button
-          onClick={() => setActiveModal("sm")}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Small
-        </button>
-        <button
-          onClick={() => setActiveModal("md")}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Medium
-        </button>
-        <button
-          onClick={() => setActiveModal("lg")}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Large
-        </button>
-        <button
-          onClick={() => setActiveModal("xl")}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Extra Large
-        </button>
+        <Button onClick={() => setActiveModal("sm")}>Small</Button>
+        <Button onClick={() => setActiveModal("md")}>Medium</Button>
+        <Button onClick={() => setActiveModal("lg")}>Large</Button>
+        <Button onClick={() => setActiveModal("xl")}>Extra Large</Button>
 
         <Modal
           isOpen={activeModal === "sm"}
@@ -235,12 +209,9 @@ export const ConfirmationDialog: Story = {
 
     return (
       <>
-        <button
-          onClick={() => setIsOpen(true)}
-          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-        >
+        <Button variant="danger" onClick={() => setIsOpen(true)}>
           Delete Item
-        </button>
+        </Button>
         <Modal
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
@@ -253,18 +224,12 @@ export const ConfirmationDialog: Story = {
               undone.
             </p>
             <div className="flex gap-2 justify-end">
-              <button
-                onClick={() => setIsOpen(false)}
-                className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
-              >
+              <Button variant="ghost" onClick={() => setIsOpen(false)}>
                 Cancel
-              </button>
-              <button
-                onClick={handleConfirm}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-              >
+              </Button>
+              <Button variant="danger" onClick={handleConfirm}>
                 Delete
-              </button>
+              </Button>
             </div>
           </div>
         </Modal>
@@ -286,12 +251,7 @@ export const FormModal: Story = {
 
     return (
       <>
-        <button
-          onClick={() => setIsOpen(true)}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Add New Item
-        </button>
+        <Button onClick={() => setIsOpen(true)}>Add New Item</Button>
         <Modal
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
@@ -319,19 +279,14 @@ export const FormModal: Story = {
               />
             </div>
             <div className="flex gap-2 justify-end">
-              <button
+              <Button
                 type="button"
+                variant="ghost"
                 onClick={() => setIsOpen(false)}
-                className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
               >
                 Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-              >
-                Submit
-              </button>
+              </Button>
+              <Button type="submit">Submit</Button>
             </div>
           </form>
         </Modal>
