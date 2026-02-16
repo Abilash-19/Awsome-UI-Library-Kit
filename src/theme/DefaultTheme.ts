@@ -82,15 +82,15 @@ export const defaultTheme: ThemeConfig = {
       950: "#083344",
     },
     semantic: {
-      background: "#ffffff",
-      foreground: "#0f172a",
-      muted: "#f1f5f9",
-      mutedForeground: "#64748b",
-      border: "#e2e8f0",
-      ring: "#2563eb",
+      background: "#ffff", // Soft cream (warm white)
+      foreground: "#1a1a1a", // Rich charcoal (softer than pure black)
+      muted: "#f5f3f0", // Warm light beige
+      mutedForeground: "#78716c", // Warm gray (stone)
+      border: "#e7e5e4", // Subtle warm border
+      ring: "#2563eb", // Keep blue for consistency
     },
   },
-  radius: "0.25rem", // 8px - single value for all components
+  radius: "0.25rem",
   fontFamily:
     'Rubik, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
 };
