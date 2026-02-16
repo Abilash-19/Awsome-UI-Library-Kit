@@ -4,7 +4,7 @@ import { cn } from "@/utils";
 import { useTheme } from "@/theme";
 import { type ButtonProps, type ButtonSize } from "./Button.types";
 import { Spinner } from "@/assets/Icons/Spinner";
-import { withOpacity } from "@/utils/Utils";
+import { withOpacity } from "@/utils/utils";
 
 const iconSizes: Record<ButtonSize, string> = {
   sm: "h-3.5 w-3.5",
