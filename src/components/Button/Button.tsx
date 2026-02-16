@@ -58,10 +58,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const iconOnlyStyles =
       !children && (prefixIcon || suffixIcon)
         ? {
-            sm: "h-8 w-8 px-0 min-w-0",
-            md: "h-10 w-10 px-0 min-w-0",
-            lg: "h-12 w-12 px-0 min-w-0",
-          }
+          sm: "h-8 w-8 px-0 min-w-0",
+          md: "h-10 w-10 px-0 min-w-0",
+          lg: "h-12 w-12 px-0 min-w-0",
+        }
         : null;
 
     const themeStyles: Record<string, string> = {
