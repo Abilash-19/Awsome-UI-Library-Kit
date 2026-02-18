@@ -1,3 +1,4 @@
+// src/components/Button/Button.tsx
 import { forwardRef } from "react";
 import { cn } from "@/utils";
 import { useTheme } from "@/theme";
@@ -147,7 +148,25 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             {children && <span>{children}</span>}
           </>
         ) : (
-          children
+          <>
+            {prefixIcon && (
+              <span
+                className={cn("inline-flex shrink-0", iconSizes[size])}
+                aria-hidden="true"
+              >
+                {prefixIcon}
+              </span>
+            )}
+            {children && <span>{children}</span>}
+            {suffixIcon && (
+              <span
+                className={cn("inline-flex shrink-0", iconSizes[size])}
+                aria-hidden="true"
+              >
+                {suffixIcon}
+              </span>
+            )}
+          </>
         )}
       </button>
     );
