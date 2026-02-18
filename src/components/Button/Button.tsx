@@ -1,4 +1,3 @@
-// src/components/Button/Button.tsx
 import { forwardRef } from "react";
 import { cn } from "@/utils";
 import { useTheme } from "@/theme";
