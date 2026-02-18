@@ -7,6 +7,7 @@ import type {
   TypographyWeight,
 } from "./Typography.types";
 import { VARIANT_ELEMENT_MAP, VARIANT_WEIGHT_MAP } from "./Typography.types";
+import { useTheme } from "@/theme";
 
 /**
  * Typography component for consistent text styling across the application
@@ -29,11 +30,14 @@ export const Typography: React.FC<TypographyProps> = ({
   onClick,
   ...rest
 }) => {
+  const { theme } = useTheme();
   // Determine the HTML element to render
   const Element = as || VARIANT_ELEMENT_MAP[variant] || "p";
 
   // Determine font weight
   const fontWeight = weight || VARIANT_WEIGHT_MAP[variant];
+
+  const color = theme.tokens.foreground;
 
   // Build class names
   const classes = cn(
@@ -53,8 +57,8 @@ export const Typography: React.FC<TypographyProps> = ({
   return (
     <Element
       id={id}
-      className={classes}
-      style={style}
+      className={cn(classes, "text-[var(--typography-color)]")}
+      style={{ ...style, color }}
       onClick={onClick}
       {...rest}
     >

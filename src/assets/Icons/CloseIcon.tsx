@@ -14,7 +14,9 @@ export const CloseIcon = () => {
       strokeLinecap="round"
       strokeLinejoin="round"
       className="h-5 w-5"
-      style={{ color: theme.colors.semantic.foreground }}
+      style={
+        { "--typography-color": theme.tokens.foreground } as React.CSSProperties
+      }
     >
       <path d="M18 6 6 18" />
       <path d="m6 6 12 12" />

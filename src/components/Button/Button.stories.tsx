@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button } from "./Button";
+import { DummyIcon } from "../../assets/Icons/Dummy";
 
 const meta: Meta<typeof Button> = {
   title: "Components/Button",
@@ -31,71 +32,77 @@ type Story = StoryObj<typeof Button>;
 
 export const Primary: Story = {
   args: {
-    text: "Primary Button",
+    children: "Primary Button",
     variant: "primary",
   },
 };
 
 export const Secondary: Story = {
   args: {
-    text: "Secondary Button",
+    children: "Secondary Button",
     variant: "secondary",
   },
 };
 
 export const Outline: Story = {
   args: {
-    text: "Outline Button",
+    children: "Outline Button",
     variant: "outline",
   },
 };
 
 export const Ghost: Story = {
   args: {
-    text: "Ghost Button",
+    children: "Ghost Button",
     variant: "ghost",
   },
 };
 
 export const Danger: Story = {
   args: {
-    text: "Danger Button",
+    children: "Danger Button",
     variant: "danger",
   },
 };
 
 export const Small: Story = {
   args: {
-    text: "Small Button",
+    children: "Small Button",
     size: "sm",
   },
 };
 
 export const Medium: Story = {
   args: {
-    text: "Medium Button",
+    children: "Medium Button",
     size: "md",
   },
 };
 
 export const Large: Story = {
   args: {
-    text: "Large Button",
+    children: "Large Button",
     size: "lg",
   },
 };
 
 export const Loading: Story = {
   args: {
-    text: "Loading Button",
+    children: "Loading Button",
     isLoading: true,
   },
 };
 
 export const Disabled: Story = {
   args: {
-    text: "Disabled Button",
+    children: "Disabled Button",
     disabled: true,
+  },
+};
+export const IconOnly: Story = {
+  args: {
+    children: <DummyIcon />,
+    size: "md",
   },
 };
 
