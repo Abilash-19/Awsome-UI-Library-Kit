@@ -20,7 +20,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       size = "md",
       isLoading = false,
       disabled,
-      text,
+      children,
       prefixIcon,
       suffixIcon,
       type = "button",
@@ -51,14 +51,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     const sizes = {
-      sm: "h-8 px-3 text-sm min-w-[4rem]",
-      md: "h-10 px-4 text-sm min-w-[5rem]",
-      lg: "h-12 px-6 text-base min-w-[6rem]",
+      sm: "h-8 px-3 text-sm",
+      md: "h-10 px-4 text-sm",
+      lg: "h-12 px-6 text-base",
     };
 
     // Adjust padding for icon-only buttons
     const iconOnlyStyles =
-      !text && (prefixIcon || suffixIcon)
+      !children && (prefixIcon || suffixIcon)
         ? {
             sm: "h-8 w-8 px-0 min-w-0",
             md: "h-10 w-10 px-0 min-w-0",
@@ -126,8 +126,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     }
 
     // Determine if button needs an accessible label
-    const isIconOnly = !text && (prefixIcon || suffixIcon);
-    const needsAriaLabel = (isLoading && !text) || (isIconOnly && !ariaLabel);
+    const isIconOnly = !children && (prefixIcon || suffixIcon);
+    const needsAriaLabel =
+      (isLoading && !children) || (isIconOnly && !ariaLabel);
     const computedAriaLabel =
       ariaLabel || (needsAriaLabel ? "Button" : undefined);
 
@@ -156,28 +157,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {isLoading ? (
           <>
             <Spinner size={iconSizes[size]} />
-            {text && <span>{text}</span>}
+            {children && <span>{children}</span>}
           </>
         ) : (
-          <>
-            {prefixIcon && (
-              <span
-                className={cn("inline-flex shrink-0", iconSizes[size])}
-                aria-hidden="true"
-              >
-                {prefixIcon}
-              </span>
-            )}
-            {text && <span>{text}</span>}
-            {suffixIcon && (
-              <span
-                className={cn("inline-flex shrink-0", iconSizes[size])}
-                aria-hidden="true"
-              >
-                {suffixIcon}
-              </span>
-            )}
-          </>
+          children
         )}
       </button>
     );

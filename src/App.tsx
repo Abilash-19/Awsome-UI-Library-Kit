@@ -7,7 +7,7 @@ import { ThemeProvider, darkTheme } from "@/theme";
 import { useTheme } from "@/theme";
 import "@/theme/index.css";
 
-// Inner component that can access theme context
+// Inner component that can access theme conchildren
 function PlaygroundContent() {
   const { theme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -96,13 +96,13 @@ function PlaygroundContent() {
                 </Typography>
                 <div className="flex flex-wrap gap-2">
                   <Button
-                    text="Primary"
+                    children="Primary"
                     onClick={() => console.log("Primary")}
                   />
-                  <Button variant="secondary" text="Secondary" />
-                  <Button variant="outline" text="Outline" />
-                  <Button variant="ghost" text="Ghost" />
-                  <Button variant="danger" text="Danger" />
+                  <Button variant="secondary" children="Secondary" />
+                  <Button variant="outline" children="Outline" />
+                  <Button variant="ghost" children="Ghost" />
+                  <Button variant="danger" children="Danger" />
                 </div>
               </div>
 
@@ -117,9 +117,9 @@ function PlaygroundContent() {
                   Sizes
                 </Typography>
                 <div className="flex flex-wrap items-center gap-2">
-                  <Button size="sm" text="Small" />
-                  <Button size="md" text="Medium" />
-                  <Button size="lg" text="Large" />
+                  <Button size="sm" children="Small" />
+                  <Button size="md" children="Medium" />
+                  <Button size="lg" children="Large" />
                 </div>
               </div>
 
@@ -134,8 +134,8 @@ function PlaygroundContent() {
                   States
                 </Typography>
                 <div className="flex flex-wrap gap-2">
-                  <Button isLoading text="Loading" />
-                  <Button disabled text="Disabled" />
+                  <Button isLoading children="Loading" />
+                  <Button disabled children="Disabled" />
                   <Button variant="danger" isLoading />
                 </div>
               </div>
@@ -153,12 +153,12 @@ function PlaygroundContent() {
                 <div className="flex flex-wrap gap-2">
                   <Button
                     variant="outline"
-                    text="Open Modal"
+                    children="Open Modal"
                     onClick={() => setIsModalOpen(true)}
                   />
                   <Button
                     variant="secondary"
-                    text="Console Log"
+                    children="Console Log"
                     onClick={() =>
                       console.log("Button clicked!", { inputValue })
                     }
@@ -319,7 +319,7 @@ function PlaygroundContent() {
 
             <div className="space-y-4">
               <Button
-                text="Open Confirmation Modal"
+                children="Open Confirmation Modal"
                 onClick={() => setIsModalOpen(true)}
               />
             </div>
@@ -356,12 +356,12 @@ function PlaygroundContent() {
               <Typography variant="subtitle1">Subtitle 1</Typography>
               <Typography variant="subtitle2">Subtitle 2</Typography>
               <Typography variant="body1">
-                Body 1 - Regular paragraph text
+                Body 1 - Regular paragraph children
               </Typography>
               <Typography variant="body2">
-                Body 2 - Smaller paragraph text
+                Body 2 - Smaller paragraph children
               </Typography>
-              <Typography variant="caption">Caption text</Typography>
+              <Typography variant="caption">Caption children</Typography>
             </div>
           </section>
 
@@ -414,11 +414,11 @@ function PlaygroundContent() {
                 required
               />
               <div className="flex gap-2 pt-2">
-                <Button type="submit" text="Submit Form" />
+                <Button type="submit" children="Submit Form" />
                 <Button
                   type="button"
                   variant="outline"
-                  text="Reset"
+                  children="Reset"
                   onClick={() => {
                     setEmail("");
                     setPassword("");
@@ -460,11 +460,11 @@ function PlaygroundContent() {
           <div className="flex justify-end gap-2 pt-4">
             <Button
               variant="ghost"
-              text="Cancel"
+              children="Cancel"
               onClick={() => setIsModalOpen(false)}
             />
             <Button
-              text="Confirm"
+              children="Confirm"
               onClick={() => {
                 console.log("Confirmed!");
                 setIsModalOpen(false);
@@ -508,7 +508,7 @@ function App() {
           <Button
             variant="outline"
             size="sm"
-            text={`Switch to ${isDarkMode ? "Light" : "Dark"}`}
+            children={`Switch to ${isDarkMode ? "Light" : "Dark"}`}
             onClick={() => setIsDarkMode(!isDarkMode)}
           />
         </div>
