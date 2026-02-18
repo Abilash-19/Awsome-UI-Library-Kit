@@ -1,10 +1,8 @@
-// src/components/Button/Button.tsx
 import { forwardRef } from "react";
 import { cn } from "@/utils";
 import { useTheme } from "@/theme";
 import { type ButtonProps, type ButtonSize } from "./Button.types";
 import { Spinner } from "@/assets/Icons/Spinner";
-import { withOpacity } from "@/utils/utils";
 
 const iconSizes: Record<ButtonSize, string> = {
   sm: "h-3.5 w-3.5",
@@ -56,7 +54,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       lg: "h-12 px-6 text-base",
     };
 
-    // Adjust padding for icon-only buttons
     const iconOnlyStyles =
       !children && (prefixIcon || suffixIcon)
         ? {
@@ -66,66 +63,56 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           }
         : null;
 
-    // Theme-derived style variables
     const themeStyles: Record<string, string> = {
-      "--radius": theme.radius,
-      "--btn-bg": theme.colors.primary[600],
-      "--btn-hover": theme.colors.primary[700],
-      "--btn-active": theme.colors.primary[800],
-      "--btn-ring": theme.colors.primary[500],
-      "--btn-text": theme.colors.semantic.foreground,
-      "--btn-border": theme.colors.primary[600],
+      "--radius": theme.shape.radiusMd,
+      "--btn-bg": "transparent",
+      "--btn-hover": "transparent",
+      "--btn-active": "transparent",
+      "--btn-text": "#ffffff",
+      "--btn-border": "transparent",
+      "--btn-ring": theme.tokens.ring,
     };
 
-    // Apply variant-specific colors
     switch (variant) {
       case "primary":
-        themeStyles["--btn-bg"] = theme.colors.primary[600];
-        themeStyles["--btn-hover"] = theme.colors.primary[700];
-        themeStyles["--btn-active"] = theme.colors.primary[800];
-        themeStyles["--btn-ring"] = theme.colors.primary[500];
+        themeStyles["--btn-bg"] = theme.palette.primary[600];
+        themeStyles["--btn-hover"] = theme.palette.primary[700];
+        themeStyles["--btn-active"] = theme.palette.primary[800];
+        themeStyles["--btn-ring"] = theme.palette.primary[500];
         break;
+
       case "secondary":
-        themeStyles["--btn-bg"] = theme.colors.secondary[100];
-        themeStyles["--btn-hover"] = theme.colors.secondary[200];
-        themeStyles["--btn-active"] = theme.colors.secondary[300];
-        themeStyles["--btn-text"] = theme.colors.secondary[900];
-        themeStyles["--btn-ring"] = theme.colors.secondary[500];
+        themeStyles["--btn-bg"] = theme.tokens.surface;
+        themeStyles["--btn-hover"] = theme.tokens.surfaceHover;
+        themeStyles["--btn-active"] = theme.tokens.elevated;
+        themeStyles["--btn-text"] = theme.tokens.foreground;
+        themeStyles["--btn-ring"] = theme.tokens.ring;
         break;
+
       case "outline":
-        themeStyles["--btn-border"] = theme.colors.primary[600];
-        themeStyles["--btn-text"] = theme.colors.primary[600];
-        themeStyles["--btn-hover"] = withOpacity(
-          theme.colors.primary[600],
-          0.1,
-        );
-        themeStyles["--btn-active"] = withOpacity(
-          theme.colors.primary[600],
-          0.2,
-        );
-        themeStyles["--btn-ring"] = theme.colors.primary[500];
+        themeStyles["--btn-border"] = theme.tokens.border;
+        themeStyles["--btn-text"] = theme.tokens.accent;
+        themeStyles["--btn-hover"] = theme.tokens.surfaceHover;
+        themeStyles["--btn-active"] = theme.tokens.surfaceHover;
+        themeStyles["--btn-ring"] = theme.tokens.ring;
         break;
+
       case "ghost":
-        themeStyles["--btn-text"] = theme.colors.semantic.foreground;
-        themeStyles["--btn-hover"] = withOpacity(
-          theme.colors.semantic.foreground,
-          0.08,
-        );
-        themeStyles["--btn-active"] = withOpacity(
-          theme.colors.semantic.foreground,
-          0.16,
-        );
-        themeStyles["--btn-ring"] = theme.colors.primary[500];
+        themeStyles["--btn-text"] = theme.tokens.foreground;
+        themeStyles["--btn-hover"] = theme.tokens.surface;
+        themeStyles["--btn-active"] = theme.tokens.surfaceHover;
+        themeStyles["--btn-ring"] = theme.tokens.ring;
         break;
+
       case "danger":
-        themeStyles["--btn-bg"] = theme.colors.error[600];
-        themeStyles["--btn-hover"] = theme.colors.error[700];
-        themeStyles["--btn-active"] = theme.colors.error[800];
-        themeStyles["--btn-ring"] = theme.colors.error[500];
+        themeStyles["--btn-bg"] = theme.palette.error[600];
+        themeStyles["--btn-hover"] = theme.palette.error[700];
+        themeStyles["--btn-active"] = theme.palette.error[800];
+        themeStyles["--btn-text"] = "#ffffff";
+        themeStyles["--btn-ring"] = theme.palette.error[500];
         break;
     }
 
-    // Determine if button needs an accessible label
     const isIconOnly = !children && (prefixIcon || suffixIcon);
     const needsAriaLabel =
       (isLoading && !children) || (isIconOnly && !ariaLabel);

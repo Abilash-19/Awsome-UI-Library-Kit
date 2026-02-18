@@ -3,11 +3,21 @@ import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { Modal } from "@/components/Modal";
 import { Typography } from "@/components/Typography";
-import { ThemeProvider, darkTheme } from "@/theme";
+import { ThemeProvider } from "@/theme";
 import { useTheme } from "@/theme";
 import "@/theme/index.css";
 
-// Inner component that can access theme conchildren
+function ThemeToggle() {
+  const { toggleColorMode, theme } = useTheme();
+  return (
+    <div className="fixed top-4 right-4 z-50">
+      <Button variant="outline" size="sm" onClick={toggleColorMode}>
+        {theme.colorMode === "light" ? "Switch to Dark" : "Switch to Light"}
+      </Button>
+    </div>
+  );
+}
+
 function PlaygroundContent() {
   const { theme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,20 +37,25 @@ function PlaygroundContent() {
     }
   };
 
+  const sectionStyles = {
+    backgroundColor: theme.tokens.surface,
+    "--ring-color": theme.tokens.border,
+  } as React.CSSProperties;
+
   return (
     <div
       className="min-h-screen transition-colors duration-300"
       style={{
-        backgroundColor: theme.colors.semantic.background,
-        color: theme.colors.semantic.foreground,
+        backgroundColor: theme.tokens.background,
+        color: theme.tokens.foreground,
       }}
     >
       {/* Header */}
       <header
         className="border-b sticky top-0 z-10 backdrop-blur-sm"
         style={{
-          borderColor: theme.colors.semantic.border,
-          backgroundColor: theme.colors.semantic.background,
+          borderColor: theme.tokens.border,
+          backgroundColor: theme.tokens.background,
         }}
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
@@ -51,7 +66,11 @@ function PlaygroundContent() {
               </Typography>
               <Typography
                 variant="body2"
-                style={{ color: theme.colors.semantic.mutedForeground }}
+                style={
+                  {
+                    "--typography-color": theme.tokens.foregroundMuted,
+                  } as React.CSSProperties
+                }
                 className="mt-1"
               >
                 Interactive playground for testing components
@@ -66,10 +85,8 @@ function PlaygroundContent() {
         <div className="grid gap-6 lg:grid-cols-2">
           {/* Buttons Section */}
           <section
-            className="rounded-xl p-6 shadow-lg ring-1 transition-all duration-300 hover:shadow-xl"
-            style={{
-              backgroundColor: theme.colors.semantic.background,
-            }}
+            className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl"
+            style={sectionStyles}
           >
             <div className="mb-6">
               <Typography variant="h4" weight="bold" className="mb-2">
@@ -77,92 +94,109 @@ function PlaygroundContent() {
               </Typography>
               <Typography
                 variant="body2"
-                style={{ color: theme.colors.semantic.mutedForeground }}
+                style={
+                  {
+                    "--typography-color": theme.tokens.foregroundMuted,
+                  } as React.CSSProperties
+                }
               >
                 Interactive buttons with multiple variants and states
               </Typography>
             </div>
 
             <div className="space-y-6">
-              {/* Variants */}
               <div>
                 <Typography
                   variant="subtitle2"
                   weight="semibold"
                   className="mb-3"
-                  style={{ color: theme.colors.semantic.mutedForeground }}
+                  style={
+                    {
+                      "--typography-color": theme.tokens.foregroundMuted,
+                    } as React.CSSProperties
+                  }
                 >
                   Variants
                 </Typography>
                 <div className="flex flex-wrap gap-2">
-                  <Button
-                    children="Primary"
-                    onClick={() => console.log("Primary")}
-                  />
-                  <Button variant="secondary" children="Secondary" />
-                  <Button variant="outline" children="Outline" />
-                  <Button variant="ghost" children="Ghost" />
-                  <Button variant="danger" children="Danger" />
+                  <Button onClick={() => console.log("Primary")}>
+                    Primary
+                  </Button>
+                  <Button variant="secondary">Secondary</Button>
+                  <Button variant="outline">Outline</Button>
+                  <Button variant="ghost">Ghost</Button>
+                  <Button variant="danger">Danger</Button>
                 </div>
               </div>
 
-              {/* Sizes */}
               <div>
                 <Typography
                   variant="subtitle2"
                   weight="semibold"
                   className="mb-3"
-                  style={{ color: theme.colors.semantic.mutedForeground }}
+                  style={
+                    {
+                      "--typography-color": theme.tokens.foregroundMuted,
+                    } as React.CSSProperties
+                  }
                 >
                   Sizes
                 </Typography>
                 <div className="flex flex-wrap items-center gap-2">
-                  <Button size="sm" children="Small" />
-                  <Button size="md" children="Medium" />
-                  <Button size="lg" children="Large" />
+                  <Button size="sm">Small</Button>
+                  <Button size="md">Medium</Button>
+                  <Button size="lg">Large</Button>
                 </div>
               </div>
 
-              {/* States */}
               <div>
                 <Typography
                   variant="subtitle2"
                   weight="semibold"
                   className="mb-3"
-                  style={{ color: theme.colors.semantic.mutedForeground }}
+                  style={
+                    {
+                      "--typography-color": theme.tokens.foregroundMuted,
+                    } as React.CSSProperties
+                  }
                 >
                   States
                 </Typography>
                 <div className="flex flex-wrap gap-2">
-                  <Button isLoading children="Loading" />
-                  <Button disabled children="Disabled" />
+                  <Button isLoading>Loading</Button>
+                  <Button disabled>Disabled</Button>
                   <Button variant="danger" isLoading />
                 </div>
               </div>
 
-              {/* With Actions */}
               <div>
                 <Typography
                   variant="subtitle2"
                   weight="semibold"
                   className="mb-3"
-                  style={{ color: theme.colors.semantic.mutedForeground }}
+                  style={
+                    {
+                      "--typography-color": theme.tokens.foregroundMuted,
+                    } as React.CSSProperties
+                  }
                 >
                   Interactive Examples
                 </Typography>
                 <div className="flex flex-wrap gap-2">
                   <Button
                     variant="outline"
-                    children="Open Modal"
                     onClick={() => setIsModalOpen(true)}
-                  />
+                  >
+                    Open Modal
+                  </Button>
                   <Button
                     variant="secondary"
-                    children="Console Log"
                     onClick={() =>
                       console.log("Button clicked!", { inputValue })
                     }
-                  />
+                  >
+                    Console Log
+                  </Button>
                 </div>
               </div>
             </div>
@@ -170,10 +204,8 @@ function PlaygroundContent() {
 
           {/* Inputs Section */}
           <section
-            className="rounded-xl p-6 shadow-lg ring-1 transition-all duration-300 hover:shadow-xl"
-            style={{
-              backgroundColor: theme.colors.semantic.background,
-            }}
+            className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl"
+            style={sectionStyles}
           >
             <div className="mb-6">
               <Typography variant="h4" weight="bold" className="mb-2">
@@ -181,20 +213,27 @@ function PlaygroundContent() {
               </Typography>
               <Typography
                 variant="body2"
-                style={{ color: theme.colors.semantic.mutedForeground }}
+                style={
+                  {
+                    "--typography-color": theme.tokens.foregroundMuted,
+                  } as React.CSSProperties
+                }
               >
                 Form inputs with validation and different states
               </Typography>
             </div>
 
             <div className="space-y-6">
-              {/* Basic Input */}
               <div>
                 <Typography
                   variant="subtitle2"
                   weight="semibold"
                   className="mb-3"
-                  style={{ color: theme.colors.semantic.mutedForeground }}
+                  style={
+                    {
+                      "--typography-color": theme.tokens.foregroundMuted,
+                    } as React.CSSProperties
+                  }
                 >
                   Basic Input
                 </Typography>
@@ -208,12 +247,16 @@ function PlaygroundContent() {
                   <Typography
                     variant="caption"
                     className="mt-2"
-                    style={{ color: theme.colors.semantic.mutedForeground }}
+                    style={
+                      {
+                        "--typography-color": theme.tokens.foregroundMuted,
+                      } as React.CSSProperties
+                    }
                   >
                     Current value:{" "}
                     <code
                       className="px-1 py-0.5 rounded"
-                      style={{ backgroundColor: theme.colors.secondary[100] }}
+                      style={{ backgroundColor: theme.neutral[100] }}
                     >
                       {inputValue}
                     </code>
@@ -221,13 +264,16 @@ function PlaygroundContent() {
                 )}
               </div>
 
-              {/* Email with Validation */}
               <div>
                 <Typography
                   variant="subtitle2"
                   weight="semibold"
                   className="mb-3"
-                  style={{ color: theme.colors.semantic.mutedForeground }}
+                  style={
+                    {
+                      "--typography-color": theme.tokens.foregroundMuted,
+                    } as React.CSSProperties
+                  }
                 >
                   With Validation
                 </Typography>
@@ -242,13 +288,16 @@ function PlaygroundContent() {
                 />
               </div>
 
-              {/* Password */}
               <div>
                 <Typography
                   variant="subtitle2"
                   weight="semibold"
                   className="mb-3"
-                  style={{ color: theme.colors.semantic.mutedForeground }}
+                  style={
+                    {
+                      "--typography-color": theme.tokens.foregroundMuted,
+                    } as React.CSSProperties
+                  }
                 >
                   Password Input
                 </Typography>
@@ -261,13 +310,16 @@ function PlaygroundContent() {
                 />
               </div>
 
-              {/* Disabled State */}
               <div>
                 <Typography
                   variant="subtitle2"
                   weight="semibold"
                   className="mb-3"
-                  style={{ color: theme.colors.semantic.mutedForeground }}
+                  style={
+                    {
+                      "--typography-color": theme.tokens.foregroundMuted,
+                    } as React.CSSProperties
+                  }
                 >
                   Disabled State
                 </Typography>
@@ -279,13 +331,16 @@ function PlaygroundContent() {
                 />
               </div>
 
-              {/* Error State */}
               <div>
                 <Typography
                   variant="subtitle2"
                   weight="semibold"
                   className="mb-3"
-                  style={{ color: theme.colors.semantic.mutedForeground }}
+                  style={
+                    {
+                      "--typography-color": theme.tokens.foregroundMuted,
+                    } as React.CSSProperties
+                  }
                 >
                   Error State
                 </Typography>
@@ -300,10 +355,8 @@ function PlaygroundContent() {
 
           {/* Modal Section */}
           <section
-            className="rounded-xl p-6 shadow-lg ring-1 transition-all duration-300 hover:shadow-xl"
-            style={{
-              backgroundColor: theme.colors.semantic.background,
-            }}
+            className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl"
+            style={sectionStyles}
           >
             <div className="mb-6">
               <Typography variant="h4" weight="bold" className="mb-2">
@@ -311,26 +364,26 @@ function PlaygroundContent() {
               </Typography>
               <Typography
                 variant="body2"
-                style={{ color: theme.colors.semantic.mutedForeground }}
+                style={
+                  {
+                    "--typography-color": theme.tokens.foregroundMuted,
+                  } as React.CSSProperties
+                }
               >
                 Accessible modal dialogs with overlay
               </Typography>
             </div>
-
             <div className="space-y-4">
-              <Button
-                children="Open Confirmation Modal"
-                onClick={() => setIsModalOpen(true)}
-              />
+              <Button onClick={() => setIsModalOpen(true)}>
+                Open Confirmation Modal
+              </Button>
             </div>
           </section>
 
           {/* Typography Section */}
           <section
-            className="rounded-xl p-6 shadow-lg ring-1 transition-all duration-300 hover:shadow-xl"
-            style={{
-              backgroundColor: theme.colors.semantic.background,
-            }}
+            className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl"
+            style={sectionStyles}
           >
             <div className="mb-6">
               <Typography variant="h4" weight="bold" className="mb-2">
@@ -338,12 +391,15 @@ function PlaygroundContent() {
               </Typography>
               <Typography
                 variant="body2"
-                style={{ color: theme.colors.semantic.mutedForeground }}
+                style={
+                  {
+                    "--typography-color": theme.tokens.foregroundMuted,
+                  } as React.CSSProperties
+                }
               >
                 All available typography variants
               </Typography>
             </div>
-
             <div className="space-y-4">
               <Typography variant="display1">Display 1</Typography>
               <Typography variant="display2">Display 2</Typography>
@@ -356,21 +412,19 @@ function PlaygroundContent() {
               <Typography variant="subtitle1">Subtitle 1</Typography>
               <Typography variant="subtitle2">Subtitle 2</Typography>
               <Typography variant="body1">
-                Body 1 - Regular paragraph children
+                Body 1 - Regular paragraph text
               </Typography>
               <Typography variant="body2">
-                Body 2 - Smaller paragraph children
+                Body 2 - Smaller paragraph text
               </Typography>
-              <Typography variant="caption">Caption children</Typography>
+              <Typography variant="caption">Caption text</Typography>
             </div>
           </section>
 
           {/* Form Example */}
           <section
-            className="rounded-xl p-6 shadow-lg ring-1 transition-all duration-300 hover:shadow-xl lg:col-span-2"
-            style={{
-              backgroundColor: theme.colors.semantic.background,
-            }}
+            className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl lg:col-span-2"
+            style={sectionStyles}
           >
             <div className="mb-6">
               <Typography variant="h4" weight="bold" className="mb-2">
@@ -378,12 +432,15 @@ function PlaygroundContent() {
               </Typography>
               <Typography
                 variant="body2"
-                style={{ color: theme.colors.semantic.mutedForeground }}
+                style={
+                  {
+                    "--typography-color": theme.tokens.foregroundMuted,
+                  } as React.CSSProperties
+                }
               >
                 Combining multiple components together
               </Typography>
             </div>
-
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -414,17 +471,18 @@ function PlaygroundContent() {
                 required
               />
               <div className="flex gap-2 pt-2">
-                <Button type="submit" children="Submit Form" />
+                <Button type="submit">Submit Form</Button>
                 <Button
                   type="button"
                   variant="outline"
-                  children="Reset"
                   onClick={() => {
                     setEmail("");
                     setPassword("");
                     setEmailError("");
                   }}
-                />
+                >
+                  Reset
+                </Button>
               </div>
             </form>
           </section>
@@ -445,31 +503,34 @@ function PlaygroundContent() {
           <div
             className="p-4 rounded-lg border"
             style={{
-              backgroundColor: theme.colors.primary[50],
-              borderColor: theme.colors.primary[200],
+              backgroundColor: theme.tokens.infoSurface,
+              borderColor: theme.tokens.border,
             }}
           >
             <Typography
               variant="body2"
-              style={{ color: theme.colors.primary[900] }}
+              style={
+                {
+                  "--typography-color": theme.tokens.infoForeground,
+                } as React.CSSProperties
+              }
             >
               💡 <strong>Pro tip:</strong> Modals automatically trap focus and
               can be closed by clicking outside or pressing the Escape key.
             </Typography>
           </div>
           <div className="flex justify-end gap-2 pt-4">
+            <Button variant="ghost" onClick={() => setIsModalOpen(false)}>
+              Cancel
+            </Button>
             <Button
-              variant="ghost"
-              children="Cancel"
-              onClick={() => setIsModalOpen(false)}
-            />
-            <Button
-              children="Confirm"
               onClick={() => {
                 console.log("Confirmed!");
                 setIsModalOpen(false);
               }}
-            />
+            >
+              Confirm
+            </Button>
           </div>
         </div>
       </Modal>
@@ -478,41 +539,10 @@ function PlaygroundContent() {
 }
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const purpleTheme = {
-    colors: {
-      primary: {
-        50: "#faf5ff",
-        100: "#f3e8ff",
-        200: "#e9d5ff",
-        300: "#d8b4fe",
-        400: "#c084fc",
-        500: "#a855f7",
-        600: "#9333ea",
-        700: "#7e22ce",
-        800: "#6b21a8",
-        900: "#581c87",
-        950: "#3b0764",
-      },
-    },
-  };
-
-  const currentTheme = isDarkMode ? darkTheme : purpleTheme;
-
   return (
-    <ThemeProvider theme={currentTheme}>
+    <ThemeProvider defaultThemeName="light" storageKey="playground-theme">
       <div className="relative">
-        {/* Theme Switcher - Fixed Position */}
-        <div className="fixed top-4 right-4 z-50">
-          <Button
-            variant="outline"
-            size="sm"
-            children={`Switch to ${isDarkMode ? "Light" : "Dark"}`}
-            onClick={() => setIsDarkMode(!isDarkMode)}
-          />
-        </div>
-
+        <ThemeToggle />
         <PlaygroundContent />
       </div>
     </ThemeProvider>
