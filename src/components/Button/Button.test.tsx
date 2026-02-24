@@ -27,7 +27,7 @@ describe("Button", () => {
     render(<Button variant="secondary" children="Secondary" />);
     const button = screen.getByRole("button");
     expect(button).toHaveClass("bg-[var(--btn-bg)]");
-    expect(button).toHaveClass("children-[var(--btn-children)]");
+    expect(button).toHaveClass("text-[var(--btn-text)]");
   });
 
   it("applies outline variant correctly", () => {
@@ -40,7 +40,7 @@ describe("Button", () => {
   it("applies ghost variant correctly", () => {
     render(<Button variant="ghost" children="Ghost" />);
     const button = screen.getByRole("button");
-    expect(button).toHaveClass("children-[var(--btn-children)]");
+    expect(button).toHaveClass("text-[var(--btn-text)]");
   });
 
   it("applies danger variant correctly", () => {
@@ -87,7 +87,7 @@ describe("Button", () => {
     render(<Button isLoading children="Loading" />);
     const button = screen.getByRole("button");
     expect(button).toHaveAttribute("aria-busy", "true");
-    expect(screen.getBychildren(/loading/i)).toBeInTheDocument();
+    expect(screen.getByText(/loading/i)).toBeInTheDocument();
   });
 
   it("disables button when loading", () => {
