@@ -106,7 +106,7 @@ export const defaultTheme: ThemeConfig = {
     // Borders
     border: neutral[200],
     borderSubtle: neutral[100],
-    borderStrong: neutral[300],
+    borderStrong: neutral[400],
 
     // Inputs
     input: "#ffffff",

@@ -10,16 +10,16 @@ const { palette, neutral } = defaultTheme;
 
 // Dark-mode neutral overrides — same hue family, just inverted lightness
 const darkNeutral: ThemeConfig["neutral"] = {
-  50: "#0b0f14",
-  100: "#0f1620",
-  200: "#141e2a",
-  300: "#1a2535",
-  400: "#2d3d52",
-  500: "#4a6080",
-  600: "#6b8aad",
-  700: "#94aec8",
-  800: "#c5d5e8",
-  900: "#f0f5fb",
+  50: "#080808",
+  100: "#101010",
+  200: "#181818",
+  300: "#202020",
+  400: "#383838",
+  500: "#585858",
+  600: "#787878",
+  700: "#a0a0a0",
+  800: "#c8c8c8",
+  900: "#f2f2f2",
 };
 
 export const darkTheme: ThemeConfig = {

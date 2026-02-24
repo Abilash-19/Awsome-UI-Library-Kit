@@ -1,6 +1,5 @@
-// src/components/Typography/Typography.tsx
 import React from "react";
-import { cn } from "../../utils/cn";
+import { cn } from "@/utils/cn";
 import type {
   TypographyProps,
   TypographyVariant,
