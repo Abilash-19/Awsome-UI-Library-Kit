@@ -1,6 +1,5 @@
-// src/components/Typography/Typography.types.ts
-
-import type { JSX } from "react";
+import type React from "react";
+import { type JSX } from "react";
 
 export type TypographyVariant =
   | "h1"

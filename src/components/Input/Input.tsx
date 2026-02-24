@@ -47,7 +47,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const themeStyles = {
       "--radius": theme.shape.radiusMd,
-      "--border": error ? theme.palette.error[500] : theme.tokens.border,
+      "--border": error ? theme.palette.error[500] : theme.tokens.borderStrong,
       "--ring": error ? theme.palette.error[500] : theme.tokens.ring,
       "--bg": theme.tokens.input,
       "--bg-hover": theme.tokens.inputHover,
