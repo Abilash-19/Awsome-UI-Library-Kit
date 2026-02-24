@@ -311,7 +311,10 @@ export default function Playground() {
             </div>
 
             <div className="space-y-3">
-              <Accordion title="Getting Started" subtitle="Installation guide">
+              <Accordion
+                title={<Typography variant="h6">Getting Started</Typography>}
+                subtitle="Installation guide"
+              >
                 Install the package using npm or yarn, then import the
                 components you need. Each component is fully typed and supports
                 theming out of the box.
