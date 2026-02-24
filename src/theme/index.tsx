@@ -1,22 +1,23 @@
 // src/theme/index.ts
+// Public API — import everything from here, not from individual files.
 
-// Types
 export type {
-  ThemeConfig,
-  ThemeColors,
   ColorScale,
-  SemanticColors,
+  BrandPalette,
+  SemanticTokens,
+  ThemeShape,
+  ThemeTypography,
+  ThemeConfig,
+  ThemeOverride,
+  PaletteOverride,
 } from "./Types";
 
-// Themes
 export { defaultTheme } from "./DefaultTheme";
 export { darkTheme } from "./DarkTheme";
-
-// Context & Provider
-export { ThemeContext, useTheme } from "./ThemeContext";
-export type { ThemeContextValue } from "./ThemeContext";
-export { ThemeProvider } from "./ThemeProvider";
-export type { ThemeProviderProps } from "./ThemeProvider";
-
-export { deepMerge } from "./utils/DeepMerge";
-export { applyCSSVariables } from "./utils/CSSVariablesDeclaration";
+export { themeToVars, applyCSSVars, applyTheme, mergeTheme } from "./utils";
+export {
+  ThemeProvider,
+  useTheme,
+  useTokens,
+  registerTheme,
+} from "./ThemeProvider";

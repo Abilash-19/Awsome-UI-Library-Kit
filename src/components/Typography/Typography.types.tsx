@@ -72,6 +72,10 @@ export interface TypographyProps {
    * onClick handler
    */
   onClick?: React.MouseEventHandler<any>;
+  /**
+   * onClick handler
+   */
+  htmlFor?: string;
 }
 
 /**

@@ -1,7 +1,13 @@
 // src/components/Typography/Typography.test.tsx
+import React from "react";
 import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render as rtlRender, screen } from "@testing-library/react";
 import { Typography } from "./Typography";
+import { ThemeProvider } from "../../theme";
+
+const render = (ui: React.ReactElement) => {
+  return rtlRender(<ThemeProvider>{ui}</ThemeProvider>);
+};
 
 describe("Typography", () => {
   it("renders children correctly", () => {
@@ -21,13 +27,25 @@ describe("Typography", () => {
     );
     expect((container.firstChild as HTMLElement).tagName).toBe("H1");
 
-    rerender(<Typography variant="h2">Heading</Typography>);
+    rerender(
+      <ThemeProvider>
+        <Typography variant="h2">Heading</Typography>
+      </ThemeProvider>,
+    );
     expect((container.firstChild as HTMLElement).tagName).toBe("H2");
 
-    rerender(<Typography variant="body1">Body</Typography>);
+    rerender(
+      <ThemeProvider>
+        <Typography variant="body1">Body</Typography>
+      </ThemeProvider>,
+    );
     expect((container.firstChild as HTMLElement).tagName).toBe("P");
 
-    rerender(<Typography variant="caption">Caption</Typography>);
+    rerender(
+      <ThemeProvider>
+        <Typography variant="caption">Caption</Typography>
+      </ThemeProvider>,
+    );
     expect((container.firstChild as HTMLElement).tagName).toBe("SPAN");
   });
 
@@ -99,7 +117,7 @@ describe("Typography", () => {
 
   it("combines variant, weight, and custom className", () => {
     const { container } = render(
-      <Typography variant="h2" weight="semibold" className="text-blue-500">
+      <Typography variant="h2" weight="semibold" className="my-custom-class">
         Combined styles
       </Typography>,
     );
@@ -107,7 +125,7 @@ describe("Typography", () => {
 
     expect(element).toHaveClass("text-3xl"); // h2 variant
     expect(element).toHaveClass("font-semibold");
-    expect(element).toHaveClass("text-blue-500"); // custom class
+    expect(element).toHaveClass("my-custom-class"); // custom class
   });
 
   describe("Display variants", () => {
