@@ -47,6 +47,7 @@ const Avatar = forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
     <div
       ref={ref}
       id={id}
+      aria-label={displayName || "Avatar"}
       className={cn(
         "relative inline-flex shrink-0 select-none ",
         sizeStyles[size],
@@ -76,6 +77,7 @@ const Avatar = forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
             alt={alt || displayName}
             className="h-full w-full object-cover"
             onError={() => setHasError(true)}
+            aria-label={displayName || "Avatar"}
           />
         ) : (
           <span className="font-medium uppercase leading-none select-none">
