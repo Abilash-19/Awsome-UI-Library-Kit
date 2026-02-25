@@ -6,6 +6,7 @@ import { Typography } from "@/components/Typography";
 import { Accordion } from "@/components/Accordion";
 import { useTheme } from "@/theme";
 import { Badge } from "./components/Badge";
+import { Avatar } from "@/components/Avatar";
 
 function ThemeToggle() {
   const { toggleColorMode, theme } = useTheme();
@@ -226,6 +227,171 @@ export default function Playground() {
                   <Badge size="small">Small</Badge>
                   <Badge size="medium">Medium</Badge>
                   <Badge size="large">Large</Badge>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Avatar Section */}
+          <section
+            className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl"
+            style={sectionStyles}
+          >
+            <div className="mb-6">
+              <Typography variant="h4" weight="bold" className="mb-2">
+                Avatars
+              </Typography>
+              <Typography variant="body2" style={mutedColor}>
+                User profile images with support for initials, sizes, and
+                badges.
+              </Typography>
+            </div>
+
+            <div className="space-y-8">
+              {/* Variants */}
+              <div>
+                <Typography
+                  variant="subtitle2"
+                  weight="semibold"
+                  className="mb-3"
+                  style={mutedColor}
+                >
+                  Shapes
+                </Typography>
+                <div className="flex flex-wrap gap-6">
+                  <div className="flex flex-col items-center gap-2">
+                    <Avatar
+                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      alt="Circle Avatar"
+                    />
+                    <Typography variant="caption" style={mutedColor}>
+                      Circle
+                    </Typography>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <Avatar
+                      shape="square"
+                      src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
+                      alt="Square Avatar"
+                    />
+                    <Typography variant="caption" style={mutedColor}>
+                      Square
+                    </Typography>
+                  </div>
+                </div>
+              </div>
+
+              {/* Sizes */}
+              <div>
+                <Typography
+                  variant="subtitle2"
+                  weight="semibold"
+                  className="mb-3"
+                  style={mutedColor}
+                >
+                  Sizes
+                </Typography>
+                <div className="flex flex-wrap items-end gap-6">
+                  <div className="flex flex-col items-center gap-2">
+                    <Avatar
+                      size="small"
+                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1"
+                    />
+                    <Typography variant="caption" style={mutedColor}>
+                      Small
+                    </Typography>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <Avatar
+                      size="medium"
+                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1"
+                    />
+                    <Typography variant="caption" style={mutedColor}>
+                      Medium
+                    </Typography>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <Avatar
+                      size="large"
+                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1"
+                    />
+                    <Typography variant="caption" style={mutedColor}>
+                      Large
+                    </Typography>
+                  </div>
+                </div>
+              </div>
+
+              {/* Fallbacks */}
+              <div>
+                <Typography
+                  variant="subtitle2"
+                  weight="semibold"
+                  className="mb-3"
+                  style={mutedColor}
+                >
+                  Initials & Fallbacks
+                </Typography>
+                <div className="flex flex-wrap gap-6">
+                  <Avatar displayName="Abilash" size="large" />
+                  <Avatar displayName="John Doe" size="large" />
+                  <Avatar
+                    displayName="UI Library"
+                    shape="square"
+                    size="large"
+                  />
+                  <Avatar size="large" /> {/* Default placeholder */}
+                </div>
+              </div>
+
+              {/* Badges */}
+              <div>
+                <Typography
+                  variant="subtitle2"
+                  weight="semibold"
+                  className="mb-3"
+                  style={mutedColor}
+                >
+                  With Badges
+                </Typography>
+                <div className="flex flex-wrap gap-6">
+                  <Avatar
+                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1"
+                    badge={
+                      <Badge
+                        variant="success"
+                        size="small"
+                        className="h-2.5 w-2.5 p-0 rounded-full border-2 border-[var(--bg-color)]"
+                      >
+                        {""}
+                      </Badge>
+                    }
+                  />
+                  <Avatar
+                    displayName="JD"
+                    badge={
+                      <Badge
+                        variant="danger"
+                        size="small"
+                        className="w-2.5 h-2.5 p-0 rounded-full border-2 border-[var(--bg-color)]"
+                      >
+                        {""}
+                      </Badge>
+                    }
+                  />
+                  <Avatar
+                    shape="square"
+                    src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-1.2.1"
+                    badge={
+                      <Badge
+                        variant="warning"
+                        size="small"
+                        className="h-2.5 w-2.5 p-0 rounded-full border-2 border-[var(--bg-color)]"
+                      >
+                        {""}
+                      </Badge>
+                    }
+                  />
                 </div>
               </div>
             </div>
