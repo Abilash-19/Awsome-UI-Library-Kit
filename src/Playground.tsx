@@ -5,6 +5,7 @@ import { Modal } from "@/components/Modal";
 import { Typography } from "@/components/Typography";
 import { Accordion } from "@/components/Accordion";
 import { useTheme } from "@/theme";
+import { Badge } from "./components/Badge";
 
 function ThemeToggle() {
   const { toggleColorMode, theme } = useTheme();
@@ -171,6 +172,60 @@ export default function Playground() {
                   >
                     Console Log
                   </Button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Badges Section */}
+          <section
+            className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl"
+            style={sectionStyles}
+          >
+            <div className="mb-6">
+              <Typography variant="h4" weight="bold" className="mb-2">
+                Badges
+              </Typography>
+              <Typography variant="body2" style={mutedColor}>
+                Status indicators with multiple variants and sizes
+              </Typography>
+            </div>
+
+            <div className="space-y-6">
+              <div>
+                <Typography
+                  variant="subtitle2"
+                  weight="semibold"
+                  className="mb-3"
+                  style={mutedColor}
+                >
+                  Variants
+                </Typography>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="primary">Primary </Badge>
+                  <Badge variant="secondary">Secondary</Badge>
+                  <Badge variant="success">Success</Badge>
+                  <Badge variant="danger">Danger</Badge>
+                  <Badge variant="warning">Warning</Badge>
+                  <Badge variant="info">Info</Badge>
+                  <Badge variant="light">Light</Badge>
+                  <Badge variant="dark">Dark</Badge>
+                </div>
+              </div>
+
+              <div>
+                <Typography
+                  variant="subtitle2"
+                  weight="semibold"
+                  className="mb-3"
+                  style={mutedColor}
+                >
+                  Sizes
+                </Typography>
+                <div className="flex flex-wrap items-center gap-3">
+                  <Badge size="small">Small</Badge>
+                  <Badge size="medium">Medium</Badge>
+                  <Badge size="large">Large</Badge>
                 </div>
               </div>
             </div>
