@@ -4,6 +4,7 @@ export * from "./Input";
 export * from "./Modal";
 export * from "./Typography";
 export * from "./Badge";
+export * from "./Avatar";
 
 // ── Theme ──
 export { ThemeProvider, useTheme, defaultTheme, darkTheme } from "../theme";
