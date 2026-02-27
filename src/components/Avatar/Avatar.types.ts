@@ -9,6 +9,5 @@ export interface AvatarProps {
   style?: React.CSSProperties;
   badge?: React.ReactNode;
   onBadgeClick?: () => void;
-  // showTooltip?: boolean;
-  // tooltipContent?: string;
+  isLoading?: boolean;
 }

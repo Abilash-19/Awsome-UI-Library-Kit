@@ -75,4 +75,9 @@ describe("Avatar", () => {
 
     expect(screen.getByText("EU")).toBeInTheDocument();
   });
+
+  it("shows skeleton when loading", () => {
+    render(<Avatar isLoading />);
+    expect(screen.getByRole("status")).toBeInTheDocument();
+  });
 });

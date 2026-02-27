@@ -96,4 +96,9 @@ describe("Input", () => {
     expect(label).toHaveAttribute("for", "email-input");
     expect(input).toHaveAttribute("id", "email-input");
   });
+
+  it("shows skeleton when loading", () => {
+    render(<Input isLoading />);
+    expect(screen.getByRole("status")).toBeInTheDocument();
+  });
 });

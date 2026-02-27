@@ -130,3 +130,10 @@ export const AllVariants: Story = {
     </div>
   ),
 };
+
+export const Loading: Story = {
+  args: {
+    children: "Loading",
+    isLoading: true,
+  },
+};

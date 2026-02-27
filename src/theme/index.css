@@ -4,11 +4,55 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --radius: 0.5rem;
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
 }
 
-.dark {
-  --color-background: #020617;
-  --color-foreground: #f8fafc;
+@keyframes skeleton-wave {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton-root {
+  display: block;
+  background-color: var(--color-border-subtle);
+  border-radius: var(--radius-sm, 4px);
+  overflow: hidden;
+  position: relative;
+}
+
+.skeleton-pulse {
+  animation: skeleton-pulse 2s ease-in-out infinite;
+}
+
+.skeleton-wave {
+  position: relative;
+}
+
+.skeleton-wave::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0,
+    var(--color-border) 50%,
+    transparent 100%
+  );
+  animation: skeleton-wave 1.6s linear infinite;
 }

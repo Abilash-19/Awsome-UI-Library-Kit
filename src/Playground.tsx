@@ -7,6 +7,7 @@ import { Accordion } from "@/components/Accordion";
 import { useTheme } from "@/theme";
 import { Badge } from "./components/Badge";
 import { Avatar } from "@/components/Avatar";
+import { Skeleton } from "./components/Skeleton";
 
 function ThemeToggle() {
   const { toggleColorMode, theme } = useTheme();
@@ -203,7 +204,9 @@ export default function Playground() {
                   Variants
                 </Typography>
                 <div className="flex flex-wrap gap-2">
-                  <Badge variant="primary">Primary </Badge>
+                  <Badge variant="primary" isLoading>
+                    Primary{" "}
+                  </Badge>
                   <Badge variant="secondary">Secondary</Badge>
                   <Badge variant="success">Success</Badge>
                   <Badge variant="danger">Danger</Badge>
@@ -334,7 +337,7 @@ export default function Playground() {
                   Initials & Fallbacks
                 </Typography>
                 <div className="flex flex-wrap gap-6">
-                  <Avatar displayName="Abilash" size="large" />
+                  <Avatar displayName="Abilash" size="large" isLoading />
                   <Avatar displayName="John Doe" size="large" />
                   <Avatar
                     displayName="UI Library"
@@ -598,7 +601,9 @@ export default function Playground() {
               </Typography>
             </div>
             <div className="space-y-4">
-              <Typography variant="display1">Display 1</Typography>
+              <Typography variant="display1" isLoading>
+                Display 1
+              </Typography>
               <Typography variant="display2">Display 2</Typography>
               <Typography variant="h1">Heading 1</Typography>
               <Typography variant="h2">Heading 2</Typography>
@@ -641,7 +646,7 @@ export default function Playground() {
             >
               <div className="grid gap-4 sm:grid-cols-2">
                 <Input label="First Name" placeholder="John" required />
-                <Input label="Last Name" placeholder="Doe" required />
+                <Input label="Last Name" placeholder="Doe" isLoading required />
               </div>
               <Input
                 label="Email"
@@ -679,7 +684,94 @@ export default function Playground() {
         </div>
       </main>
 
+      {/* Skeleton Section */}
+      <section
+        className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl lg:col-span-2 mt-6"
+        style={sectionStyles}
+      >
+        <div className="mb-6">
+          <Typography variant="h4" weight="bold" className="mb-2">
+            Skeleton Placeholders
+          </Typography>
+          <Typography variant="body2" style={mutedColor}>
+            Simplified loading placeholders for various content shapes
+          </Typography>
+        </div>
+
+        <div className="grid gap-12 md:grid-cols-3">
+          {/* Shapes */}
+          <div className="space-y-4">
+            <Typography
+              variant="subtitle2"
+              weight="semibold"
+              style={mutedColor}
+            >
+              Shapes
+            </Typography>
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center gap-4">
+                <Skeleton variant="circular" width={48} height={48} />
+                <div className="space-y-2 flex-1">
+                  <Skeleton width="60%" height={16} />
+                  <Skeleton width="40%" height={12} />
+                </div>
+              </div>
+              <Skeleton variant="rectangular" width="100%" height={100} />
+              <Skeleton variant="rounded" width="100%" height={40} />
+            </div>
+          </div>
+
+          {/* Animations */}
+          <div className="space-y-4">
+            <Typography
+              variant="subtitle2"
+              weight="semibold"
+              style={mutedColor}
+            >
+              Animations
+            </Typography>
+            <div className="space-y-4">
+              <div className="space-y-1">
+                <Typography variant="caption" style={mutedColor}>
+                  Wave (Default)
+                </Typography>
+                <Skeleton animation="wave" width="100%" height={24} />
+              </div>
+              <div className="space-y-1">
+                <Typography variant="caption" style={mutedColor}>
+                  Pulse
+                </Typography>
+                <Skeleton animation="pulse" width="100%" height={24} />
+              </div>
+              <div className="space-y-1">
+                <Typography variant="caption" style={mutedColor}>
+                  None
+                </Typography>
+                <Skeleton animation="none" width="100%" height={24} />
+              </div>
+            </div>
+          </div>
+
+          {/* Custom Size */}
+          <div className="space-y-4">
+            <Typography
+              variant="subtitle2"
+              weight="semibold"
+              style={mutedColor}
+            >
+              Typography Variants
+            </Typography>
+            <div className="space-y-3">
+              <Skeleton variant="text" width="100%" />
+              <Skeleton variant="text" width="90%" />
+              <Skeleton variant="text" width="80%" />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Modal */}
+
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

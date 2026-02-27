@@ -2,10 +2,18 @@ import { forwardRef } from "react";
 import { cn } from "@/utils";
 import { useTheme } from "@/theme";
 import type { BadgeProps } from "./Badge.types";
+import { Skeleton } from "../Skeleton";
 
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
   (
-    { variant = "primary", size = "medium", children, className, style },
+    {
+      variant = "primary",
+      size = "medium",
+      children,
+      className,
+      style,
+      isLoading,
+    },
     ref,
   ) => {
     const { theme } = useTheme();
@@ -34,6 +42,15 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
     const themeStyles: Record<string, string> = {
       "--badge-bg": theme.palette.primary[100],
       "--badge-text": theme.palette.primary[700],
+    };
+
+    const SKELETON_SIZE_MAP: Record<
+      NonNullable<BadgeProps["size"]>,
+      { height: string; width: string }
+    > = {
+      small: { height: "20", width: "48" },
+      medium: { height: "24", width: "56" },
+      large: { height: "28", width: "64" },
     };
 
     switch (variant) {
@@ -74,6 +91,20 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
         themeStyles["--badge-text"] = theme.tokens.foreground;
         themeStyles["--badge-border"] = theme.tokens.foreground;
         break;
+    }
+
+    if (isLoading) {
+      const { height, width } = SKELETON_SIZE_MAP[size];
+
+      return (
+        <Skeleton
+          width={width}
+          height={height}
+          className={className}
+          style={style}
+          variant="rounded"
+        />
+      );
     }
 
     return (

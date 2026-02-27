@@ -14,4 +14,5 @@ export interface BadgeProps {
   children: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
+  isLoading?: boolean;
 }

@@ -308,4 +308,9 @@ describe("Typography", () => {
       expect(heading).toHaveAttribute("id", "section-heading");
     });
   });
+
+  it("shows skeleton when loading", () => {
+    render(<Typography isLoading>Loading</Typography>);
+    expect(screen.getByRole("status")).toBeInTheDocument();
+  });
 });
