@@ -15,15 +15,15 @@ describe("Skeleton", () => {
   });
 
   it("applies variant styles correctly", () => {
+    render(<Skeleton variant="circular" />);
     const span = screen.getByRole("status");
-    expect(span.style.borderRadius).toBe("50%");
+    expect(span).toHaveStyle({ borderRadius: "50%" });
   });
 
   it("applies width and height correctly", () => {
     render(<Skeleton width={100} height={50} />);
     const span = screen.getByRole("status");
-    expect(span.style.width).toBe("100px");
-    expect(span.style.height).toBe("50px");
+    expect(span).toHaveStyle({ width: "100px", height: "50px" });
   });
 
   it("applies animation class correctly", () => {
