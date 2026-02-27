@@ -7,7 +7,9 @@ export interface BadgeProps {
     | "warning"
     | "info"
     | "light"
-    | "dark";
+    | "dark"
+    | "outline";
+
   size?: "small" | "medium" | "large";
   children: React.ReactNode;
   className?: string;

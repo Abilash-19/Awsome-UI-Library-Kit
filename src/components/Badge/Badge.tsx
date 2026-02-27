@@ -21,6 +21,8 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
       info: "bg-[var(--badge-bg)] text-[var(--badge-text)]",
       light: "bg-[var(--badge-bg)] text-[var(--badge-text)]",
       dark: "bg-[var(--badge-bg)] text-[var(--badge-text)]",
+      outline:
+        "bg-[var(--badge-bg)] text-[var(--badge-text)] border border-[var(--badge-border)]",
     };
 
     const sizeStyles = {
@@ -40,8 +42,8 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
         themeStyles["--badge-text"] = theme.palette.primary[700];
         break;
       case "secondary":
-        themeStyles["--badge-bg"] = theme.neutral[100];
-        themeStyles["--badge-text"] = theme.neutral[700];
+        themeStyles["--badge-bg"] = theme.neutral[200];
+        themeStyles["--badge-text"] = theme.neutral[800];
         break;
       case "success":
         themeStyles["--badge-bg"] = theme.palette.success[100];
@@ -66,6 +68,11 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
       case "dark":
         themeStyles["--badge-bg"] = theme.tokens.foreground;
         themeStyles["--badge-text"] = theme.tokens.background;
+        break;
+      case "outline":
+        themeStyles["--badge-bg"] = "transparent";
+        themeStyles["--badge-text"] = theme.tokens.foreground;
+        themeStyles["--badge-border"] = theme.tokens.foreground;
         break;
     }
 

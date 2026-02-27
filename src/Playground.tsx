@@ -211,6 +211,7 @@ export default function Playground() {
                   <Badge variant="info">Info</Badge>
                   <Badge variant="light">Light</Badge>
                   <Badge variant="dark">Dark</Badge>
+                  <Badge variant="outline">Outline</Badge>
                 </div>
               </div>
 
