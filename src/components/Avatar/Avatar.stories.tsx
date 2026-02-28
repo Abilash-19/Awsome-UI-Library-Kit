@@ -76,3 +76,9 @@ export const Fallback: Story = {
     src: "https://invalid-url.com/image.jpg", // Force error
   },
 };
+
+export const Loading: Story = {
+  args: {
+    isLoading: true,
+  },
+};

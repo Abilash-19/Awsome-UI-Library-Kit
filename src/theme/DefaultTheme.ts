@@ -70,7 +70,7 @@ const palette = {
 } satisfies ThemeConfig["palette"];
 
 const neutral: ThemeConfig["neutral"] = {
-  50: "#f9fafb",
+  50: "#fbfaf9ff",
   100: "#f3f4f6",
   200: "#e5e7eb",
   300: "#d1d5db",

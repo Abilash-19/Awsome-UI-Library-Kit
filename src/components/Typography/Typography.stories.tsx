@@ -208,3 +208,10 @@ export const RealisticExample: Story = {
     </article>
   ),
 };
+
+export const Loading: Story = {
+  args: {
+    isLoading: true,
+    children: "This content is loading...",
+  },
+};

@@ -2,10 +2,18 @@ import { forwardRef } from "react";
 import { cn } from "@/utils";
 import { useTheme } from "@/theme";
 import type { BadgeProps } from "./Badge.types";
+import { Skeleton } from "../Skeleton";
 
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
   (
-    { variant = "primary", size = "medium", children, className, style },
+    {
+      variant = "primary",
+      size = "medium",
+      children,
+      className,
+      style,
+      isLoading,
+    },
     ref,
   ) => {
     const { theme } = useTheme();
@@ -21,6 +29,8 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
       info: "bg-[var(--badge-bg)] text-[var(--badge-text)]",
       light: "bg-[var(--badge-bg)] text-[var(--badge-text)]",
       dark: "bg-[var(--badge-bg)] text-[var(--badge-text)]",
+      outline:
+        "bg-[var(--badge-bg)] text-[var(--badge-text)] border border-[var(--badge-border)]",
     };
 
     const sizeStyles = {
@@ -34,14 +44,23 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
       "--badge-text": theme.palette.primary[700],
     };
 
+    const SKELETON_SIZE_MAP: Record<
+      NonNullable<BadgeProps["size"]>,
+      { height: number; width: number }
+    > = {
+      small: { height: 20, width: 48 },
+      medium: { height: 24, width: 56 },
+      large: { height: 28, width: 64 },
+    };
+
     switch (variant) {
       case "primary":
         themeStyles["--badge-bg"] = theme.palette.primary[100];
         themeStyles["--badge-text"] = theme.palette.primary[700];
         break;
       case "secondary":
-        themeStyles["--badge-bg"] = theme.neutral[100];
-        themeStyles["--badge-text"] = theme.neutral[700];
+        themeStyles["--badge-bg"] = theme.neutral[200];
+        themeStyles["--badge-text"] = theme.neutral[800];
         break;
       case "success":
         themeStyles["--badge-bg"] = theme.palette.success[100];
@@ -67,6 +86,25 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
         themeStyles["--badge-bg"] = theme.tokens.foreground;
         themeStyles["--badge-text"] = theme.tokens.background;
         break;
+      case "outline":
+        themeStyles["--badge-bg"] = "transparent";
+        themeStyles["--badge-text"] = theme.tokens.foreground;
+        themeStyles["--badge-border"] = theme.tokens.foreground;
+        break;
+    }
+
+    if (isLoading) {
+      const { height, width } = SKELETON_SIZE_MAP[size];
+
+      return (
+        <Skeleton
+          width={width}
+          height={height}
+          className={className}
+          style={style}
+          variant="rounded"
+        />
+      );
     }
 
     return (
