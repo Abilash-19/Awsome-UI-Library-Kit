@@ -7,7 +7,8 @@ import { Accordion } from "@/components/Accordion";
 import { useTheme } from "@/theme";
 import { Badge } from "./components/Badge";
 import { Avatar } from "@/components/Avatar";
-import { Skeleton } from "./components/Skeleton";
+import { Skeleton } from "@/components/Skeleton";
+import Checkbox from "@/components/Checkbox";
 
 function ThemeToggle() {
   const { toggleColorMode, theme } = useTheme();
@@ -47,6 +48,29 @@ export default function Playground() {
   const mutedColor = {
     "--typography-color": theme.tokens.foregroundMuted,
   } as React.CSSProperties;
+
+  const [checkedItems, setCheckedItems] = useState({
+    item1: false,
+    item2: false,
+    item3: false,
+  });
+
+  const allChecked = Object.values(checkedItems).every(Boolean);
+  const isIndeterminate =
+    Object.values(checkedItems).some(Boolean) && !allChecked;
+
+  const handleToggleAll = (checked: boolean) => {
+    setCheckedItems({
+      item1: checked,
+      item2: checked,
+      item3: checked,
+    });
+  };
+
+  const handleToggleItem =
+    (item: keyof typeof checkedItems) => (checked: boolean) => {
+      setCheckedItems((prev) => ({ ...prev, [item]: checked }));
+    };
 
   return (
     <div
@@ -765,6 +789,152 @@ export default function Playground() {
               <Skeleton variant="text" width="100%" />
               <Skeleton variant="text" width="90%" />
               <Skeleton variant="text" width="80%" />
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* Checkbox Section */}
+      <section
+        className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl lg:col-span-2 mt-6 overflow-hidden"
+        style={sectionStyles}
+      >
+        <div className="mb-8">
+          <Typography variant="h4" weight="bold" className="mb-2">
+            Checkboxes
+          </Typography>
+          <Typography variant="body2" style={mutedColor}>
+            Selection controls with support for labels, descriptions, and
+            interactive indeterminate states
+          </Typography>
+        </div>
+
+        <div className="grid gap-8 lg:grid-cols-3">
+          {/* Interactive Playground */}
+          <div
+            className="lg:col-span-1 border rounded-2xl overflow-hidden shadow-sm flex flex-col"
+            style={{
+              backgroundColor: theme.tokens.background,
+              borderColor: theme.tokens.border,
+            }}
+          >
+            <div
+              className="p-4 border-b"
+              style={{
+                backgroundColor: theme.tokens.surface,
+                borderBottomColor: theme.tokens.border,
+              }}
+            >
+              <Checkbox
+                label="Select All Items"
+                id="pg-select-all"
+                checked={allChecked}
+                indeterminate={isIndeterminate}
+                onChange={handleToggleAll}
+                className="font-semibold"
+              />
+            </div>
+            <div className="p-4 space-y-4 flex-1">
+              <Checkbox
+                label="Option One"
+                description="This is the first primary selection."
+                id="pg-item-1"
+                checked={checkedItems.item1}
+                onChange={handleToggleItem("item1")}
+              />
+              <Checkbox
+                label="Option Two"
+                description="Secondary selection for processing."
+                id="pg-item-2"
+                checked={checkedItems.item2}
+                onChange={handleToggleItem("item2")}
+              />
+              <Checkbox
+                label="Option Three"
+                description="Final confirmation item."
+                id="pg-item-3"
+                checked={checkedItems.item3}
+                onChange={handleToggleItem("item3")}
+              />
+            </div>
+          </div>
+
+          {/* Sizes & States */}
+          <div className="lg:col-span-2 grid gap-8 sm:grid-cols-2">
+            <div className="space-y-6">
+              <div>
+                <Typography
+                  variant="subtitle2"
+                  weight="semibold"
+                  style={mutedColor}
+                  className="mb-4"
+                >
+                  Available Sizes
+                </Typography>
+                <div className="flex flex-wrap gap-6 items-end">
+                  <div className="flex flex-col items-center gap-2">
+                    <Checkbox size="small" label="Small" id="size-sm" />
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <Checkbox size="medium" label="Medium" id="size-md" />
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <Checkbox size="large" label="Large" id="size-lg" />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <Typography
+                  variant="subtitle2"
+                  weight="semibold"
+                  style={mutedColor}
+                  className="mb-4"
+                >
+                  Visual Feedback
+                </Typography>
+                <div className="space-y-3">
+                  <Checkbox
+                    label="Error State"
+                    error
+                    description="This selection is required"
+                    id="state-err"
+                  />
+                  <Checkbox
+                    label="Loading State"
+                    loading
+                    description="Synchronizing data..."
+                    id="state-load"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <Typography
+                variant="subtitle2"
+                weight="semibold"
+                style={mutedColor}
+                className="mb-4"
+              >
+                Native States
+              </Typography>
+              <div className="grid grid-cols-2 gap-4">
+                <Checkbox label="Idle" id="native-idle" />
+                <Checkbox label="Checked" defaultChecked id="native-checked" />
+                <Checkbox label="Disabled" disabled id="native-disabled" />
+                <Checkbox
+                  label="Disabled Checked"
+                  disabled
+                  defaultChecked
+                  id="native-disabled-checked"
+                />
+              </div>
+              <div className="pt-2">
+                <Typography variant="body2" style={mutedColor}>
+                  Combine labels, descriptions, and icons to create clear and
+                  actionable interfaces.
+                </Typography>
+              </div>
             </div>
           </div>
         </div>

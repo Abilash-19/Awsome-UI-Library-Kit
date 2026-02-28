@@ -46,11 +46,11 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
 
     const SKELETON_SIZE_MAP: Record<
       NonNullable<BadgeProps["size"]>,
-      { height: string; width: string }
+      { height: number; width: number }
     > = {
-      small: { height: "20", width: "48" },
-      medium: { height: "24", width: "56" },
-      large: { height: "28", width: "64" },
+      small: { height: 20, width: 48 },
+      medium: { height: 24, width: 56 },
+      large: { height: 28, width: 64 },
     };
 
     switch (variant) {
