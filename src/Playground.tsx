@@ -10,6 +10,8 @@ import { Avatar } from "@/components/Avatar";
 import { Skeleton } from "@/components/Skeleton";
 import Checkbox from "@/components/Checkbox";
 import { ScrollArea, ScrollElement } from "@/components/ScrollArea";
+import type { ThemeOverride } from "@/theme";
+
 function ThemeToggle() {
   const { toggleColorMode, theme } = useTheme();
   return (
@@ -21,8 +23,120 @@ function ThemeToggle() {
   );
 }
 
+const presetThemes: {
+  name: string;
+  override: ThemeOverride | null;
+  color: string;
+}[] = [
+  { name: "Default (Pink)", override: null, color: "#ec4899" },
+  {
+    name: "Ocean",
+    color: "#3b82f6",
+    override: {
+      name: "ocean",
+      palette: {
+        primary: {
+          50: "#eff6ff",
+          100: "#dbeafe",
+          200: "#bfdbfe",
+          300: "#93c5fd",
+          400: "#60a5fa",
+          500: "#3b82f6",
+          600: "#2563eb",
+          700: "#1d4ed8",
+          800: "#1e40af",
+          900: "#1e3a8a",
+        },
+      },
+      tokens: {
+        ring: "#3b82f6",
+        accent: "#2563eb",
+        accentHover: "#1d4ed8",
+      },
+    },
+  },
+  {
+    name: "Forest",
+    color: "#10b981",
+    override: {
+      name: "forest",
+      palette: {
+        primary: {
+          50: "#ecfdf5",
+          100: "#d1fae5",
+          200: "#a7f3d0",
+          300: "#6ee7b7",
+          400: "#34d399",
+          500: "#10b981",
+          600: "#059669",
+          700: "#047857",
+          800: "#065f46",
+          900: "#064e3b",
+        },
+      },
+      tokens: {
+        ring: "#10b981",
+        accent: "#059669",
+        accentHover: "#047857",
+      },
+    },
+  },
+  {
+    name: "Sunset",
+    color: "#f97316",
+    override: {
+      name: "sunset",
+      palette: {
+        primary: {
+          50: "#fff7ed",
+          100: "#ffedd5",
+          200: "#fed7aa",
+          300: "#fdba74",
+          400: "#fb923c",
+          500: "#f97316",
+          600: "#ea580c",
+          700: "#c2410c",
+          800: "#9a3412",
+          900: "#7c2d12",
+        },
+      },
+      tokens: {
+        ring: "#f97316",
+        accent: "#ea580c",
+        accentHover: "#c2410c",
+      },
+    },
+  },
+  {
+    name: "Amethyst",
+    color: "#a855f7",
+    override: {
+      name: "amethyst",
+      palette: {
+        primary: {
+          50: "#faf5ff",
+          100: "#f3e8ff",
+          200: "#e9d5ff",
+          300: "#d8b4fe",
+          400: "#c084fc",
+          500: "#a855f7",
+          600: "#9333ea",
+          700: "#7e22ce",
+          800: "#6b21a8",
+          900: "#581c87",
+        },
+      },
+      tokens: {
+        ring: "#a855f7",
+        accent: "#9333ea",
+        accentHover: "#7e22ce",
+      },
+    },
+  },
+];
+
 export default function Playground() {
-  const { theme } = useTheme();
+  const { theme, overrideTheme, resetTheme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [email, setEmail] = useState("");
@@ -109,6 +223,53 @@ export default function Playground() {
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid gap-6 lg:grid-cols-2">
+          {/* Theme Picker Section */}
+          <section
+            className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl lg:col-span-2"
+            style={sectionStyles}
+          >
+            <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <Typography variant="h4" weight="bold" className="mb-2">
+                  Dynamic Brand Theming
+                </Typography>
+                <Typography variant="body2" style={mutedColor}>
+                  Apply seamless theme overrides and instantly see UI scale
+                  changes.
+                </Typography>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-4">
+              {presetThemes.map((preset) => (
+                <button
+                  key={preset.name}
+                  onClick={() => {
+                    if (preset.override) {
+                      overrideTheme(preset.override);
+                    } else {
+                      resetTheme();
+                    }
+                  }}
+                  className="group relative flex items-center justify-center p-[2px] rounded-full hover:scale-105 active:scale-95 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--ring-color)]"
+                  title={preset.name}
+                >
+                  <div
+                    className="w-10 h-10 rounded-full border-2 border-[var(--bg-color)] shadow-sm group-hover:shadow-md transition-shadow"
+                    style={{ background: preset.color }}
+                  ></div>
+                  <Typography
+                    variant="caption"
+                    className="absolute -bottom-6 opacity-0 group-hover:opacity-100 transition-opacity font-medium whitespace-nowrap drop-shadow"
+                    style={{ color: theme.tokens.foreground }}
+                  >
+                    {preset.name}
+                  </Typography>
+                </button>
+              ))}
+            </div>
+          </section>
+
           {/* Buttons Section */}
           <section
             className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl"
@@ -138,9 +299,12 @@ export default function Playground() {
                     Primary
                   </Button>
                   <Button variant="secondary">Secondary</Button>
+                  <Button variant="success">Success</Button>
+                  <Button variant="warning">Warning</Button>
+                  <Button variant="danger">Danger</Button>
+                  <Button variant="info">Info</Button>
                   <Button variant="outline">Outline</Button>
                   <Button variant="ghost">Ghost</Button>
-                  <Button variant="danger">Danger</Button>
                 </div>
               </div>
 
