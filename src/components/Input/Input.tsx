@@ -44,8 +44,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     }, [errorId, helperId]);
 
     const sizes = {
-      sm: "h-9 text-sm",
-      md: "h-11 text-sm",
+      sm: "h-8 text-xs",
+      md: "h-10 text-sm",
       lg: "h-12 text-base",
     };
 
@@ -68,6 +68,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           <label
             htmlFor={inputId}
             className="block text-sm font-medium text-[var(--label)]"
+            aria-label={label}
           >
             {label}
             {required && <span className="ml-1 text-[var(--error)]">*</span>}
@@ -84,14 +85,16 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         ) : (
           <div
             className={cn(
-              "group relative flex items-center rounded-[var(--radius)] border bg-[var(--bg)] transition-all duration-200",
+              "group relative flex w-full items-center gap-2 px-3 rounded-[var(--radius)] border bg-[var(--bg)] transition-all duration-200",
               "border-[var(--border)]",
               "focus-within:ring-2 focus-within:ring-[var(--ring)] focus-within:ring-offset-2",
               disabled && "opacity-60 cursor-not-allowed",
             )}
           >
             {leftIcon && (
-              <span className="pl-3 text-[var(--placeholder)]">{leftIcon}</span>
+              <span className="flex shrink-0 items-center text-[var(--placeholder)]">
+                {leftIcon}
+              </span>
             )}
 
             <input
@@ -102,18 +105,16 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               aria-invalid={!!error}
               aria-describedby={describedBy}
               className={cn(
-                "w-full bg-transparent px-3 py-2 outline-none",
+                "w-full min-w-0 bg-transparent py-2 outline-none truncate",
                 "text-[var(--text)] placeholder:text-[var(--placeholder)]",
                 sizes[inputSize],
-                leftIcon && "pl-2",
-                rightIcon && "pr-2",
                 className,
               )}
               {...props}
             />
 
             {rightIcon && (
-              <span className="pr-3 text-[var(--placeholder)]">
+              <span className="flex shrink-0 items-center text-[var(--placeholder)]">
                 {rightIcon}
               </span>
             )}
@@ -121,13 +122,17 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
 
         {error && (
-          <p id={errorId} className="text-sm text-[var(--error)]" role="alert">
+          <p
+            id={errorId}
+            className="text-xs font-normal text-[var(--error)]"
+            role="alert"
+          >
             {error}
           </p>
         )}
 
         {helperText && !error && (
-          <p id={helperId} className="text-sm text-[var(--helper)]">
+          <p id={helperId} className="text-xs text-[var(--helper)]">
             {helperText}
           </p>
         )}
