@@ -78,6 +78,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {isLoading ? (
           <Skeleton
             width="100%"
+            style={{
+              borderRadius: theme.shape.radiusMd,
+            }}
             height={
               inputSize === "sm" ? "36px" : inputSize === "md" ? "44px" : "48px"
             }
