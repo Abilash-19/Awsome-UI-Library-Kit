@@ -39,13 +39,18 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       primary:
         "bg-[var(--btn-bg)] text-white hover:bg-[var(--btn-hover)] active:bg-[var(--btn-active)] focus-visible:ring-[var(--btn-ring)] shadow-sm",
       secondary:
-        "bg-[var(--btn-bg)] text-[var(--btn-text)] hover:bg-[var(--btn-hover)] active:bg-[var(--btn-active)] focus-visible:ring-[var(--btn-ring)]",
+        "bg-[var(--btn-bg)] text-[var(--btn-text)] bg-[var(--btn-hover)] active:bg-[var(--btn-active)] focus-visible:ring-[var(--btn-ring)]",
       outline:
         "border-2 border-[var(--btn-border)] text-[var(--btn-text)] bg-transparent hover:bg-[var(--btn-hover)] active:bg-[var(--btn-active)] focus-visible:ring-[var(--btn-ring)]",
       ghost:
-        "text-[var(--btn-text)] hover:bg-[var(--btn-hover)] active:bg-[var(--btn-active)] focus-visible:ring-[var(--btn-ring)]",
+        "text-[var(--btn-text)]  hover:bg-[var(--btn-active)] focus-visible:ring-[var(--btn-ring)]",
       danger:
         "bg-[var(--btn-bg)] text-white hover:bg-[var(--btn-hover)] active:bg-[var(--btn-active)] focus-visible:ring-[var(--btn-ring)] shadow-sm",
+      success:
+        "bg-[var(--btn-bg)] text-white hover:bg-[var(--btn-hover)] active:bg-[var(--btn-active)] focus-visible:ring-[var(--btn-ring)] shadow-sm",
+      warning:
+        "bg-[var(--btn-bg)] text-white hover:bg-[var(--btn-hover)] active:bg-[var(--btn-active)] focus-visible:ring-[var(--btn-ring)] shadow-sm",
+      info: "bg-[var(--btn-bg)] text-white hover:bg-[var(--btn-hover)] active:bg-[var(--btn-active)] focus-visible:ring-[var(--btn-ring)] shadow-sm",
     };
 
     const sizes = {
@@ -57,10 +62,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const iconOnlyStyles =
       !children && (prefixIcon || suffixIcon)
         ? {
-          sm: "h-8 w-8 px-0 min-w-0",
-          md: "h-10 w-10 px-0 min-w-0",
-          lg: "h-12 w-12 px-0 min-w-0",
-        }
+            sm: "h-8 w-8 px-0 min-w-0",
+            md: "h-10 w-10 px-0 min-w-0",
+            lg: "h-12 w-12 px-0 min-w-0",
+          }
         : null;
 
     const themeStyles: Record<string, string> = {
@@ -110,6 +115,30 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         themeStyles["--btn-active"] = theme.palette.error[800];
         themeStyles["--btn-text"] = "#ffffff";
         themeStyles["--btn-ring"] = theme.palette.error[500];
+        break;
+
+      case "success":
+        themeStyles["--btn-bg"] = theme.palette.success[600];
+        themeStyles["--btn-hover"] = theme.palette.success[700];
+        themeStyles["--btn-active"] = theme.palette.success[800];
+        themeStyles["--btn-text"] = "#ffffff";
+        themeStyles["--btn-ring"] = theme.palette.success[500];
+        break;
+
+      case "warning":
+        themeStyles["--btn-bg"] = theme.palette.warning[600];
+        themeStyles["--btn-hover"] = theme.palette.warning[700];
+        themeStyles["--btn-active"] = theme.palette.warning[800];
+        themeStyles["--btn-text"] = "#ffffff";
+        themeStyles["--btn-ring"] = theme.palette.warning[500];
+        break;
+
+      case "info":
+        themeStyles["--btn-bg"] = theme.palette.info[600];
+        themeStyles["--btn-hover"] = theme.palette.info[700];
+        themeStyles["--btn-active"] = theme.palette.info[800];
+        themeStyles["--btn-text"] = "#ffffff";
+        themeStyles["--btn-ring"] = theme.palette.info[500];
         break;
     }
 
