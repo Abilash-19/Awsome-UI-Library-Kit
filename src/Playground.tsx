@@ -1290,8 +1290,8 @@ export default function Playground() {
                       <div
                         className="h-32 mb-4 rounded-md flex items-center justify-center font-bold text-xl"
                         style={{
-                          backgroundColor: theme.tokens.infoSurface,
-                          color: theme.tokens.infoForeground,
+                          backgroundColor: theme.palette.primary[200],
+                          color: theme.palette.primary[900],
                         }}
                       >
                         #{i + 1}
