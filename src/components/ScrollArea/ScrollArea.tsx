@@ -37,8 +37,9 @@ export const ScrollAreaItem = ({
   style,
   triggerOnce,
   revealType = "scale",
+  threshold = 0.1,
 }: ScrollAreaItemProps) => {
-  const { elementRef, isVisible } = useReveal({ triggerOnce });
+  const { elementRef, isVisible } = useReveal({ triggerOnce, threshold });
 
   const ANIMATION_CLASS_MAP: Record<
     NonNullable<ScrollAreaProps["ScrollAnimation"]>,
@@ -63,7 +64,6 @@ export const ScrollAreaItem = ({
     </div>
   );
 };
-console.log(Object.assign(ScrollAreaComponent, { item: ScrollAreaItem }));
 
 export { ScrollAreaComponent as ScrollArea };
 export { ScrollAreaItem as ScrollElement };
