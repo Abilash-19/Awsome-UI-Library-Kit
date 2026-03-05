@@ -9,7 +9,7 @@ import { Badge } from "./components/Badge";
 import { Avatar } from "@/components/Avatar";
 import { Skeleton } from "@/components/Skeleton";
 import Checkbox from "@/components/Checkbox";
-
+import { ScrollArea, ScrollElement } from "@/components/ScrollArea";
 function ThemeToggle() {
   const { toggleColorMode, theme } = useTheme();
   return (
@@ -48,6 +48,8 @@ export default function Playground() {
   const mutedColor = {
     "--typography-color": theme.tokens.foregroundMuted,
   } as React.CSSProperties;
+
+  const [isSimulatingData, setIsSimulatingData] = useState(true);
 
   const [checkedItems, setCheckedItems] = useState({
     item1: false,
@@ -792,6 +794,102 @@ export default function Playground() {
             </div>
           </div>
         </div>
+
+        {/* Real Data Simulation */}
+        <div
+          className="mt-12 pt-8 border-t"
+          style={{ borderColor: theme.tokens.border }}
+        >
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <Typography variant="h5" weight="bold">
+                Real Data simulation
+              </Typography>
+              <Typography variant="body2" style={mutedColor}>
+                Toggle to see how skeletons transition to real content
+              </Typography>
+            </div>
+            <Button
+              onClick={() => setIsSimulatingData(!isSimulatingData)}
+              variant={isSimulatingData ? "outline" : "primary"}
+            >
+              {isSimulatingData ? "Load Data" : "Show Skeletons"}
+            </Button>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="p-4 rounded-lg border shadow-sm"
+                style={{
+                  borderColor: theme.tokens.border,
+                  backgroundColor: theme.tokens.background,
+                }}
+              >
+                <div className="flex items-center gap-4 mb-4">
+                  {isSimulatingData ? (
+                    <Skeleton variant="circular" width={48} height={48} />
+                  ) : (
+                    <Avatar
+                      src={`https://i.pravatar.cc/150?u=${i + 10}`}
+                      alt={`User ${i}`}
+                    />
+                  )}
+                  <div className="space-y-2 flex-1">
+                    {isSimulatingData ? (
+                      <>
+                        <Skeleton width="60%" height={16} />
+                        <Skeleton width="40%" height={12} />
+                      </>
+                    ) : (
+                      <>
+                        <Typography variant="subtitle2" weight="bold">
+                          {
+                            ["Alice Freeman", "Bob Smith", "Charlie Davis"][
+                              i - 1
+                            ]
+                          }
+                        </Typography>
+                        <Typography variant="caption" style={mutedColor}>
+                          {
+                            [
+                              "Senior Designer",
+                              "Software Engineer",
+                              "Product Manager",
+                            ][i - 1]
+                          }
+                        </Typography>
+                      </>
+                    )}
+                  </div>
+                </div>
+                <div>
+                  {isSimulatingData ? (
+                    <div className="space-y-2">
+                      <Skeleton variant="text" width="100%" />
+                      <Skeleton variant="text" width="90%" />
+                      <Skeleton variant="text" width="80%" />
+                    </div>
+                  ) : (
+                    <Typography
+                      variant="body2"
+                      style={{ color: theme.tokens.foreground }}
+                    >
+                      {
+                        [
+                          "Creative designer with a passion for building beautiful UI components.",
+                          "Backend developer focused on scalable architecture and performance.",
+                          "Strategic thinker driving product vision and execution.",
+                        ][i - 1]
+                      }
+                    </Typography>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
       {/* Checkbox Section */}
       <section
@@ -935,6 +1033,115 @@ export default function Playground() {
                   actionable interfaces.
                 </Typography>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ScrollArea Section */}
+      <section
+        className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl lg:col-span-2 mt-6 overflow-hidden"
+        style={sectionStyles}
+      >
+        <div className="mb-8">
+          <Typography variant="h4" weight="bold" className="mb-2">
+            Scroll Area
+          </Typography>
+          <Typography variant="body2" style={mutedColor}>
+            Customizable scrolling container with support for custom scrollbars
+            and visibility controls
+          </Typography>
+        </div>
+
+        <div className="grid gap-8 lg:grid-cols-2">
+          {/* Vertical Scroll */}
+          <div className="space-y-4">
+            <Typography
+              variant="subtitle2"
+              weight="semibold"
+              style={mutedColor}
+            >
+              Vertical Scrolling
+            </Typography>
+            <div
+              className="border rounded-xl overflow-hidden shadow-sm"
+              style={{
+                backgroundColor: theme.tokens.background,
+                borderColor: theme.tokens.border,
+              }}
+            >
+              <ScrollArea className="h-[300px]" style={{ padding: "16px" }}>
+                <div className="space-y-4 pr-4">
+                  {[...Array(12)].map((_, i) => (
+                    <ScrollElement
+                      key={i}
+                      className="p-4 rounded-lg border transition-colors"
+                      style={{
+                        backgroundColor: theme.tokens.surface,
+                        borderColor: theme.tokens.border,
+                      }}
+                    >
+                      <Typography variant="subtitle2" weight="bold">
+                        Scroll Item {i + 1}
+                      </Typography>
+                      <Typography variant="body2" style={mutedColor}>
+                        This is a sample item inside the vertical scroll area.
+                        It demonstrates how the container handles overflowing
+                        vertical content.
+                      </Typography>
+                    </ScrollElement>
+                  ))}
+                </div>
+              </ScrollArea>
+            </div>
+          </div>
+
+          {/* Horizontal Scroll */}
+          <div className="space-y-4">
+            <Typography
+              variant="subtitle2"
+              weight="semibold"
+              style={mutedColor}
+            >
+              Horizontal Scrolling
+            </Typography>
+            <div
+              className="border rounded-xl overflow-hidden shadow-sm"
+              style={{
+                backgroundColor: theme.tokens.background,
+                borderColor: theme.tokens.border,
+              }}
+            >
+              <ScrollArea className="w-full" style={{ padding: "16px" }}>
+                <div className="flex gap-4 pb-4">
+                  {[...Array(8)].map((_, i) => (
+                    <ScrollElement
+                      key={i}
+                      className="min-w-[240px] p-4 rounded-lg border"
+                      style={{
+                        backgroundColor: theme.tokens.surface,
+                        borderColor: theme.tokens.border,
+                      }}
+                    >
+                      <div
+                        className="h-32 mb-4 rounded-md flex items-center justify-center font-bold text-xl"
+                        style={{
+                          backgroundColor: theme.tokens.infoSurface,
+                          color: theme.tokens.infoForeground,
+                        }}
+                      >
+                        #{i + 1}
+                      </div>
+                      <Typography variant="subtitle2" weight="bold">
+                        Horizontal Item {i + 1}
+                      </Typography>
+                      <Typography variant="body2" style={mutedColor}>
+                        This card scrolls horizontally.
+                      </Typography>
+                    </ScrollElement>
+                  ))}
+                </div>
+              </ScrollArea>
             </div>
           </div>
         </div>

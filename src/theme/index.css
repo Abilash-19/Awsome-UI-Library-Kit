@@ -56,3 +56,217 @@
   );
   animation: skeleton-wave 1.6s linear infinite;
 }
+
+/* ===== Modern Premium Scrollbar ===== */
+
+.scrollbar {
+  overflow: auto;
+  scrollbar-width: thin;
+  /* Firefox */
+  scrollbar-color: var(--color-border, rgba(150, 150, 150, 0.3)) transparent;
+}
+
+/* Scrollbar size */
+.scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+/* Track */
+.scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Thumb */
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--color-border-subtle, rgba(150, 150, 150, 0.3));
+  border-radius: 9999px;
+  background-clip: padding-box;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Hover */
+.scrollbar:hover::-webkit-scrollbar-thumb,
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-border, rgba(150, 150, 150, 0.5));
+}
+
+/* Active (dragging) */
+.scrollbar::-webkit-scrollbar-thumb:active {
+  background-color: var(--color-text-subtle, rgba(150, 150, 150, 0.7));
+}
+
+/* Remove arrows */
+.scrollbar::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Some Windows versions need this */
+.scrollbar::-webkit-scrollbar-button:start:decrement,
+.scrollbar::-webkit-scrollbar-button:end:increment {
+  display: none !important;
+}
+
+/* ===== Reveal Animations ===== */
+/* ===============================
+   Base Reveal Class
+================================ */
+
+.reveal {
+  opacity: 0;
+  will-change: transform, opacity, filter;
+  /* Add default transition in case no animation class is applied */
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* When element becomes visible */
+.reveal.is-visible {
+  opacity: 1;
+}
+
+/* Optional stagger support */
+.reveal {
+  animation-delay: var(--delay, 0ms);
+}
+
+/* ===============================
+   1. Reveal Up
+================================ */
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal-up.is-visible {
+  animation: reveal-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ===============================
+   2. Reveal Down
+================================ */
+
+@keyframes reveal-down {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal-down.is-visible {
+  animation: reveal-down 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ===============================
+   3. Reveal Left
+================================ */
+
+@keyframes reveal-left {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.reveal-left.is-visible {
+  animation: reveal-left 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ===============================
+   4. Reveal Right
+================================ */
+
+@keyframes reveal-right {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.reveal-right.is-visible {
+  animation: reveal-right 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ===============================
+   5. Fade In
+================================ */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in.is-visible {
+  animation: fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ===============================
+   6. Scale Pop
+================================ */
+
+@keyframes reveal-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.reveal-scale.is-visible {
+  animation: reveal-scale 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ===============================
+   7. Premium Blur Reveal
+================================ */
+
+@keyframes reveal-blur {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+    filter: blur(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.reveal-blur.is-visible {
+  animation: reveal-blur 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
