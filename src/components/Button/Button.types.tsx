@@ -5,7 +5,10 @@ export type ButtonVariant =
   | "secondary"
   | "outline"
   | "ghost"
-  | "danger";
+  | "danger"
+  | "success"
+  | "warning"
+  | "info";
 export type ButtonSize = "sm" | "md" | "lg";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {

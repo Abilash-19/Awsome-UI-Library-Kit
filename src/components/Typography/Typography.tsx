@@ -7,17 +7,8 @@ import type {
 } from "./Typography.types";
 import { VARIANT_ELEMENT_MAP, VARIANT_WEIGHT_MAP } from "./Typography.types";
 import { useTheme } from "@/theme";
+import { Skeleton } from "../Skeleton";
 
-/**
- * Typography component for consistent text styling across the application
- *
- * @example
- * ```tsx
- * <Typography variant="h1">Main Heading</Typography>
- * <Typography variant="body1">Body text</Typography>
- * <Typography variant="h2" as="h1" weight="bold">Custom element</Typography>
- * ```
- */
 export const Typography: React.FC<TypographyProps> = ({
   variant = "body1",
   as,
@@ -27,29 +18,36 @@ export const Typography: React.FC<TypographyProps> = ({
   children,
   id,
   onClick,
+  isLoading,
   ...rest
 }) => {
   const { theme } = useTheme();
-  // Determine the HTML element to render
+
+  if (isLoading) {
+    return (
+      <Skeleton
+        variant="text"
+        className={cn(getVariantClasses(variant), className)}
+        style={
+          {
+            display: "inline-block",
+            width: style?.width || (children && "60%"),
+            ...style,
+          } as React.CSSProperties
+        }
+      />
+    );
+  }
   const Element = as || VARIANT_ELEMENT_MAP[variant] || "p";
 
-  // Determine font weight
   const fontWeight = weight || VARIANT_WEIGHT_MAP[variant];
 
   const color = theme.tokens.foreground;
 
-  // Build class names
   const classes = cn(
-    // Base styles
     "typography",
-
-    // Variant styles
     getVariantClasses(variant),
-
-    // Font weight
     getWeightClasses(fontWeight),
-
-    // Custom classes
     className,
   );
 

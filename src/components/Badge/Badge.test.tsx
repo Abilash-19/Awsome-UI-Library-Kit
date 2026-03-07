@@ -55,4 +55,9 @@ describe("Badge", () => {
     const { container } = render(<Badge style={{ color: "red" }}>Style</Badge>);
     expect(container.firstChild).toHaveStyle({ color: "rgb(255, 0, 0)" });
   });
+
+  it("shows skeleton when loading", () => {
+    render(<Badge isLoading>Loading</Badge>);
+    expect(screen.getByRole("status")).toBeInTheDocument();
+  });
 });

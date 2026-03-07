@@ -75,6 +75,10 @@ export interface TypographyProps {
    * onClick handler
    */
   htmlFor?: string;
+  /**
+   * Whether to show a skeleton loading state
+   */
+  isLoading?: boolean;
 }
 
 /**
