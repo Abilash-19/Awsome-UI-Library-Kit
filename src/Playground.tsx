@@ -10,6 +10,8 @@ import { Avatar } from "@/components/Avatar";
 import { Skeleton } from "@/components/Skeleton";
 import Checkbox from "@/components/Checkbox";
 import { ScrollArea, ScrollElement } from "@/components/ScrollArea";
+import RadioGroup from "@/components/RadioGroup";
+import reactLogo from "@/assets/react.svg";
 import type { ThemeOverride } from "@/theme";
 
 function ThemeToggle() {
@@ -164,6 +166,7 @@ export default function Playground() {
   } as React.CSSProperties;
 
   const [isSimulatingData, setIsSimulatingData] = useState(true);
+  const [radioValue, setRadioValue] = useState("option-1");
 
   const [checkedItems, setCheckedItems] = useState({
     item1: false,
@@ -1196,6 +1199,255 @@ export default function Playground() {
                   Combine labels, descriptions, and icons to create clear and
                   actionable interfaces.
                 </Typography>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* RadioGroup Section */}
+      <section
+        className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl lg:col-span-2 mt-6 overflow-hidden"
+        style={sectionStyles}
+      >
+        <div className="mb-8">
+          <Typography variant="h4" weight="bold" className="mb-2">
+            Radio Groups
+          </Typography>
+          <Typography variant="body2" style={mutedColor}>
+            Single selection controls with support for horizontal/vertical
+            layouts, descriptions, and validation.
+          </Typography>
+        </div>
+
+        <div className="grid gap-8 lg:grid-cols-2">
+          {/* Basic & Orientations */}
+          <div className="space-y-6">
+            <div
+              className="p-6 border rounded-2xl shadow-sm"
+              style={{
+                backgroundColor: theme.tokens.background,
+                borderColor: theme.tokens.border,
+              }}
+            >
+              <Typography variant="subtitle2" weight="bold" className="mb-4">
+                Vertical Layout (Default)
+              </Typography>
+              <RadioGroup
+                name="basic-vertical"
+                label="Select an option"
+                value={radioValue}
+                onChange={setRadioValue}
+                options={[
+                  {
+                    id: "opt-1",
+                    value: "option-1",
+                    label: "Option One",
+                    description: "First detailed choice",
+                  },
+                  {
+                    id: "opt-2",
+                    value: "option-2",
+                    label: "Option Two",
+                    description: "Second detailed choice",
+                  },
+                  {
+                    id: "opt-3",
+                    value: "option-3",
+                    label: "Option Three",
+                    disabled: true,
+                  },
+                ]}
+              />
+              <Typography
+                variant="caption"
+                style={mutedColor}
+                className="mt-4 block"
+              >
+                Selected:{" "}
+                <strong style={{ color: theme.tokens.foreground }}>
+                  {radioValue}
+                </strong>
+              </Typography>
+            </div>
+
+            <div
+              className="p-6 border rounded-2xl shadow-sm"
+              style={{
+                backgroundColor: theme.tokens.background,
+                borderColor: theme.tokens.border,
+              }}
+            >
+              <Typography variant="subtitle2" weight="bold" className="mb-4">
+                Horizontal Layout
+              </Typography>
+              <RadioGroup
+                name="basic-horizontal"
+                orientation="horizontal"
+                defaultValue="apple"
+                options={[
+                  { id: "h-opt-1", value: "apple", label: "Apple" },
+                  { id: "h-opt-2", value: "banana", label: "Banana" },
+                  { id: "h-opt-3", value: "cherry", label: "Cherry" },
+                ]}
+              />
+            </div>
+          </div>
+
+          {/* Validation & States */}
+          <div className="space-y-6">
+            <div
+              className="p-6 border rounded-2xl shadow-sm"
+              style={{
+                backgroundColor: theme.tokens.background,
+                borderColor: theme.tokens.border,
+              }}
+            >
+              <Typography variant="subtitle2" weight="bold" className="mb-4">
+                Validation & States
+              </Typography>
+              <div className="space-y-6">
+                <RadioGroup
+                  name="error-state"
+                  label="Required Selection"
+                  error="Please select an option to continue."
+                  required
+                  options={[
+                    { id: "err-1", value: "yes", label: "Yes" },
+                    { id: "err-2", value: "no", label: "No" },
+                  ]}
+                />
+
+                <RadioGroup
+                  name="disabled-state"
+                  label="Disabled Group"
+                  value="selected"
+                  disabled
+                  options={[
+                    {
+                      id: "dis-1",
+                      value: "selected",
+                      label: "Selected Option",
+                    },
+                    {
+                      id: "dis-2",
+                      value: "unselected",
+                      label: "Unselected Option",
+                    },
+                  ]}
+                />
+              </div>
+            </div>
+
+            <div
+              className="p-6 border rounded-2xl shadow-sm"
+              style={{
+                backgroundColor: theme.tokens.background,
+                borderColor: theme.tokens.border,
+              }}
+            >
+              <Typography variant="subtitle2" weight="bold" className="mb-4">
+                Sizes
+              </Typography>
+              <div className="space-y-4">
+                <RadioGroup
+                  name="size-sm"
+                  orientation="horizontal"
+                  size="small"
+                  defaultValue="1"
+                  options={[
+                    { id: "sm-1", value: "1", label: "Small" },
+                    { id: "sm-2", value: "2", label: "Small" },
+                  ]}
+                />
+                <RadioGroup
+                  name="size-md"
+                  orientation="horizontal"
+                  size="medium"
+                  defaultValue="1"
+                  options={[
+                    { id: "md-1", value: "1", label: "Medium" },
+                    { id: "md-2", value: "2", label: "Medium" },
+                  ]}
+                />
+                <RadioGroup
+                  name="size-lg"
+                  orientation="horizontal"
+                  size="large"
+                  defaultValue="1"
+                  options={[
+                    { id: "lg-1", value: "1", label: "Large" },
+                    { id: "lg-2", value: "2", label: "Large" },
+                  ]}
+                />
+              </div>
+            </div>
+          </div>
+          {/* Card Variant */}
+          <div className="lg:col-span-2 space-y-6">
+            <div
+              className="p-6 border rounded-2xl shadow-sm"
+              style={{
+                backgroundColor: theme.tokens.background,
+                borderColor: theme.tokens.border,
+              }}
+            >
+              <Typography variant="subtitle2" weight="bold" className="mb-4">
+                Card Variant (New)
+              </Typography>
+              <div className="grid gap-6 md:grid-cols-2">
+                <RadioGroup
+                  name="card-vertical"
+                  label="Plan Selection"
+                  variant="card"
+                  defaultValue="pro"
+                  options={[
+                    {
+                      id: "p-1",
+                      value: "basic",
+                      label: "Basic Plan",
+                      description: "Essential features for individuals",
+                    },
+                    {
+                      id: "p-2",
+                      value: "pro",
+                      label: "Pro Plan",
+                      description: "Advanced tools for professionals",
+                    },
+                    {
+                      id: "p-3",
+                      value: "enterprise",
+                      label: "Enterprise",
+                      description: "Full power for large teams",
+                      disabled: true,
+                    },
+                  ]}
+                />
+                <RadioGroup
+                  name="card-horizontal"
+                  label="Payment Method"
+                  variant="card"
+                  orientation="horizontal"
+                  defaultValue="card"
+                  options={[
+                    { id: "pm-1", value: "card", label: "Credit Card" },
+                    { id: "pm-2", value: "paypal", label: "PayPal" },
+                    {
+                      id: "pm-3",
+                      value: "apple",
+                      label: (
+                        <div className="flex items-center gap-2">
+                          React Pay
+                          <img
+                            src={reactLogo}
+                            className="w-5 h-5"
+                            alt="React"
+                          />
+                        </div>
+                      ),
+                    },
+                  ]}
+                />
               </div>
             </div>
           </div>
