@@ -17,7 +17,9 @@ describe("Input", () => {
 
   it("renders with label", () => {
     render(<Input label="Username" />);
-    expect(screen.getByLabelText("Username")).toBeInTheDocument();
+    expect(
+      screen.getByRole("textbox", { name: /username/i }),
+    ).toBeInTheDocument();
   });
 
   it("displays error message", () => {
@@ -62,13 +64,13 @@ describe("Input", () => {
   it("applies small size correctly", () => {
     render(<Input inputSize="sm" />);
     const input = screen.getByRole("textbox");
-    expect(input).toHaveClass("h-9");
+    expect(input).toHaveClass("h-8");
   });
 
   it("applies medium size by default", () => {
     render(<Input />);
     const input = screen.getByRole("textbox");
-    expect(input).toHaveClass("h-11");
+    expect(input).toHaveClass("h-10");
   });
 
   it("applies large size correctly", () => {
@@ -92,7 +94,7 @@ describe("Input", () => {
   it("associates label with input using htmlFor", () => {
     render(<Input label="Email" id="email-input" />);
     const label = screen.getByText("Email");
-    const input = screen.getByLabelText("Email");
+    const input = screen.getByRole("textbox", { name: /email/i });
     expect(label).toHaveAttribute("for", "email-input");
     expect(input).toHaveAttribute("id", "email-input");
   });
