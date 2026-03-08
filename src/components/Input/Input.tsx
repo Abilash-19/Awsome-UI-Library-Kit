@@ -1,18 +1,8 @@
-import { forwardRef, useId, type InputHTMLAttributes, useMemo } from "react";
+import { forwardRef, useId, useMemo } from "react";
 import { cn } from "@/utils";
 import { useTheme } from "@/theme";
 import { Skeleton } from "../Skeleton";
-
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  id?: string;
-  label?: string;
-  error?: string;
-  helperText?: string;
-  inputSize?: "sm" | "md" | "lg";
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
-  isLoading?: boolean;
-}
+import type { InputProps } from "./Input.types";
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (

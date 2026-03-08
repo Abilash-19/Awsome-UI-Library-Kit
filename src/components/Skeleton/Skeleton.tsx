@@ -3,15 +3,31 @@ import type { CSSProperties } from "react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
+/**
+ * The shape of the skeleton placeholder.
+ */
 type SkeletonVariant = "rectangular" | "circular" | "text" | "rounded";
+
+/**
+ * The animation style to apply to the skeleton.
+ */
 type SkeletonAnimation = "pulse" | "wave" | "none";
 
+/**
+ * Props for the Skeleton component.
+ */
 export interface SkeletonProps {
+  /** The shape variant to use. @default "rectangular" */
   variant?: SkeletonVariant;
+  /** The animation type to display. @default "wave" */
   animation?: SkeletonAnimation;
+  /** Custom width for the skeleton placeholder. */
   width?: number | string;
+  /** Custom height for the skeleton placeholder. */
   height?: number | string;
+  /** Additional CSS class for the root element. */
   className?: string;
+  /** Inline styles for the root element. */
   style?: CSSProperties;
 }
 

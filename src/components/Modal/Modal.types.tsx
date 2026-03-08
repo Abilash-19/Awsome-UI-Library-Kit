@@ -1,61 +1,43 @@
 // src/components/Modal/Modal.types.ts
 import type { ReactNode } from "react";
 
+/**
+ * The visual size variants available for the Modal.
+ */
 export type ModalSize = "sm" | "md" | "lg" | "xl";
 
+/**
+ * Props for the Modal component.
+ */
 export interface ModalProps {
-  /**
-   * Optional id for the modal
-   */
+  /** Unique identifier for the modal. */
   id?: string;
 
-  /**
-   * Controls whether the modal is visible
-   */
+  /** Whether the modal is currently open and visible. */
   isOpen: boolean;
 
-  /**
-   * Callback when the modal should close
-   */
+  /** Callback function triggered when the modal requests to close (e.g., clicking the backdrop). */
   onClose: () => void;
 
-  /**
-   * Optional title displayed at the top of the modal
-   */
+  /** The title displayed in the modal header. */
   title?: string;
 
-  /**
-   * Modal content
-   */
+  /** The content to be rendered within the modal body. */
   children: ReactNode;
 
-  /**
-   * Additional CSS classes
-   */
+  /** Custom CSS class for the modal container. */
   className?: string;
 
-  /**
-   * Modal size preset
-   * @default 'md'
-   */
+  /** The visual width of the modal. @default "md" */
   size?: ModalSize;
 
-  /**
-   * Show/hide the close button
-   * @default true
-   */
+  /** Whether to show a close icon in the header. @default true */
   showCloseButton?: boolean;
 
-  /**
-   * Prevent closing on backdrop click
-   * @default false
-   */
+  /** If true, clicking the backdrop will not trigger onClose. @default false */
   preventBackdropClose?: boolean;
 
-  /**
-   * Prevent closing on Escape key
-   * @default false
-   */
+  /** If true, pressing the Escape key will not trigger onClose. @default false */
   preventEscapeClose?: boolean;
 }
 

@@ -1,35 +1,25 @@
 import type { InputHTMLAttributes, ReactNode } from "react";
 
+/**
+ * Props for the Checkbox component.
+ * Extends all standard HTML input attributes while omitting conflicting ones.
+ */
 export interface CheckboxProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
   "size" | "onChange"
 > {
-  /**
-   * Label for the checkbox
-   */
+  /** The primary label displayed next to the checkbox. */
   label?: ReactNode;
-  /**
-   * Optional description text below the label
-   */
+  /** Optional detailed description text displayed below the label. */
   description?: ReactNode;
-  /**
-   * If true, the checkbox will be in an error state
-   */
+  /** Whether the checkbox should be displayed in an error state. */
   error?: boolean;
-  /**
-   * Whether the checkbox is in a loading state
-   */
+  /** Whether the checkbox is in a loading state. */
   loading?: boolean;
-  /**
-   * Circular progress size
-   */
+  /** The visual size of the checkbox. @default "medium" */
   size?: "small" | "medium" | "large";
-  /**
-   * If true, the checkbox will be indeterminate
-   */
+  /** Whether the checkbox is in an indeterminate state (neither checked nor unchecked). */
   indeterminate?: boolean;
-  /**
-   * Callback when the checked state changes
-   */
+  /** Callback function triggered when the checked state changes. */
   onChange?: (checked: boolean) => void;
 }
