@@ -14,7 +14,7 @@ const Accordion = forwardRef<HTMLDetailsElement, AccordionProps>(
       children,
       isDefaultOpen = false,
       isDisabled = false,
-      variant = "borderless",
+      variant = "border",
     },
     ref,
   ) => {
@@ -57,30 +57,30 @@ const Accordion = forwardRef<HTMLDetailsElement, AccordionProps>(
           className={cn(
             "flex cursor-pointer items-center justify-between gap-4",
             "text-left select-none",
-            "transition-all duration-200",
+            "transition-all duration-300 ease-out",
             "text-[var(--accordion-text)]",
 
             !isBorderless && [
               "px-5 py-4",
-              "hover:bg-[var(--accordion-bg-hover)] rounded-[var(--accordion-radius)]",
+              "hover:bg-[var(--accordion-bg-hover)] rounded-[var(--accordion-radius)] active:scale-[0.99]",
             ],
 
             isBorderless && [
               "px-0 py-3",
-              "hover:bg-[var(--accordion-bg-hover)]/40",
+              "hover:opacity-80 active:scale-[0.99] origin-left",
             ],
 
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accordion-border)] focus-visible:ring-offset-2",
           )}
         >
-          <div className="flex flex-col gap-1 min-w-0">
+          <div className="flex flex-col gap-1.5 min-w-0 flex-1">
             {title && (
-              <span className="text-sm font-semibold leading-snug">
+              <span className="text-sm font-medium leading-none truncate transition-colors duration-200 group-hover:text-primary">
                 {title}
               </span>
             )}
             {subtitle && (
-              <span className="text-xs text-[var(--accordion-muted)] leading-snug">
+              <span className="text-xs text-[var(--accordion-muted)] leading-snug truncate transition-colors duration-200">
                 {subtitle}
               </span>
             )}
@@ -98,11 +98,11 @@ const Accordion = forwardRef<HTMLDetailsElement, AccordionProps>(
         <div
           className={cn(
             "text-sm text-[var(--accordion-text)]",
-            "overflow-hidden transition-all duration-200",
+            "transition-opacity duration-300 ease-in-out",
 
-            !isBorderless && "px-5 pt-2 pb-5",
+            !isBorderless && "px-5 pt-1 pb-5",
 
-            isBorderless && "px-0 pt-2 pb-4",
+            isBorderless && "px-0 pt-1 pb-4",
           )}
         >
           {children}

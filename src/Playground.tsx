@@ -7,6 +7,12 @@ import { Accordion } from "@/components/Accordion";
 import { useTheme } from "@/theme";
 import { Badge } from "./components/Badge";
 import { Avatar } from "@/components/Avatar";
+import { Skeleton } from "@/components/Skeleton";
+import Checkbox from "@/components/Checkbox";
+import { ScrollArea, ScrollElement } from "@/components/ScrollArea";
+import RadioGroup from "@/components/RadioGroup";
+import reactLogo from "@/assets/react.svg";
+import type { ThemeOverride } from "@/theme";
 
 function ThemeToggle() {
   const { toggleColorMode, theme } = useTheme();
@@ -19,8 +25,120 @@ function ThemeToggle() {
   );
 }
 
+const presetThemes: {
+  name: string;
+  override: ThemeOverride | null;
+  color: string;
+}[] = [
+  { name: "Default (Pink)", override: null, color: "#ec4899" },
+  {
+    name: "Ocean",
+    color: "#3b82f6",
+    override: {
+      name: "ocean",
+      palette: {
+        primary: {
+          50: "#eff6ff",
+          100: "#dbeafe",
+          200: "#bfdbfe",
+          300: "#93c5fd",
+          400: "#60a5fa",
+          500: "#3b82f6",
+          600: "#2563eb",
+          700: "#1d4ed8",
+          800: "#1e40af",
+          900: "#1e3a8a",
+        },
+      },
+      tokens: {
+        ring: "#3b82f6",
+        accent: "#2563eb",
+        accentHover: "#1d4ed8",
+      },
+    },
+  },
+  {
+    name: "Forest",
+    color: "#10b981",
+    override: {
+      name: "forest",
+      palette: {
+        primary: {
+          50: "#ecfdf5",
+          100: "#d1fae5",
+          200: "#a7f3d0",
+          300: "#6ee7b7",
+          400: "#34d399",
+          500: "#10b981",
+          600: "#059669",
+          700: "#047857",
+          800: "#065f46",
+          900: "#064e3b",
+        },
+      },
+      tokens: {
+        ring: "#10b981",
+        accent: "#059669",
+        accentHover: "#047857",
+      },
+    },
+  },
+  {
+    name: "Sunset",
+    color: "#f97316",
+    override: {
+      name: "sunset",
+      palette: {
+        primary: {
+          50: "#fff7ed",
+          100: "#ffedd5",
+          200: "#fed7aa",
+          300: "#fdba74",
+          400: "#fb923c",
+          500: "#f97316",
+          600: "#ea580c",
+          700: "#c2410c",
+          800: "#9a3412",
+          900: "#7c2d12",
+        },
+      },
+      tokens: {
+        ring: "#f97316",
+        accent: "#ea580c",
+        accentHover: "#c2410c",
+      },
+    },
+  },
+  {
+    name: "Amethyst",
+    color: "#a855f7",
+    override: {
+      name: "amethyst",
+      palette: {
+        primary: {
+          50: "#faf5ff",
+          100: "#f3e8ff",
+          200: "#e9d5ff",
+          300: "#d8b4fe",
+          400: "#c084fc",
+          500: "#a855f7",
+          600: "#9333ea",
+          700: "#7e22ce",
+          800: "#6b21a8",
+          900: "#581c87",
+        },
+      },
+      tokens: {
+        ring: "#a855f7",
+        accent: "#9333ea",
+        accentHover: "#7e22ce",
+      },
+    },
+  },
+];
+
 export default function Playground() {
-  const { theme } = useTheme();
+  const { theme, overrideTheme, resetTheme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [email, setEmail] = useState("");
@@ -46,6 +164,32 @@ export default function Playground() {
   const mutedColor = {
     "--typography-color": theme.tokens.foregroundMuted,
   } as React.CSSProperties;
+
+  const [isSimulatingData, setIsSimulatingData] = useState(true);
+  const [radioValue, setRadioValue] = useState("option-1");
+
+  const [checkedItems, setCheckedItems] = useState({
+    item1: false,
+    item2: false,
+    item3: false,
+  });
+
+  const allChecked = Object.values(checkedItems).every(Boolean);
+  const isIndeterminate =
+    Object.values(checkedItems).some(Boolean) && !allChecked;
+
+  const handleToggleAll = (checked: boolean) => {
+    setCheckedItems({
+      item1: checked,
+      item2: checked,
+      item3: checked,
+    });
+  };
+
+  const handleToggleItem =
+    (item: keyof typeof checkedItems) => (checked: boolean) => {
+      setCheckedItems((prev) => ({ ...prev, [item]: checked }));
+    };
 
   return (
     <div
@@ -82,6 +226,53 @@ export default function Playground() {
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid gap-6 lg:grid-cols-2">
+          {/* Theme Picker Section */}
+          <section
+            className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl lg:col-span-2"
+            style={sectionStyles}
+          >
+            <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <Typography variant="h4" weight="bold" className="mb-2">
+                  Dynamic Brand Theming
+                </Typography>
+                <Typography variant="body2" style={mutedColor}>
+                  Apply seamless theme overrides and instantly see UI scale
+                  changes.
+                </Typography>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-4">
+              {presetThemes.map((preset) => (
+                <button
+                  key={preset.name}
+                  onClick={() => {
+                    if (preset.override) {
+                      overrideTheme(preset.override);
+                    } else {
+                      resetTheme();
+                    }
+                  }}
+                  className="group relative flex items-center justify-center p-[2px] rounded-full hover:scale-105 active:scale-95 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--ring-color)]"
+                  title={preset.name}
+                >
+                  <div
+                    className="w-10 h-10 rounded-full border-2 border-[var(--bg-color)] shadow-sm group-hover:shadow-md transition-shadow"
+                    style={{ background: preset.color }}
+                  ></div>
+                  <Typography
+                    variant="caption"
+                    className="absolute -bottom-6 opacity-0 group-hover:opacity-100 transition-opacity font-medium whitespace-nowrap drop-shadow"
+                    style={{ color: theme.tokens.foreground }}
+                  >
+                    {preset.name}
+                  </Typography>
+                </button>
+              ))}
+            </div>
+          </section>
+
           {/* Buttons Section */}
           <section
             className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl"
@@ -111,9 +302,12 @@ export default function Playground() {
                     Primary
                   </Button>
                   <Button variant="secondary">Secondary</Button>
+                  <Button variant="success">Success</Button>
+                  <Button variant="warning">Warning</Button>
+                  <Button variant="danger">Danger</Button>
+                  <Button variant="info">Info</Button>
                   <Button variant="outline">Outline</Button>
                   <Button variant="ghost">Ghost</Button>
-                  <Button variant="danger">Danger</Button>
                 </div>
               </div>
 
@@ -203,7 +397,9 @@ export default function Playground() {
                   Variants
                 </Typography>
                 <div className="flex flex-wrap gap-2">
-                  <Badge variant="primary">Primary </Badge>
+                  <Badge variant="primary" isLoading>
+                    Primary{" "}
+                  </Badge>
                   <Badge variant="secondary">Secondary</Badge>
                   <Badge variant="success">Success</Badge>
                   <Badge variant="danger">Danger</Badge>
@@ -211,6 +407,7 @@ export default function Playground() {
                   <Badge variant="info">Info</Badge>
                   <Badge variant="light">Light</Badge>
                   <Badge variant="dark">Dark</Badge>
+                  <Badge variant="outline">Outline</Badge>
                 </div>
               </div>
 
@@ -333,7 +530,7 @@ export default function Playground() {
                   Initials & Fallbacks
                 </Typography>
                 <div className="flex flex-wrap gap-6">
-                  <Avatar displayName="Abilash" size="large" />
+                  <Avatar displayName="Abilash" size="large" isLoading />
                   <Avatar displayName="John Doe" size="large" />
                   <Avatar
                     displayName="UI Library"
@@ -597,7 +794,9 @@ export default function Playground() {
               </Typography>
             </div>
             <div className="space-y-4">
-              <Typography variant="display1">Display 1</Typography>
+              <Typography variant="display1" isLoading>
+                Display 1
+              </Typography>
               <Typography variant="display2">Display 2</Typography>
               <Typography variant="h1">Heading 1</Typography>
               <Typography variant="h2">Heading 2</Typography>
@@ -640,7 +839,7 @@ export default function Playground() {
             >
               <div className="grid gap-4 sm:grid-cols-2">
                 <Input label="First Name" placeholder="John" required />
-                <Input label="Last Name" placeholder="Doe" required />
+                <Input label="Last Name" placeholder="Doe" isLoading required />
               </div>
               <Input
                 label="Email"
@@ -678,7 +877,694 @@ export default function Playground() {
         </div>
       </main>
 
+      {/* Skeleton Section */}
+      <section
+        className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl lg:col-span-2 mt-6"
+        style={sectionStyles}
+      >
+        <div className="mb-6">
+          <Typography variant="h4" weight="bold" className="mb-2">
+            Skeleton Placeholders
+          </Typography>
+          <Typography variant="body2" style={mutedColor}>
+            Simplified loading placeholders for various content shapes
+          </Typography>
+        </div>
+
+        <div className="grid gap-12 md:grid-cols-3">
+          {/* Shapes */}
+          <div className="space-y-4">
+            <Typography
+              variant="subtitle2"
+              weight="semibold"
+              style={mutedColor}
+            >
+              Shapes
+            </Typography>
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center gap-4">
+                <Skeleton variant="circular" width={48} height={48} />
+                <div className="space-y-2 flex-1">
+                  <Skeleton width="60%" height={16} />
+                  <Skeleton width="40%" height={12} />
+                </div>
+              </div>
+              <Skeleton variant="rectangular" width="100%" height={100} />
+              <Skeleton variant="rounded" width="100%" height={40} />
+            </div>
+          </div>
+
+          {/* Animations */}
+          <div className="space-y-4">
+            <Typography
+              variant="subtitle2"
+              weight="semibold"
+              style={mutedColor}
+            >
+              Animations
+            </Typography>
+            <div className="space-y-4">
+              <div className="space-y-1">
+                <Typography variant="caption" style={mutedColor}>
+                  Wave (Default)
+                </Typography>
+                <Skeleton animation="wave" width="100%" height={24} />
+              </div>
+              <div className="space-y-1">
+                <Typography variant="caption" style={mutedColor}>
+                  Pulse
+                </Typography>
+                <Skeleton animation="pulse" width="100%" height={24} />
+              </div>
+              <div className="space-y-1">
+                <Typography variant="caption" style={mutedColor}>
+                  None
+                </Typography>
+                <Skeleton animation="none" width="100%" height={24} />
+              </div>
+            </div>
+          </div>
+
+          {/* Custom Size */}
+          <div className="space-y-4">
+            <Typography
+              variant="subtitle2"
+              weight="semibold"
+              style={mutedColor}
+            >
+              Typography Variants
+            </Typography>
+            <div className="space-y-3">
+              <Skeleton variant="text" width="100%" />
+              <Skeleton variant="text" width="90%" />
+              <Skeleton variant="text" width="80%" />
+            </div>
+          </div>
+        </div>
+
+        {/* Real Data Simulation */}
+        <div
+          className="mt-12 pt-8 border-t"
+          style={{ borderColor: theme.tokens.border }}
+        >
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <Typography variant="h5" weight="bold">
+                Real Data simulation
+              </Typography>
+              <Typography variant="body2" style={mutedColor}>
+                Toggle to see how skeletons transition to real content
+              </Typography>
+            </div>
+            <Button
+              onClick={() => setIsSimulatingData(!isSimulatingData)}
+              variant={isSimulatingData ? "outline" : "primary"}
+            >
+              {isSimulatingData ? "Load Data" : "Show Skeletons"}
+            </Button>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="p-4 rounded-lg border shadow-sm"
+                style={{
+                  borderColor: theme.tokens.border,
+                  backgroundColor: theme.tokens.background,
+                }}
+              >
+                <div className="flex items-center gap-4 mb-4">
+                  {isSimulatingData ? (
+                    <Skeleton variant="circular" width={48} height={48} />
+                  ) : (
+                    <Avatar
+                      src={`https://i.pravatar.cc/150?u=${i + 10}`}
+                      alt={`User ${i}`}
+                    />
+                  )}
+                  <div className="space-y-2 flex-1">
+                    {isSimulatingData ? (
+                      <>
+                        <Skeleton width="60%" height={16} />
+                        <Skeleton width="40%" height={12} />
+                      </>
+                    ) : (
+                      <>
+                        <Typography variant="subtitle2" weight="bold">
+                          {
+                            ["Alice Freeman", "Bob Smith", "Charlie Davis"][
+                              i - 1
+                            ]
+                          }
+                        </Typography>
+                        <Typography variant="caption" style={mutedColor}>
+                          {
+                            [
+                              "Senior Designer",
+                              "Software Engineer",
+                              "Product Manager",
+                            ][i - 1]
+                          }
+                        </Typography>
+                      </>
+                    )}
+                  </div>
+                </div>
+                <div>
+                  {isSimulatingData ? (
+                    <div className="space-y-2">
+                      <Skeleton variant="text" width="100%" />
+                      <Skeleton variant="text" width="90%" />
+                      <Skeleton variant="text" width="80%" />
+                    </div>
+                  ) : (
+                    <Typography
+                      variant="body2"
+                      style={{ color: theme.tokens.foreground }}
+                    >
+                      {
+                        [
+                          "Creative designer with a passion for building beautiful UI components.",
+                          "Backend developer focused on scalable architecture and performance.",
+                          "Strategic thinker driving product vision and execution.",
+                        ][i - 1]
+                      }
+                    </Typography>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* Checkbox Section */}
+      <section
+        className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl lg:col-span-2 mt-6 overflow-hidden"
+        style={sectionStyles}
+      >
+        <div className="mb-8">
+          <Typography variant="h4" weight="bold" className="mb-2">
+            Checkboxes
+          </Typography>
+          <Typography variant="body2" style={mutedColor}>
+            Selection controls with support for labels, descriptions, and
+            interactive indeterminate states
+          </Typography>
+        </div>
+
+        <div className="grid gap-8 lg:grid-cols-3">
+          {/* Interactive Playground */}
+          <div
+            className="lg:col-span-1 border rounded-2xl overflow-hidden shadow-sm flex flex-col"
+            style={{
+              backgroundColor: theme.tokens.background,
+              borderColor: theme.tokens.border,
+            }}
+          >
+            <div
+              className="p-4 border-b"
+              style={{
+                backgroundColor: theme.tokens.surface,
+                borderBottomColor: theme.tokens.border,
+              }}
+            >
+              <Checkbox
+                label="Select All Items"
+                id="pg-select-all"
+                checked={allChecked}
+                indeterminate={isIndeterminate}
+                onChange={handleToggleAll}
+                className="font-semibold"
+              />
+            </div>
+            <div className="p-4 space-y-4 flex-1">
+              <Checkbox
+                label="Option One"
+                description="This is the first primary selection."
+                id="pg-item-1"
+                checked={checkedItems.item1}
+                onChange={handleToggleItem("item1")}
+              />
+              <Checkbox
+                label="Option Two"
+                description="Secondary selection for processing."
+                id="pg-item-2"
+                checked={checkedItems.item2}
+                onChange={handleToggleItem("item2")}
+              />
+              <Checkbox
+                label="Option Three"
+                description="Final confirmation item."
+                id="pg-item-3"
+                checked={checkedItems.item3}
+                onChange={handleToggleItem("item3")}
+              />
+            </div>
+          </div>
+
+          {/* Sizes & States */}
+          <div className="lg:col-span-2 grid gap-8 sm:grid-cols-2">
+            <div className="space-y-6">
+              <div>
+                <Typography
+                  variant="subtitle2"
+                  weight="semibold"
+                  style={mutedColor}
+                  className="mb-4"
+                >
+                  Available Sizes
+                </Typography>
+                <div className="flex flex-wrap gap-6 items-end">
+                  <div className="flex flex-col items-center gap-2">
+                    <Checkbox size="small" label="Small" id="size-sm" />
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <Checkbox size="medium" label="Medium" id="size-md" />
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <Checkbox size="large" label="Large" id="size-lg" />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <Typography
+                  variant="subtitle2"
+                  weight="semibold"
+                  style={mutedColor}
+                  className="mb-4"
+                >
+                  Visual Feedback
+                </Typography>
+                <div className="space-y-3">
+                  <Checkbox
+                    label="Error State"
+                    error
+                    description="This selection is required"
+                    id="state-err"
+                  />
+                  <Checkbox
+                    label="Loading State"
+                    loading
+                    description="Synchronizing data..."
+                    id="state-load"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <Typography
+                variant="subtitle2"
+                weight="semibold"
+                style={mutedColor}
+                className="mb-4"
+              >
+                Native States
+              </Typography>
+              <div className="grid grid-cols-2 gap-4">
+                <Checkbox label="Idle" id="native-idle" />
+                <Checkbox label="Checked" defaultChecked id="native-checked" />
+                <Checkbox label="Disabled" disabled id="native-disabled" />
+                <Checkbox
+                  label="Disabled Checked"
+                  disabled
+                  defaultChecked
+                  id="native-disabled-checked"
+                />
+              </div>
+              <div className="pt-2">
+                <Typography variant="body2" style={mutedColor}>
+                  Combine labels, descriptions, and icons to create clear and
+                  actionable interfaces.
+                </Typography>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* RadioGroup Section */}
+      <section
+        className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl lg:col-span-2 mt-6 overflow-hidden"
+        style={sectionStyles}
+      >
+        <div className="mb-8">
+          <Typography variant="h4" weight="bold" className="mb-2">
+            Radio Groups
+          </Typography>
+          <Typography variant="body2" style={mutedColor}>
+            Single selection controls with support for horizontal/vertical
+            layouts, descriptions, and validation.
+          </Typography>
+        </div>
+
+        <div className="grid gap-8 lg:grid-cols-2">
+          {/* Basic & Orientations */}
+          <div className="space-y-6">
+            <div
+              className="p-6 border rounded-2xl shadow-sm"
+              style={{
+                backgroundColor: theme.tokens.background,
+                borderColor: theme.tokens.border,
+              }}
+            >
+              <Typography variant="subtitle2" weight="bold" className="mb-4">
+                Vertical Layout (Default)
+              </Typography>
+              <RadioGroup
+                name="basic-vertical"
+                label="Select an option"
+                value={radioValue}
+                onChange={setRadioValue}
+                options={[
+                  {
+                    id: "opt-1",
+                    value: "option-1",
+                    label: "Option One",
+                    description: "First detailed choice",
+                  },
+                  {
+                    id: "opt-2",
+                    value: "option-2",
+                    label: "Option Two",
+                    description: "Second detailed choice",
+                  },
+                  {
+                    id: "opt-3",
+                    value: "option-3",
+                    label: "Option Three",
+                    disabled: true,
+                  },
+                ]}
+              />
+              <Typography
+                variant="caption"
+                style={mutedColor}
+                className="mt-4 block"
+              >
+                Selected:{" "}
+                <strong style={{ color: theme.tokens.foreground }}>
+                  {radioValue}
+                </strong>
+              </Typography>
+            </div>
+
+            <div
+              className="p-6 border rounded-2xl shadow-sm"
+              style={{
+                backgroundColor: theme.tokens.background,
+                borderColor: theme.tokens.border,
+              }}
+            >
+              <Typography variant="subtitle2" weight="bold" className="mb-4">
+                Horizontal Layout
+              </Typography>
+              <RadioGroup
+                name="basic-horizontal"
+                orientation="horizontal"
+                defaultValue="apple"
+                options={[
+                  { id: "h-opt-1", value: "apple", label: "Apple" },
+                  { id: "h-opt-2", value: "banana", label: "Banana" },
+                  { id: "h-opt-3", value: "cherry", label: "Cherry" },
+                ]}
+              />
+            </div>
+          </div>
+
+          {/* Validation & States */}
+          <div className="space-y-6">
+            <div
+              className="p-6 border rounded-2xl shadow-sm"
+              style={{
+                backgroundColor: theme.tokens.background,
+                borderColor: theme.tokens.border,
+              }}
+            >
+              <Typography variant="subtitle2" weight="bold" className="mb-4">
+                Validation & States
+              </Typography>
+              <div className="space-y-6">
+                <RadioGroup
+                  name="error-state"
+                  label="Required Selection"
+                  error="Please select an option to continue."
+                  required
+                  options={[
+                    { id: "err-1", value: "yes", label: "Yes" },
+                    { id: "err-2", value: "no", label: "No" },
+                  ]}
+                />
+
+                <RadioGroup
+                  name="disabled-state"
+                  label="Disabled Group"
+                  value="selected"
+                  disabled
+                  options={[
+                    {
+                      id: "dis-1",
+                      value: "selected",
+                      label: "Selected Option",
+                    },
+                    {
+                      id: "dis-2",
+                      value: "unselected",
+                      label: "Unselected Option",
+                    },
+                  ]}
+                />
+              </div>
+            </div>
+
+            <div
+              className="p-6 border rounded-2xl shadow-sm"
+              style={{
+                backgroundColor: theme.tokens.background,
+                borderColor: theme.tokens.border,
+              }}
+            >
+              <Typography variant="subtitle2" weight="bold" className="mb-4">
+                Sizes
+              </Typography>
+              <div className="space-y-4">
+                <RadioGroup
+                  name="size-sm"
+                  orientation="horizontal"
+                  size="small"
+                  defaultValue="1"
+                  options={[
+                    { id: "sm-1", value: "1", label: "Small" },
+                    { id: "sm-2", value: "2", label: "Small" },
+                  ]}
+                />
+                <RadioGroup
+                  name="size-md"
+                  orientation="horizontal"
+                  size="medium"
+                  defaultValue="1"
+                  options={[
+                    { id: "md-1", value: "1", label: "Medium" },
+                    { id: "md-2", value: "2", label: "Medium" },
+                  ]}
+                />
+                <RadioGroup
+                  name="size-lg"
+                  orientation="horizontal"
+                  size="large"
+                  defaultValue="1"
+                  options={[
+                    { id: "lg-1", value: "1", label: "Large" },
+                    { id: "lg-2", value: "2", label: "Large" },
+                  ]}
+                />
+              </div>
+            </div>
+          </div>
+          {/* Card Variant */}
+          <div className="lg:col-span-2 space-y-6">
+            <div
+              className="p-6 border rounded-2xl shadow-sm"
+              style={{
+                backgroundColor: theme.tokens.background,
+                borderColor: theme.tokens.border,
+              }}
+            >
+              <Typography variant="subtitle2" weight="bold" className="mb-4">
+                Card Variant (New)
+              </Typography>
+              <div className="grid gap-6 md:grid-cols-2">
+                <RadioGroup
+                  name="card-vertical"
+                  label="Plan Selection"
+                  variant="card"
+                  defaultValue="pro"
+                  options={[
+                    {
+                      id: "p-1",
+                      value: "basic",
+                      label: "Basic Plan",
+                      description: "Essential features for individuals",
+                    },
+                    {
+                      id: "p-2",
+                      value: "pro",
+                      label: "Pro Plan",
+                      description: "Advanced tools for professionals",
+                    },
+                    {
+                      id: "p-3",
+                      value: "enterprise",
+                      label: "Enterprise",
+                      description: "Full power for large teams",
+                      disabled: true,
+                    },
+                  ]}
+                />
+                <RadioGroup
+                  name="card-horizontal"
+                  label="Payment Method"
+                  variant="card"
+                  orientation="horizontal"
+                  defaultValue="card"
+                  options={[
+                    { id: "pm-1", value: "card", label: "Credit Card" },
+                    { id: "pm-2", value: "paypal", label: "PayPal" },
+                    {
+                      id: "pm-3",
+                      value: "apple",
+                      label: (
+                        <div className="flex items-center gap-2">
+                          React Pay
+                          <img
+                            src={reactLogo}
+                            className="w-5 h-5"
+                            alt="React"
+                          />
+                        </div>
+                      ),
+                    },
+                  ]}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ScrollArea Section */}
+      <section
+        className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl lg:col-span-2 mt-6 overflow-hidden"
+        style={sectionStyles}
+      >
+        <div className="mb-8">
+          <Typography variant="h4" weight="bold" className="mb-2">
+            Scroll Area
+          </Typography>
+          <Typography variant="body2" style={mutedColor}>
+            Customizable scrolling container with support for custom scrollbars
+            and visibility controls
+          </Typography>
+        </div>
+
+        <div className="grid gap-8 lg:grid-cols-2">
+          {/* Vertical Scroll */}
+          <div className="space-y-4">
+            <Typography
+              variant="subtitle2"
+              weight="semibold"
+              style={mutedColor}
+            >
+              Vertical Scrolling
+            </Typography>
+            <div
+              className="border rounded-xl overflow-hidden shadow-sm"
+              style={{
+                backgroundColor: theme.tokens.background,
+                borderColor: theme.tokens.border,
+              }}
+            >
+              <ScrollArea className="h-[300px]" style={{ padding: "16px" }}>
+                <div className="space-y-4 pr-4">
+                  {[...Array(12)].map((_, i) => (
+                    <ScrollElement
+                      key={i}
+                      className="p-4 rounded-lg border transition-colors"
+                      style={{
+                        backgroundColor: theme.tokens.surface,
+                        borderColor: theme.tokens.border,
+                      }}
+                    >
+                      <Typography variant="subtitle2" weight="bold">
+                        Scroll Item {i + 1}
+                      </Typography>
+                      <Typography variant="body2" style={mutedColor}>
+                        This is a sample item inside the vertical scroll area.
+                        It demonstrates how the container handles overflowing
+                        vertical content.
+                      </Typography>
+                    </ScrollElement>
+                  ))}
+                </div>
+              </ScrollArea>
+            </div>
+          </div>
+
+          {/* Horizontal Scroll */}
+          <div className="space-y-4">
+            <Typography
+              variant="subtitle2"
+              weight="semibold"
+              style={mutedColor}
+            >
+              Horizontal Scrolling
+            </Typography>
+            <div
+              className="border rounded-xl overflow-hidden shadow-sm"
+              style={{
+                backgroundColor: theme.tokens.background,
+                borderColor: theme.tokens.border,
+              }}
+            >
+              <ScrollArea className="w-full" style={{ padding: "16px" }}>
+                <div className="flex gap-4 pb-4">
+                  {[...Array(8)].map((_, i) => (
+                    <ScrollElement
+                      key={i}
+                      className="min-w-[240px] p-4 rounded-lg border"
+                      style={{
+                        backgroundColor: theme.tokens.surface,
+                        borderColor: theme.tokens.border,
+                      }}
+                    >
+                      <div
+                        className="h-32 mb-4 rounded-md flex items-center justify-center font-bold text-xl"
+                        style={{
+                          backgroundColor: theme.palette.primary[200],
+                          color: theme.palette.primary[900],
+                        }}
+                      >
+                        #{i + 1}
+                      </div>
+                      <Typography variant="subtitle2" weight="bold">
+                        Horizontal Item {i + 1}
+                      </Typography>
+                      <Typography variant="body2" style={mutedColor}>
+                        This card scrolls horizontally.
+                      </Typography>
+                    </ScrollElement>
+                  ))}
+                </div>
+              </ScrollArea>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Modal */}
+
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

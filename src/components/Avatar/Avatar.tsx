@@ -2,6 +2,7 @@ import { forwardRef, useState } from "react";
 import { cn } from "@/utils";
 import { useTheme } from "@/theme";
 import type { AvatarProps } from "./Avatar.types";
+import { Skeleton } from "../Skeleton";
 
 const Avatar = forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
   const {
@@ -15,6 +16,7 @@ const Avatar = forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
     style,
     badge,
     onBadgeClick,
+    isLoading,
   } = props;
   const [hasError, setHasError] = useState(false);
   const { theme } = useTheme();
@@ -55,36 +57,44 @@ const Avatar = forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
       )}
       style={style}
     >
-      <div
-        className={cn(
-          "h-full w-full flex items-center justify-center overflow-hidden shadow-sm",
-          fallBack && "border",
-          shapeStyles[shape],
-        )}
-        style={{
-          backgroundColor: fallBack
-            ? `${theme.palette.primary[500]}1A`
-            : "transparent",
-          borderColor: fallBack
-            ? `${theme.palette.primary[500]}33`
-            : "transparent",
-          color: theme.palette.primary[500],
-        }}
-      >
-        {src && !fallBack ? (
-          <img
-            src={src}
-            alt={alt || displayName}
-            className="h-full w-full object-cover"
-            onError={() => setHasError(true)}
-            aria-label={displayName || "Avatar"}
-          />
-        ) : (
-          <span className="font-medium uppercase leading-none select-none">
-            {displayName ? getInitials(displayName) : "?"}
-          </span>
-        )}
-      </div>
+      {isLoading ? (
+        <Skeleton
+          variant={shape === "circle" ? "circular" : "rounded"}
+          width="100%"
+          height="100%"
+        />
+      ) : (
+        <div
+          className={cn(
+            "h-full w-full flex items-center justify-center overflow-hidden shadow-sm",
+            fallBack && "border",
+            shapeStyles[shape],
+          )}
+          style={{
+            backgroundColor: fallBack
+              ? `${theme.palette.primary[500]}1A`
+              : "transparent",
+            borderColor: fallBack
+              ? `${theme.palette.primary[500]}33`
+              : "transparent",
+            color: theme.palette.primary[500],
+          }}
+        >
+          {src && !fallBack ? (
+            <img
+              src={src}
+              alt={alt || displayName}
+              className="h-full w-full object-cover"
+              onError={() => setHasError(true)}
+              aria-label={displayName || "Avatar"}
+            />
+          ) : (
+            <span className="font-medium uppercase leading-none select-none">
+              {displayName ? getInitials(displayName) : "?"}
+            </span>
+          )}
+        </div>
+      )}
 
       {badge && (
         <div

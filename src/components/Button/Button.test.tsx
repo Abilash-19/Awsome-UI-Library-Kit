@@ -26,7 +26,7 @@ describe("Button", () => {
   it("applies secondary variant correctly", () => {
     render(<Button variant="secondary" children="Secondary" />);
     const button = screen.getByRole("button");
-    expect(button).toHaveClass("bg-[var(--btn-bg)]");
+    expect(button).toHaveClass("bg-[var(--btn-hover)]");
     expect(button).toHaveClass("text-[var(--btn-text)]");
   });
 

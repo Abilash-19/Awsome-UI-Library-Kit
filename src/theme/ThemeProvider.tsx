@@ -101,8 +101,11 @@ export function ThemeProvider({
     const nextTheme = Object.values(THEME_REGISTRY).find(
       (t) => t.colorMode === next,
     );
-    if (nextTheme) setTheme(nextTheme.name);
-  }, [theme.colorMode, setTheme]);
+    if (nextTheme) {
+      setActiveThemeName(nextTheme.name);
+      if (storageKey) localStorage.setItem(storageKey, nextTheme.name);
+    }
+  }, [theme.colorMode, storageKey]);
 
   const overrideTheme = useCallback((o: ThemeOverride) => {
     setOverride((prev) => (prev ? { ...prev, ...o } : o));

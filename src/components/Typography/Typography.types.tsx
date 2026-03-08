@@ -1,6 +1,9 @@
 import type React from "react";
 import { type JSX } from "react";
 
+/**
+ * The visual variants available for the Typography component.
+ */
 export type TypographyVariant =
   | "h1"
   | "h2"
@@ -17,6 +20,9 @@ export type TypographyVariant =
   | "display1"
   | "display2";
 
+/**
+ * The available font weights.
+ */
 export type TypographyWeight =
   | "thin" // 100
   | "extralight" // 200
@@ -28,53 +34,39 @@ export type TypographyWeight =
   | "extrabold" // 800
   | "black"; // 900
 
+/**
+ * Props for the Typography component.
+ */
 export interface TypographyProps {
-  /**
-   * The variant of the typography
-   * @default 'h1'
-   */
+  /** The semantic and visual variant to use. @default "body1" */
   variant?: TypographyVariant;
 
-  /**
-   * The HTML element to render
-   * If not provided, maps to variant default
-   */
+  /** The HTML tag to render as. If omitted, maps to a default based on variant. */
   as?: keyof JSX.IntrinsicElements;
 
-  /**
-   * Font weight
-   * @default based on variant
-   */
+  /** The font weight to apply. @default based on variant */
   weight?: TypographyWeight;
 
-  /**
-   * Additional CSS classes
-   */
+  /** Additional CSS classes for the text element. */
   className?: string;
 
-  /**
-   * Inline styles
-   */
+  /** Inline styles for the text element. */
   style?: React.CSSProperties;
 
-  /**
-   * Content to render
-   */
+  /** The text or elements to be rendered. */
   children: React.ReactNode;
 
-  /**
-   * HTML id attribute
-   */
+  /** Unique ID for the element. */
   id?: string;
 
-  /**
-   * onClick handler
-   */
+  /** Click event handler. */
   onClick?: React.MouseEventHandler<any>;
-  /**
-   * onClick handler
-   */
+
+  /** ID of the element this label is for (useful when `as="label"`). */
   htmlFor?: string;
+
+  /** Whether to show a skeleton loading placeholder instead of text. */
+  isLoading?: boolean;
 }
 
 /**
