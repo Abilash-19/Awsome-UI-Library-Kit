@@ -1,0 +1,68 @@
+import { Skeleton } from '@/components/Skeleton';
+import { ComponentPreview } from '../components/ComponentPreview';
+import { PropsTable } from '../components/PropsTable';
+
+Skeletons are used to indicate that a piece of content is loading. They provide a better user experience than blank spaces or spinners by maintaining the layout's structural integrity.
+
+## Basic Usage
+Skeletons can mimic any shape from text lines to profile pictures.
+
+<ComponentPreview code={`<Skeleton variant="circular" width={64} height={64} />
+<Skeleton variant="text" width="80%" />
+<Skeleton variant="rectangular" height={100} />`}>
+  <div className="w-full max-w-sm p-6 border rounded-[2rem] space-y-6" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
+    <div className="flex items-center gap-4">
+      <Skeleton variant="circular" width={56} height={56} />
+      <div className="space-y-2 flex-1">
+        <Skeleton variant="text" width="60%" height={16} />
+        <Skeleton variant="text" width="40%" height={12} />
+      </div>
+    </div>
+    <Skeleton variant="rectangular" height={160} className="rounded-2xl" />
+    <div className="space-y-2">
+      <Skeleton variant="text" height={12} />
+      <Skeleton variant="text" height={12} />
+      <Skeleton variant="text" width="70%" height={12} />
+    </div>
+  </div>
+</ComponentPreview>
+
+## Customization
+### Animation Presets
+Choose between a smooth pulse or a dynamic wave effect.
+
+<ComponentPreview code={`<Skeleton animation="pulse" />
+<Skeleton animation="wave" />
+<Skeleton animation="none" />`}>
+  <div className="space-y-4 w-full">
+    <div className="flex flex-col gap-1">
+      <span className="text-[10px] font-bold uppercase opacity-30">Wave (Default)</span>
+      <Skeleton animation="wave" height={40} />
+    </div>
+    <div className="flex flex-col gap-1">
+      <span className="text-[10px] font-bold uppercase opacity-30">Pulse</span>
+      <Skeleton animation="pulse" height={40} />
+    </div>
+    <div className="flex flex-col gap-1">
+      <span className="text-[10px] font-bold uppercase opacity-30">Static</span>
+      <Skeleton animation="none" height={40} />
+    </div>
+  </div>
+</ComponentPreview>
+
+### Shape Variants
+| Variant | Description |
+| :--- | :--- |
+| `text` | Simulates a line of text with specific scale and radius. |
+| `circular` | Perfect for avatars or round icon placeholders. |
+| `rectangular` | Standard box shape for images or large blocks. |
+| `rounded` | Rectangular with a larger 12px border radius. |
+
+## Reference
+<PropsTable props={[
+  { name: 'variant', type: '"text" | "circular" | "rectangular" | "rounded"', defaultValue: '"rectangular"', description: 'The visual shape of the skeleton.' },
+  { name: 'animation', type: '"pulse" | "wave" | "none"', defaultValue: '"wave"', description: 'Sets the loading animation movement.' },
+  { name: 'width', type: 'string | number', description: 'Sets the width of the placeholder (px or %).' },
+  { name: 'height', type: 'string | number', description: 'Sets the height of the placeholder.' },
+  { name: 'className', type: 'string', description: 'Custom CSS for specialized styling.' },
+]} />

@@ -1,0 +1,53 @@
+import { ModalDemo } from '../components/ModalDemo';
+import { ComponentPreview } from '../components/ComponentPreview';
+import { PropsTable } from '../components/PropsTable';
+
+Modals are overlay windows used to focus the user's attention on a specific task or information. They block interaction with the rest of the application until closed.
+
+## Basic Usage
+Use the `isOpen` and `onClose` props to control the modal's state.
+
+<ComponentPreview code={`const [isOpen, setIsOpen] = useState(false);
+
+<Button onClick={() => setIsOpen(true)}>Open Modal</Button>
+
+<Modal 
+  isOpen={isOpen} 
+  onClose={() => setIsOpen(false)} 
+  title="Confirmation"
+>
+  Are you sure you want to proceed with this action?
+</Modal>`}>
+  <ModalDemo title="Basic Modal Example" />
+</ComponentPreview>
+
+## Customization
+### Modal Sizes
+Modals support multiple widths: `sm`, `md` (default), `lg`, and `xl`.
+
+<ComponentPreview code={`<Modal size="sm" ... />
+<Modal size="lg" ... />`}>
+  <div className="flex flex-wrap gap-4">
+    <ModalDemo size="sm" title="Small Modal" />
+    <ModalDemo size="md" title="Default Modal" />
+    <ModalDemo size="lg" title="Large Modal" />
+  </div>
+</ComponentPreview>
+
+### Header Configuration
+You can toggle the close button or change the title.
+
+<ComponentPreview code={`<Modal showCloseButton={false} title="No Close Action" ... />`}>
+  <ModalDemo showCloseButton={false} title="Persistent Modal Header" />
+</ComponentPreview>
+
+## Props
+<PropsTable props={[
+  { name: 'isOpen', type: 'boolean', required: true, description: 'Whether the modal is visible.' },
+  { name: 'onClose', type: '() => void', required: true, description: 'Function called when the modal is closed via backdrop, escape, or close button.' },
+  { name: 'title', type: 'string', description: 'Header text for the modal.' },
+  { name: 'size', type: '"sm" | "md" | "lg" | "xl"', defaultValue: '"md"', description: 'Width of the modal container.' },
+  { name: 'showCloseButton', type: 'boolean', defaultValue: 'true', description: 'Shows the "X" button in the top right.' },
+  { name: 'preventBackdropClose', type: 'boolean', defaultValue: 'false', description: 'Disables closing the modal when clicking outside.' },
+  { name: 'preventEscapeClose', type: 'boolean', defaultValue: 'false', description: 'Disables closing the modal when pressing the Escape key.' },
+]} />

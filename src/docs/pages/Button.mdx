@@ -1,0 +1,76 @@
+import { Button } from '@/components/Button';
+import { ComponentPreview } from '../components/ComponentPreview';
+import { PropsTable } from '../components/PropsTable';
+
+Buttons are fundamental interactive elements that trigger actions, submit forms, or navigate the user. Our design system provides a rich set of variants, sizes, and states to fit every functional requirement.
+
+## Variants
+Use different variants to signal the importance of an action and maintain visual hierarchy.
+
+<ComponentPreview code={`<Button variant="primary">Primary</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="ghost">Ghost</Button>`}>
+  <div className="flex flex-wrap gap-4 items-center">
+    <Button variant="primary">Primary Action</Button>
+    <Button variant="secondary">Secondary</Button>
+    <Button variant="outline">Outline</Button>
+    <Button variant="ghost">Ghost Link</Button>
+  </div>
+</ComponentPreview>
+
+## States
+### Loading & Disabled
+Handle asynchronous operations and form validation gracefully.
+
+<ComponentPreview code={`<Button isLoading>Processing...</Button>
+<Button disabled>Action Locked</Button>`}>
+  <div className="flex flex-wrap gap-4 items-center">
+    <Button isLoading>Loading State</Button>
+    <Button disabled variant="outline">Disabled View</Button>
+    <Button isLoading variant="secondary">Secondary Load</Button>
+  </div>
+</ComponentPreview>
+
+## Customization
+### Sizes
+Buttons support three sizes: `sm`, `md` (default), and `lg`.
+
+<ComponentPreview code={`<Button size="sm">Small</Button>
+<Button size="md">Medium</Button>
+<Button size="lg">Large</Button>`}>
+  <div className="flex flex-wrap items-center gap-6">
+    <Button size="sm" className="rounded-xl">Small (Compact UI)</Button>
+    <Button size="md" className="rounded-2xl">Medium (Standard)</Button>
+    <Button size="lg" className="rounded-3xl">Large (Landing Page)</Button>
+  </div>
+</ComponentPreview>
+
+### Semantic Colors
+Communicate success, warning, or danger states instantly.
+
+<ComponentPreview code={`<Button variant="success">Save Changes</Button>
+<Button variant="warning">Reset Data</Button>
+<Button variant="danger">Delete Account</Button>`}>
+  <div className="flex flex-wrap gap-4 items-center">
+    <Button variant="success">Success Action</Button>
+    <Button variant="warning">Warning Notice</Button>
+    <Button variant="danger">Delete Item</Button>
+  </div>
+</ComponentPreview>
+
+## Best Practices
+- **Labeling**: Use clear, actionable verbs (e.g., "Save", "Create", "Post").
+- **Hierarchy**: Use only one Primary button per view to draw focus.
+- **Accessibility**: All buttons are keyboard navigable and support `aria-label` for icons.
+
+## Reference
+<PropsTable props={[
+  { name: 'variant', type: '"primary" | "secondary" | "outline" | "ghost" | "success" | "warning" | "danger"', defaultValue: '"primary"', description: 'Sets the theme and visual emphasis.' },
+  { name: 'size', type: '"sm" | "md" | "lg"', defaultValue: '"md"', description: 'Height and internal padding scale.' },
+  { name: 'isLoading', type: 'boolean', description: 'Replaces label with a spinner and disables clicks.' },
+  { name: 'disabled', type: 'boolean', description: 'Lowers opacity and prevents all user interaction.' },
+  { name: 'prefixIcon', type: 'ReactNode', description: 'Icon displayed before the button text.' },
+  { name: 'suffixIcon', type: 'ReactNode', description: 'Icon displayed after the button text.' },
+  { name: 'className', type: 'string', description: 'Custom CSS (useful for rounding or full-width).' },
+]} />

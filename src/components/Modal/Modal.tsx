@@ -6,7 +6,7 @@ import type { ModalProps } from "./Modal.types";
 import { MODAL_SIZES } from "./Modal.types";
 import { CloseIcon } from "@/assets/Icons/CloseIcon";
 
-export const Modal: FC<ModalProps> = ({
+const Modal: FC<ModalProps> = ({
   id,
   isOpen,
   onClose,
@@ -108,4 +108,4 @@ export const Modal: FC<ModalProps> = ({
 
 Modal.displayName = "Modal";
 
-export default Modal;
+export { Modal };

@@ -1,0 +1,71 @@
+import { Input } from '@/components/Input';
+import { ComponentPreview } from '../components/ComponentPreview';
+import { PropsTable } from '../components/PropsTable';
+
+Inputs are fundamental form components for collecting user text, numbers, or passwords. They provide built-in validation feedback, icon support, and theme-aware styling.
+
+## Basic Usage
+A standard input includes a label, a placeholder, and optional helper text.
+
+<ComponentPreview code={`<Input 
+  label="Email Address" 
+  placeholder="Enter your email" 
+  helperText="We'll never share your data."
+/>`}>
+  <div className="w-full max-w-sm mx-auto">
+    <Input label="Email Address" placeholder="Enter your email" helperText="We'll never share your data." />
+  </div>
+</ComponentPreview>
+
+## Customization
+### Icons & Loading
+Enhance meaning with leading or trailing icons, or show a loading indicator.
+
+<ComponentPreview code={`<Input label="Search" leftIcon={<span>🔍</span>} placeholder="Search..." />
+<Input label="Password" rightIcon={<span>👁️</span>} type="password" />
+<Input isLoading label="Validating..." placeholder="Checking availability..." />`}>
+  <div className="w-full max-w-sm mx-auto space-y-6">
+    <Input label="Search Library" leftIcon={<span>🔍</span>} placeholder="Search components..." />
+    <Input label="Secure Password" rightIcon={<span className="opacity-40">👁️</span>} type="password" placeholder="••••••••" />
+    <Input isLoading label="Checking Username" placeholder="Validating..." defaultValue="abilash_19" />
+  </div>
+</ComponentPreview>
+
+### Validation States
+Clear visual cues help users correct errors or confirm success.
+
+<ComponentPreview code={`<Input label="Username" error="This username is already taken" defaultValue="john_doe" />`}>
+  <div className="w-full max-w-sm mx-auto">
+    <Input 
+      label="Username" 
+      error="This handle is currently unavailable." 
+      defaultValue="admin"
+    />
+  </div>
+</ComponentPreview>
+
+### Sizes
+Inputs support three sizes: `sm`, `md` (default), and `lg`.
+
+<ComponentPreview code={`<Input inputSize="sm" ... />
+<Input inputSize="md" ... />
+<Input inputSize="lg" ... />`}>
+  <div className="w-full max-w-sm mx-auto space-y-4">
+    <Input inputSize="sm" placeholder="Small (32px high)" />
+    <Input inputSize="md" placeholder="Medium (40px high)" />
+    <Input inputSize="lg" placeholder="Large (48px high)" />
+  </div>
+</ComponentPreview>
+
+## Reference
+<PropsTable props={[
+  { name: 'label', type: 'string', description: 'Headline text displayed above the field.' },
+  { name: 'error', type: 'string', description: 'Error message that recolors the input to danger.' },
+  { name: 'helperText', type: 'string', description: 'Supporting text displayed below the field.' },
+  { name: 'placeholder', type: 'string', description: 'Grayed-out hint text when empty.' },
+  { name: 'inputSize', type: '"sm" | "md" | "lg"', defaultValue: '"md"', description: 'The visual size and padding of the field.' },
+  { name: 'leftIcon', type: 'React.ReactNode', description: 'Decorative or functional icon on the left.' },
+  { name: 'rightIcon', type: 'React.ReactNode', description: 'Decorative or functional icon on the right.' },
+  { name: 'isLoading', type: 'boolean', defaultValue: 'false', description: 'Replaces right side with a spinner.' },
+  { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Prevents all interaction and dims the field.' },
+]} />

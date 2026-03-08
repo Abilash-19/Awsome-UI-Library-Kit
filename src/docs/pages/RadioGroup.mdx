@@ -1,0 +1,76 @@
+import { RadioGroup } from '@/components/RadioGroup';
+import { ComponentPreview } from '../components/ComponentPreview';
+import { PropsTable } from '../components/PropsTable';
+
+Radio groups allow users to select a single option from a set of choices.
+
+## Basic Usage
+Standard vertical radio group with labels and descriptions.
+
+<ComponentPreview code={`const options = [
+  { id: '1', value: 'apple', label: 'Apple', description: 'Sweet and crunchy' },
+  { id: '2', value: 'banana', label: 'Banana', description: 'Yellow and soft' },
+];
+
+<RadioGroup 
+  label="Favorite Fruit" 
+  options={options} 
+  defaultValue="apple" 
+/>`}>
+  <RadioGroup 
+    label="Favorite Fruit" 
+    options={[
+      { id: '1', value: 'apple', label: 'Apple', description: 'Sweet and crunchy' },
+      { id: '2', value: 'banana', label: 'Banana', description: 'Yellow and soft' },
+    ]} 
+    defaultValue="apple" 
+  />
+</ComponentPreview>
+
+## Card Variant
+The `card` variant provides a more tactile, button-like interface for radio options.
+
+<ComponentPreview code={`<RadioGroup 
+  variant="card"
+  options={[
+    { id: '1', value: 'sm', label: 'Small', description: 'Up to 5 users' },
+    { id: '2', value: 'md', label: 'Medium', description: 'Up to 20 users' },
+  ]} 
+/>`}>
+  <RadioGroup 
+    variant="card"
+    options={[
+      { id: '1', value: 'sm', label: 'Small', description: 'Up to 5 users' },
+      { id: '2', value: 'md', label: 'Medium', description: 'Up to 20 users' },
+    ]} 
+    defaultValue="md"
+  />
+</ComponentPreview>
+
+## Orientation
+Display options horizontally using the `orientation` prop.
+
+<ComponentPreview code={`<RadioGroup 
+  orientation="horizontal"
+  options={[
+    { id: '1', value: 'yes', label: 'Yes' },
+    { id: '2', value: 'no', label: 'No' },
+  ]} 
+/>`}>
+  <RadioGroup 
+    orientation="horizontal"
+    options={[
+      { id: '1', value: 'yes', label: 'Yes' },
+      { id: '2', value: 'no', label: 'No' },
+    ]} 
+  />
+</ComponentPreview>
+
+## Props
+<PropsTable props={[
+  { name: 'options', type: 'RadioOption[]', required: true, description: 'Array of options to render.' },
+  { name: 'variant', type: '"default" | "card"', defaultValue: '"default"', description: 'The visual style of the buttons.' },
+  { name: 'orientation', type: '"horizontal" | "vertical"', defaultValue: '"vertical"', description: 'The layout direction.' },
+  { name: 'size', type: '"small" | "medium" | "large"', defaultValue: '"medium"', description: 'The overall size of the component.' },
+  { name: 'error', type: 'React.ReactNode', description: 'Error message to display.' },
+]} />

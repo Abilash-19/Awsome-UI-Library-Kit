@@ -1,0 +1,51 @@
+import { Checkbox } from '@/components/Checkbox';
+import { ComponentPreview } from '../components/ComponentPreview';
+import { PropsTable } from '../components/PropsTable';
+
+Checkboxes allow users to select one or more items from a set.
+
+## Basic Usage
+<ComponentPreview code={`<Checkbox label="Accept terms and conditions" />`}>
+  <Checkbox label="Accept terms and conditions" />
+</ComponentPreview>
+
+## States
+Checkboxes can have descriptions, show errors, or be indeterminate.
+
+<ComponentPreview code={`<Checkbox 
+  label="Marketing emails" 
+  description="Receive updates about new products and features." 
+  defaultChecked 
+/>`}>
+  <Checkbox 
+    label="Marketing emails" 
+    description="Receive updates about new products and features." 
+    defaultChecked 
+  />
+</ComponentPreview>
+
+### Indeterminate
+<ComponentPreview code={`<Checkbox label="Select all" indeterminate />`}>
+  <Checkbox label="Select all" indeterminate />
+</ComponentPreview>
+
+## Sizes
+<ComponentPreview code={`<Checkbox size="small" label="Small" />
+<Checkbox size="medium" label="Medium" />
+<Checkbox size="large" label="Large" />`}>
+  <div className="space-y-4">
+    <Checkbox size="small" label="Small" />
+    <Checkbox size="medium" label="Medium" />
+    <Checkbox size="large" label="Large" />
+  </div>
+</ComponentPreview>
+
+## Props
+<PropsTable props={[
+  { name: 'label', type: 'ReactNode', description: 'Label text shown next to the box.' },
+  { name: 'description', type: 'ReactNode', description: 'Supporting text shown below the label.' },
+  { name: 'size', type: '"small" | "medium" | "large"', defaultValue: '"medium"', description: 'The overall size of the component.' },
+  { name: 'indeterminate', type: 'boolean', description: 'Shows the horizontal line icon if true.' },
+  { name: 'error', type: 'boolean', description: 'Highlights the box in red.' },
+  { name: 'loading', type: 'boolean', description: 'Shows a spinner instead of the box.' },
+]} />

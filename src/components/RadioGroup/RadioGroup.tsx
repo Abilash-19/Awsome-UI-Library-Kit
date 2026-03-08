@@ -1,7 +1,7 @@
 import { forwardRef, useState } from "react";
 import type { RadioGroupProps } from "./RadioGroup.types";
 import { useTheme } from "@/theme";
-import Skeleton from "../Skeleton";
+import { Skeleton } from "../Skeleton";
 import { Typography } from "../Typography";
 import { cn } from "@/utils";
 import {
@@ -250,4 +250,4 @@ const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
 
 RadioGroup.displayName = "RadioGroup";
 
-export default RadioGroup;
+export { RadioGroup };

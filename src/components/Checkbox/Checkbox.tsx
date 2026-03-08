@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useRef, useImperativeHandle } from "react";
 import type { CheckboxProps } from "./Checkbox.types";
 import { useTheme } from "@/theme";
-import Skeleton from "../Skeleton";
+import { Skeleton } from "../Skeleton";
 import { cn } from "@/utils/cn";
 import {
   descriptionSizeClasses,
@@ -163,4 +163,4 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 
 Checkbox.displayName = "Checkbox";
 
-export default Checkbox;
+export { Checkbox };

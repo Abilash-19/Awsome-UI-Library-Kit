@@ -1,0 +1,61 @@
+import { Badge } from '@/components/Badge';
+import { ComponentPreview } from '../components/ComponentPreview';
+import { PropsTable } from '../components/PropsTable';
+
+Badges are compact status indicators that highlight metadata, status, or counts. They are designed to stand out without disrupting the layout flow.
+
+## Basic Usage
+Use badges to represent states like progress, success, or urgency.
+
+<ComponentPreview code={`<Badge variant="primary">Updated</Badge>
+<Badge variant="success">Online</Badge>
+<Badge variant="danger">High Priority</Badge>`}>
+  <div className="flex flex-wrap gap-4 items-center">
+    <Badge variant="primary">New Feature</Badge>
+    <Badge variant="success">System Online</Badge>
+    <Badge variant="warning">Maintenance</Badge>
+    <Badge variant="danger">Security Risk</Badge>
+  </div>
+</ComponentPreview>
+
+## Customization
+### Sizes
+Badges come in three sizes to fit different contexts.
+
+<ComponentPreview code={`<Badge size="small">Small</Badge>
+<Badge size="medium">Medium</Badge>
+<Badge size="large">Large</Badge>`}>
+  <div className="flex items-center gap-4">
+    <Badge size="small">Small Label</Badge>
+    <Badge size="medium">Standard Badge</Badge>
+    <Badge size="large">Hero Badge</Badge>
+  </div>
+</ComponentPreview>
+
+### Outline Style
+For a more subtle look, use the `outline` variant.
+
+<ComponentPreview code={`<Badge variant="outline">Secondary</Badge>`}>
+  <div className="flex gap-4">
+    <Badge variant="outline">Draft</Badge>
+    <Badge variant="outline">Archived</Badge>
+  </div>
+</ComponentPreview>
+
+### Loading State
+Badges support a built-in skeleton state for when data is still fetching.
+
+<ComponentPreview code={`<Badge isLoading>Placeholder</Badge>`}>
+  <div className="flex gap-4">
+    <Badge isLoading>Loading...</Badge>
+    <Badge isLoading size="large">Large Loading</Badge>
+  </div>
+</ComponentPreview>
+
+## Reference
+<PropsTable props={[
+  { name: 'variant', type: '"primary" | "success" | "danger" | "warning" | "outline"', defaultValue: '"primary"', description: 'Sets the color palette and background style.' },
+  { name: 'size', type: '"small" | "medium" | "large"', defaultValue: '"medium"', description: 'Physical dimensions of the badge.' },
+  { name: 'isLoading', type: 'boolean', defaultValue: 'false', description: 'Displays a pulsing skeleton loader.' },
+  { name: 'className', type: 'string', description: 'Additional CSS classes.' },
+]} />

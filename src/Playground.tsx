@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { Modal } from "@/components/Modal";
@@ -8,9 +9,9 @@ import { useTheme } from "@/theme";
 import { Badge } from "./components/Badge";
 import { Avatar } from "@/components/Avatar";
 import { Skeleton } from "@/components/Skeleton";
-import Checkbox from "@/components/Checkbox";
+import { Checkbox } from "@/components/Checkbox";
 import { ScrollArea, ScrollElement } from "@/components/ScrollArea";
-import RadioGroup from "@/components/RadioGroup";
+import { RadioGroup } from "@/components/RadioGroup";
 import reactLogo from "@/assets/react.svg";
 import type { ThemeOverride } from "@/theme";
 
@@ -218,6 +219,13 @@ export default function Playground() {
               <Typography variant="body2" style={mutedColor} className="mt-1">
                 Interactive playground for testing components
               </Typography>
+            </div>
+            <div className="flex items-center gap-3">
+              <Link to="/docs">
+                <Button variant="ghost" size="sm">
+                  Documentation
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

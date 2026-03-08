@@ -55,7 +55,7 @@ function variantStyles(variant: SkeletonVariant): CSSProperties {
   }
 }
 
-export function Skeleton({
+function Skeleton({
   variant = "rectangular",
   animation = "wave",
   width,
@@ -97,4 +97,4 @@ export function Skeleton({
   );
 }
 
-export default Skeleton;
+export { Skeleton };

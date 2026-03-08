@@ -65,5 +65,8 @@ export const ScrollAreaItem = ({
   );
 };
 
-export { ScrollAreaComponent as ScrollArea };
+const ScrollArea = ScrollAreaComponent as any;
+ScrollArea.Item = ScrollAreaItem;
+
+export { ScrollArea };
 export { ScrollAreaItem as ScrollElement };
