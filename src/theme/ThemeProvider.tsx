@@ -70,7 +70,18 @@ export function ThemeProvider({
     return defaultThemeName;
   });
 
-  const [override, setOverride] = useState<ThemeOverride | null>(null);
+  const [override, setOverride] = useState<ThemeOverride | null>(() => {
+    if (storageKey) {
+      const stored = localStorage.getItem(`${storageKey}-override`);
+      try {
+        return stored ? JSON.parse(stored) : null;
+      } catch (e) {
+        console.error("Failed to parse theme override from storage", e);
+        return null;
+      }
+    }
+    return null;
+  });
 
   const baseTheme = THEME_REGISTRY[activeThemeName] ?? defaultTheme;
   const theme = useMemo(
@@ -78,7 +89,6 @@ export function ThemeProvider({
     [baseTheme, override],
   );
 
-  // Apply CSS variables whenever the theme changes
   useEffect(() => {
     applyTheme(theme);
   }, [theme]);
@@ -91,7 +101,10 @@ export function ThemeProvider({
       }
       setActiveThemeName(name);
       setOverride(null);
-      if (storageKey) localStorage.setItem(storageKey, name);
+      if (storageKey) {
+        localStorage.setItem(storageKey, name);
+        localStorage.removeItem(`${storageKey}-override`);
+      }
     },
     [storageKey],
   );
@@ -107,11 +120,25 @@ export function ThemeProvider({
     }
   }, [theme.colorMode, storageKey]);
 
-  const overrideTheme = useCallback((o: ThemeOverride) => {
-    setOverride((prev) => (prev ? { ...prev, ...o } : o));
-  }, []);
+  const overrideTheme = useCallback(
+    (o: ThemeOverride) => {
+      setOverride((prev) => {
+        const next = prev ? { ...prev, ...o } : o;
+        if (storageKey) {
+          localStorage.setItem(`${storageKey}-override`, JSON.stringify(next));
+        }
+        return next;
+      });
+    },
+    [storageKey],
+  );
 
-  const resetTheme = useCallback(() => setOverride(null), []);
+  const resetTheme = useCallback(() => {
+    setOverride(null);
+    if (storageKey) {
+      localStorage.removeItem(`${storageKey}-override`);
+    }
+  }, [storageKey]);
 
   const value = useMemo(
     () => ({ theme, setTheme, toggleColorMode, overrideTheme, resetTheme }),
