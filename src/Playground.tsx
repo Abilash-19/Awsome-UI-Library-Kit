@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/Skeleton";
 import Checkbox from "@/components/Checkbox";
 import { ScrollArea, ScrollElement } from "@/components/ScrollArea";
 import RadioGroup from "@/components/RadioGroup";
+import Switch from "@/components/Switch/Switch";
 import reactLogo from "@/assets/react.svg";
 import type { ThemeOverride } from "@/theme";
 
@@ -167,6 +168,7 @@ export default function Playground() {
 
   const [isSimulatingData, setIsSimulatingData] = useState(true);
   const [radioValue, setRadioValue] = useState("option-1");
+  const [switchState, setSwitchState] = useState(false);
 
   const [checkedItems, setCheckedItems] = useState({
     item1: false,
@@ -1450,6 +1452,98 @@ export default function Playground() {
                 />
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Switch Section */}
+      <section
+        className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl lg:col-span-2 mt-6 overflow-hidden"
+        style={sectionStyles}
+      >
+        <div className="mb-8">
+          <Typography variant="h4" weight="bold" className="mb-2">
+            Switches
+          </Typography>
+          <Typography variant="body2" style={mutedColor}>
+            Binary toggle controls with support for labels, loading states, and
+            different sizes.
+          </Typography>
+        </div>
+
+        <div className="grid gap-8 lg:grid-cols-2">
+          {/* Basic Usage */}
+          <div className="space-y-6">
+            <div
+              className="p-6 border rounded-2xl shadow-sm"
+              style={{
+                backgroundColor: theme.tokens.background,
+                borderColor: theme.tokens.border,
+              }}
+            >
+              <Typography variant="subtitle2" weight="bold" className="mb-4">
+                Interactive State
+              </Typography>
+              <div className="space-y-4">
+                <Switch
+                  label={`Interactive: ${switchState ? "On" : "Off"}`}
+                  checked={switchState}
+                  onChange={setSwitchState}
+                />
+                <Switch label="Default Toggle" />
+                <Switch label="Disabled" disabled />
+                <Switch label="Disabled Checked" disabled checked />
+              </div>
+            </div>
+          </div>
+
+          {/* Sizes & States */}
+          <div className="space-y-6">
+            <div
+              className="p-6 border rounded-2xl shadow-sm"
+              style={{
+                backgroundColor: theme.tokens.background,
+                borderColor: theme.tokens.border,
+              }}
+            >
+              <Typography variant="subtitle2" weight="bold" className="mb-4">
+                Sizes & States
+              </Typography>
+              <div className="flex flex-wrap gap-6 items-center mb-6">
+                <Switch size="small" label="Small" />
+                <Switch size="medium" label="Medium" />
+                <Switch size="large" label="Large" />
+              </div>
+              <div className="space-y-4">
+                <Switch label="Loading State" isLoading />
+                <Switch label="Error State" error="Selection required" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Labels & Descriptions */}
+        <div
+          className="mt-8 pt-8 border-t"
+          style={{ borderColor: theme.tokens.border }}
+        >
+          <Typography variant="subtitle2" weight="bold" className="mb-4">
+            Labels & Descriptions
+          </Typography>
+          <div className="grid gap-6 md:grid-cols-3">
+            <Switch
+              label="Email Notifications"
+              description="Receive daily summaries of your account activity."
+            />
+            <Switch
+              label="Public Profile"
+              description="Allow others to see your profile information and activity."
+            />
+            <Switch
+              label="Dark Mode"
+              helperText="Adjust the application appearance to reduce eye strain."
+              size="large"
+            />
           </div>
         </div>
       </section>
