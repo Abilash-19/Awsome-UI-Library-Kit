@@ -80,7 +80,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             className={cn(
               "group relative flex w-full items-center gap-2 px-3 rounded-[var(--radius)] border bg-[var(--bg)] transition-all duration-200",
               "border-[var(--border)]",
-              "focus-within:ring-2 focus-within:ring-[var(--ring)] focus-within:ring-offset-2",
+              "focus-within:ring-2 focus-within:ring-[var(--ring)]",
               disabled && "opacity-60 cursor-not-allowed",
             )}
           >

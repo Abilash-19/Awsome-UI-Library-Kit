@@ -123,8 +123,8 @@ const Switch = forwardRef<HTMLButtonElement, SwitchProps>((props, ref) => {
             "outline-none rounded-full",
             "transition-all duration-200 ease-in-out",
             error
-              ? "focus-visible:ring-2 focus-visible:ring-[var(--error-focus-ring)] focus-visible:ring-offset-2"
-              : "focus-visible:ring-2 focus-visible:ring-[var(--switch-focus-ring)] focus-visible:ring-offset-2",
+              ? "focus-visible:ring-2 focus-visible:ring-[var(--error-focus-ring)]"
+              : "focus-visible:ring-2 focus-visible:ring-[var(--switch-focus-ring)]",
             isCurrentlyChecked
               ? "bg-[var(--switch-primary)] hover:bg-[var(--switch-primary-hover)]"
               : "bg-[var(--switch-track-bg)] hover:bg-[var(--switch-track-hover-bg)]",

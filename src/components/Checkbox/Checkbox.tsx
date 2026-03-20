@@ -119,7 +119,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             "peer-checked:[&_.check-icon]:opacity-100 peer-checked:[&_.check-icon]:scale-100",
             "peer-indeterminate:border-[var(--primary)] peer-indeterminate:bg-[var(--primary)]",
             "peer-indeterminate:[&_.indeterminate-icon]:opacity-100 peer-indeterminate:[&_.indeterminate-icon]:scale-100",
-            "peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--ring)] peer-focus-visible:ring-offset-2",
+            "peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--ring)]",
           )}
         >
           {/* Check Icon */}
