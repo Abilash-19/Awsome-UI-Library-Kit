@@ -16,8 +16,10 @@ const AvatarDocs = lazy(() => import("./pages/Avatar.mdx"));
 const BadgeDocs = lazy(() => import("./pages/Badge.mdx"));
 const CheckboxDocs = lazy(() => import("./pages/Checkbox.mdx"));
 const ModalDocs = lazy(() => import("./pages/Modal.mdx"));
+const PopoverDocs = lazy(() => import("./pages/Popover.mdx"));
 const ScrollAreaDocs = lazy(() => import("./pages/ScrollArea.mdx"));
 const SkeletonDocs = lazy(() => import("./pages/Skeleton.mdx"));
+const SwitchDocs = lazy(() => import("./pages/Switch.mdx"));
 const TypographyDocs = lazy(() => import("./pages/Typography.mdx"));
 const ThemingPage = lazy(() =>
   import("./pages/ThemingPage").then((m) => ({ default: m.ThemingPage })),
@@ -60,6 +62,11 @@ const components = [
     description: "Accessible dialog overlays",
   },
   {
+    name: "Popover",
+    path: "/docs/popover",
+    description: "Contextual floating menus",
+  },
+  {
     name: "Radio Group",
     path: "/docs/radio-group",
     description: "Single-select option groups",
@@ -73,6 +80,11 @@ const components = [
     name: "Skeleton",
     path: "/docs/skeleton",
     description: "Loading placeholders",
+  },
+  {
+    name: "Switch",
+    path: "/docs/switch",
+    description: "Instant setting toggles",
   },
   {
     name: "Typography",
@@ -604,8 +616,10 @@ export const DocsApp: React.FC = () => {
           <Route path="/badge" element={<BadgeDocs />} />
           <Route path="/checkbox" element={<CheckboxDocs />} />
           <Route path="/modal" element={<ModalDocs />} />
+          <Route path="/popover" element={<PopoverDocs />} />
           <Route path="/scroll-area" element={<ScrollAreaDocs />} />
           <Route path="/skeleton" element={<SkeletonDocs />} />
+          <Route path="/switch" element={<SwitchDocs />} />
           <Route path="/typography" element={<TypographyDocs />} />
           <Route path="*" element={<Navigate to="/docs" replace />} />
         </Routes>

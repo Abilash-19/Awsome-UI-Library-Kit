@@ -1,0 +1,44 @@
+import { Switch } from '@/components/Switch';
+import { ComponentPreview } from '../components/ComponentPreview';
+import { PropsTable } from '../components/PropsTable';
+import { PageHeader } from '../components/PageHeader';
+
+<PageHeader title="Switch" description="A toggle switch to instantly turn a setting on or off." />
+
+## Usage
+
+Use for immediate actions, like system preferences or binary settings. Avoid for settings requiring a "Save" action—use Checkboxes instead.
+Ensure labels are clear and phrased positively (e.g. "Enable Notifications").
+
+<ComponentPreview code={`<Switch label="Email Notifications" description="Receive daily summaries." />`}>
+  <div className="flex flex-col gap-4">
+    <Switch label="Email Notifications" description="Receive daily summaries." />
+  </div>
+</ComponentPreview>
+
+## Sizes & States
+
+You can provide physical sizes, disabled states, and contextual errors or loading skeletons.
+
+<ComponentPreview code={`<Switch size="small" label="Small Switch" />
+<Switch label="Settings" error="Network error, can't save." />
+<Switch disabled label="Unavailable" />`}>
+  <div className="flex flex-wrap gap-6 items-start">
+    <Switch size="small" label="Small Switch" />
+    <Switch label="Settings" error="Network error, can't save." />
+    <Switch disabled label="Unavailable" checked={true} />
+  </div>
+</ComponentPreview>
+
+## Props
+<PropsTable props={[
+  { name: 'checked', type: 'boolean', defaultValue: 'false', description: 'Controlled state of the switch.' },
+  { name: 'onChange', type: '(checked: boolean) => void', description: 'Callback fired on toggle.' },
+  { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Prevents interaction.' },
+  { name: 'size', type: '"small" | "medium" | "large"', defaultValue: '"medium"', description: 'Physical size of the switch.' },
+  { name: 'label', type: 'ReactNode', description: 'Main label text.' },
+  { name: 'description', type: 'ReactNode', description: 'Contextual sub-label text.' },
+  { name: 'helperText', type: 'ReactNode', description: 'Text below the switch.' },
+  { name: 'error', type: 'ReactNode', description: 'Error state message.' },
+  { name: 'isLoading', type: 'boolean', defaultValue: 'false', description: 'Displays skeleton loader.' },
+]} />

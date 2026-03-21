@@ -1,0 +1,213 @@
+import { Popover } from '@/components/Popover';
+import { Button } from '@/components/Button';
+import { ComponentPreview } from '../components/ComponentPreview';
+import { PropsTable } from '../components/PropsTable';
+import { PageHeader } from '../components/PageHeader';
+
+<PageHeader
+  title="Popover"
+  description="A non-modal floating dialogue that displays rich content in context."
+/>
+
+## Usage
+
+Use popovers for contextual actions, mini-menus, or secondary info. Keep content concise.
+Avoid for critical workflows—use Modals instead. Always ensure a clear trigger.
+
+<ComponentPreview code={`<Popover content={<div className="p-4 w-64 text-sm">Account Settings</div>}>
+  <Button variant="outline">Profile</Button>
+</Popover>`}>
+  <div className="flex items-center">
+    <Popover
+      placement="bottom"
+      zIndex={1}
+      content={
+        <div className="p-4 w-64 text-sm">
+          <h4 className="font-semibold mb-2">Account Settings</h4>
+          <p className="text-gray-500 mb-4 dark:text-gray-400">View and update your profile.</p>
+          <Button size="sm" className="w-full">Manage Account</Button>
+        </div>
+      }
+    >
+      <Button variant="outline">Profile</Button>
+    </Popover>
+  </div>
+</ComponentPreview>
+
+---
+
+## Anatomy
+
+The popover is composed of two parts that live in separate parts of the DOM: a **trigger** (your `children`) and a **floating panel** (your `content`, portalled to `<body>`). An optional arrow bridges the visual gap between them.
+
+---
+
+## Placements & Arrows
+
+You can control alignment and whether an arrow points directly back to the trigger.
+
+<ComponentPreview code={`<Popover showArrow placement="right" content={<div className="p-3 text-sm">Additional detailed info goes here.</div>}>
+  <Button variant="secondary">Arrow Attached</Button>
+</Popover>`}>
+  <div className="flex gap-4 p-8">
+    <Popover
+      showArrow
+      placement="right"
+      zIndex={1}
+      content={<div className="p-3 text-sm max-w-xs">Additional detailed info goes here.</div>}
+    >
+      <Button variant="secondary">Arrow Attached</Button>
+    </Popover>
+  </div>
+</ComponentPreview>
+
+---
+
+## Controlled state
+
+Use `isOpen` + `onOpenChange` when you need external control — for instance, to close the
+popover programmatically after a form submission.
+
+<ComponentPreview code={`const [open, setOpen] = useState(false);
+
+<div className="flex items-center gap-3">
+  <Popover
+    isOpen={open}
+    onOpenChange={setOpen}
+    content={
+      <div className="p-4 w-64 text-sm">
+        <p className="mb-3">This popover is fully controlled.</p>
+        <Button size="sm" onClick={() => setOpen(false)}>Close</Button>
+      </div>
+    }
+  >
+    <Button variant="outline">Controlled trigger</Button>
+  </Popover>
+  <Button variant="ghost" size="sm" onClick={() => setOpen(true)}>
+    Open from outside
+  </Button>
+</div>`}>
+  {() => {
+    const [open, setOpen] = useState(false);
+    return (
+      <div className="flex items-center gap-3">
+        <Popover
+          isOpen={open}
+          onOpenChange={setOpen}
+          zIndex={1}
+          content={
+            <div className="p-4 w-64 text-sm">
+              <p className="mb-3">This popover is fully controlled.</p>
+              <Button size="sm" onClick={() => setOpen(false)}>Close</Button>
+            </div>
+          }
+        >
+          <Button variant="outline">Controlled trigger</Button>
+        </Popover>
+        <Button variant="ghost" size="sm" onClick={() => setOpen(true)}>
+          Open from outside
+        </Button>
+      </div>
+    );
+  }}
+</ComponentPreview>
+
+---
+
+## Disabled state
+
+Set `disabled` to prevent the popover from opening. The trigger is also visually muted
+and non-interactive.
+
+<ComponentPreview code={`<Popover
+  disabled
+  content={<div className="p-4 text-sm">You won't see this.</div>}
+>
+  <Button variant="outline" disabled>Disabled trigger</Button>
+</Popover>`}>
+  <Popover
+    disabled
+    zIndex={1}
+    content={<div className="p-4 text-sm">You won't see this.</div>}
+  >
+    <Button variant="outline" disabled>Disabled trigger</Button>
+  </Popover>
+</ComponentPreview>
+
+---
+
+## Nested popovers
+
+Popovers can be nested — each manages its own open state independently. Click outside the
+outermost panel to close all of them. Use `zIndex` to stack panels correctly.
+
+<ComponentPreview code={`<Popover
+  placement="bottom-start"
+  zIndex={10}
+  content={
+    <div className="p-3 w-56 text-sm">
+      <p className="font-semibold mb-2">Parent popover</p>
+      <Popover
+        placement="right-start"
+        zIndex={20}
+        content={
+          <div className="p-3 w-48 text-sm">
+            <p className="font-semibold">Child popover</p>
+            <p className="text-gray-500 mt-1">Nested content here.</p>
+          </div>
+        }
+      >
+        <Button size="sm" variant="ghost" className="w-full justify-start">
+          Hover for child →
+        </Button>
+      </Popover>
+    </div>
+  }
+>
+  <Button variant="outline">Open parent</Button>
+</Popover>`}>
+  <Popover
+    placement="bottom-start"
+    zIndex={10}
+    content={
+      <div className="p-3 w-56 text-sm">
+        <p className="font-semibold mb-2">Parent popover</p>
+        <Popover
+          placement="right-start"
+          zIndex={20}
+          content={
+            <div className="p-3 w-48 text-sm">
+              <p className="font-semibold">Child popover</p>
+              <p className="text-gray-500 mt-1">Nested content here.</p>
+            </div>
+          }
+        >
+          <Button size="sm" variant="ghost" className="w-full justify-start">
+            Open child →
+          </Button>
+        </Popover>
+      </div>
+    }
+  >
+    <Button variant="outline">Open parent</Button>
+  </Popover>
+</ComponentPreview>
+
+---
+
+## Props
+
+<PropsTable props={[
+  { name: 'children',      type: 'ReactNode',               description: 'The trigger element. A valid React element is cloneElement\'d to avoid nesting focusable elements; plain text is wrapped in a <button>.' },
+  { name: 'content',       type: 'ReactNode',               description: 'The content rendered inside the floating panel.' },
+  { name: 'placement',     type: 'Placement',               defaultValue: '"bottom"', description: 'Preferred placement relative to the trigger. Floating UI will flip/shift automatically if there is not enough space.' },
+  { name: 'isOpen',        type: 'boolean',                 description: 'Controlled open state. Requires onOpenChange to be provided.' },
+  { name: 'defaultOpen',   type: 'boolean',                 defaultValue: 'false',   description: 'Initial open state for uncontrolled usage.' },
+  { name: 'onOpenChange',  type: '(open: boolean) => void', description: 'Callback fired when the open state changes.' },
+  { name: 'offset',        type: 'number',                  defaultValue: '8',       description: 'Gap in px between trigger and panel. Arrow height is added automatically when showArrow is true.' },
+  { name: 'showArrow',     type: 'boolean',                 defaultValue: 'false',   description: 'Renders a directional arrow pointing from the panel toward the trigger.' },
+  { name: 'disabled',      type: 'boolean',                 defaultValue: 'false',   description: 'Prevents the popover from opening and mutes the trigger.' },
+  { name: 'className',     type: 'string',                  description: 'Extra class names forwarded to the inner panel wrapper.' },
+  { name: 'zIndex',        type: 'number',                  defaultValue: '1000',    description: 'CSS z-index of the floating panel. Increase when nesting inside other layered elements.' },
+  { name: 'id',            type: 'string',                  description: 'Optional id forwarded to the trigger. Defaults to a stable React-generated id.' },
+]} />
