@@ -1,39 +1,44 @@
 import { Checkbox } from '@/components/Checkbox';
 import { ComponentPreview } from '../components/ComponentPreview';
 import { PropsTable } from '../components/PropsTable';
+import { PageHeader } from '../components/PageHeader';
 
-Checkboxes allow users to select one or more items from a set.
+<PageHeader title="Checkbox" description="Multi-select controls with labels, descriptions, indeterminate state, and three sizes." />
 
 ## Basic Usage
+
 <ComponentPreview code={`<Checkbox label="Accept terms and conditions" />`}>
   <Checkbox label="Accept terms and conditions" />
 </ComponentPreview>
 
-## States
-Checkboxes can have descriptions, show errors, or be indeterminate.
+## With Description
 
-<ComponentPreview code={`<Checkbox 
-  label="Marketing emails" 
-  description="Receive updates about new products and features." 
-  defaultChecked 
+<ComponentPreview code={`<Checkbox
+  label="Marketing emails"
+  description="Receive product updates and news."
+  defaultChecked
 />`}>
-  <Checkbox 
-    label="Marketing emails" 
-    description="Receive updates about new products and features." 
-    defaultChecked 
+  <Checkbox
+    label="Marketing emails"
+    description="Receive product updates and news."
+    defaultChecked
   />
 </ComponentPreview>
 
-### Indeterminate
+## Indeterminate
+
+Used for "select all" when only some children are checked.
+
 <ComponentPreview code={`<Checkbox label="Select all" indeterminate />`}>
   <Checkbox label="Select all" indeterminate />
 </ComponentPreview>
 
 ## Sizes
+
 <ComponentPreview code={`<Checkbox size="small" label="Small" />
 <Checkbox size="medium" label="Medium" />
 <Checkbox size="large" label="Large" />`}>
-  <div className="space-y-4">
+  <div className="space-y-3">
     <Checkbox size="small" label="Small" />
     <Checkbox size="medium" label="Medium" />
     <Checkbox size="large" label="Large" />
@@ -42,10 +47,10 @@ Checkboxes can have descriptions, show errors, or be indeterminate.
 
 ## Props
 <PropsTable props={[
-  { name: 'label', type: 'ReactNode', description: 'Label text shown next to the box.' },
-  { name: 'description', type: 'ReactNode', description: 'Supporting text shown below the label.' },
-  { name: 'size', type: '"small" | "medium" | "large"', defaultValue: '"medium"', description: 'The overall size of the component.' },
-  { name: 'indeterminate', type: 'boolean', description: 'Shows the horizontal line icon if true.' },
-  { name: 'error', type: 'boolean', description: 'Highlights the box in red.' },
-  { name: 'loading', type: 'boolean', description: 'Shows a spinner instead of the box.' },
+  { name: 'label', type: 'ReactNode', description: 'Label text beside the checkbox.' },
+  { name: 'description', type: 'ReactNode', description: 'Helper text below the label.' },
+  { name: 'size', type: '"small" | "medium" | "large"', defaultValue: '"medium"', description: 'Component size.' },
+  { name: 'indeterminate', type: 'boolean', description: 'Shows a dash icon.' },
+  { name: 'error', type: 'boolean', description: 'Red border for errors.' },
+  { name: 'loading', type: 'boolean', description: 'Shows a skeleton.' },
 ]} />

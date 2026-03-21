@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { cn } from "@/utils";
 import { useTheme } from "@/theme";
 
 interface ComponentPreviewProps {
@@ -25,79 +24,62 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
 
   return (
     <div
-      className={cn(
-        "my-10 rounded-2xl border overflow-hidden shadow-sm transition-all duration-300",
-        className,
-      )}
+      className={`my-8 rounded-lg border overflow-hidden ${className ?? ""}`}
       style={{
         borderColor: theme.tokens.border,
         backgroundColor: theme.tokens.surface,
       }}
     >
-      {/* Interactive Preview Area */}
+      {/* Preview */}
       <div
-        className="flex min-h-[250px] items-center justify-center p-8 border-b"
+        className="flex min-h-[200px] items-center justify-center p-8"
         style={{
-          borderColor: theme.tokens.border,
           backgroundImage:
             theme.colorMode === "dark"
-              ? "radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)"
+              ? "radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)"
               : "radial-gradient(rgba(0,0,0,0.03) 1px, transparent 1px)",
-          backgroundSize: "20px 20px",
+          backgroundSize: "16px 16px",
         }}
       >
-        <div className="w-full flex justify-center animate-in fade-in zoom-in duration-500">
-          {children}
-        </div>
+        <div className="w-full flex justify-center not-prose">{children}</div>
       </div>
 
-      {/* Action Bar */}
+      {/* Actions */}
       <div
-        className="flex items-center justify-between px-6 py-3"
-        style={{
-          backgroundColor:
-            theme.colorMode === "dark"
-              ? "rgba(255,255,255,0.02)"
-              : "rgba(0,0,0,0.01)",
-        }}
+        className="flex items-center justify-between px-4 py-2 border-t"
+        style={{ borderColor: theme.tokens.border }}
       >
         <button
           onClick={() => setShowCode(!showCode)}
-          className="text-xs font-bold uppercase tracking-widest transition-all px-3 py-1.5 rounded-lg border"
+          className="text-xs font-medium px-2 py-1 rounded transition-colors"
           style={{
             color: showCode
               ? theme.palette.primary[500]
               : theme.tokens.foregroundMuted,
-            borderColor: showCode
-              ? `${theme.palette.primary[500]}40`
-              : theme.tokens.border,
-            backgroundColor: showCode
-              ? `${theme.palette.primary[500]}10`
-              : "transparent",
           }}
         >
           {showCode ? "Hide Code" : "View Code"}
         </button>
         <button
           onClick={copyToClipboard}
-          className="text-xs font-bold uppercase tracking-widest transition-all px-3 py-1.5 rounded-lg"
+          className="text-xs font-medium px-2 py-1 rounded transition-colors"
           style={{
             color: copied
               ? theme.palette.success[500]
               : theme.tokens.foregroundMuted,
           }}
         >
-          {copied ? "✓ Copied" : "Copy"}
+          {copied ? "Copied" : "Copy"}
         </button>
       </div>
 
-      {/* Code Area */}
+      {/* Code */}
       {showCode && (
-        <div className="relative animate-in slide-in-from-top-2 duration-300">
+        <div className="border-t" style={{ borderColor: theme.tokens.border }}>
           <pre
-            className="p-6 text-sm font-mono overflow-x-auto"
+            className="p-4 text-sm font-mono overflow-x-auto"
             style={{
-              backgroundColor: theme.colorMode === "dark" ? "#000" : "#1e1e1e",
+              backgroundColor: theme.colorMode === "dark" ? "#111" : "#1e1e2e",
               color: "#d4d4d4",
             }}
           >

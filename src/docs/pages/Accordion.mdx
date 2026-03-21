@@ -2,70 +2,65 @@ import { Accordion } from '@/components/Accordion';
 import { Typography } from '@/components/Typography';
 import { ComponentPreview } from '../components/ComponentPreview';
 import { PropsTable } from '../components/PropsTable';
+import { PageHeader } from '../components/PageHeader';
 
-Accordions are vertically collapsing containers that manage large amounts of content in a compact footprint. They are perfect for FAQ sections, settings panels, and detail-rich lists.
+<PageHeader title="Accordion" description="Collapsible sections for FAQs, settings panels, and grouped content." />
 
 ## Basic Usage
-A standard accordion includes a title, an optional subtitle, and the body content.
 
-<ComponentPreview code={`<Accordion 
-  title="What is this UI Library?"
-  subtitle="Commonly asked questions"
->
-  This library is a collection of high-performance, theme-aware React components 
-  styled with Tailwind CSS and advanced CSS animations.
+Click the header to expand or collapse the content.
+
+<ComponentPreview code={`<Accordion title="What is this library?">
+  A collection of theme-aware React components.
 </Accordion>`}>
   <div className="w-full max-w-2xl mx-auto">
-    <Accordion 
-      title={<Typography variant="h6" weight="bold">What is this UI Library?</Typography>}
-      subtitle="Frequently Asked Questions"
+    <Accordion
+      title={<Typography variant="h6" weight="bold">What is this library?</Typography>}
+      subtitle="FAQ"
     >
-      <div className="py-2 opacity-80 leading-relaxed">
-        Our library is built on top of modern standards using React and Tailwind. 
-        Every component is designed to be accessible, performant, and deeply customizable 
-        via our integrated theming engine.
+      <div className="py-2 opacity-80 leading-relaxed text-sm">
+        A collection of accessible, theme-aware React components built with Tailwind CSS.
       </div>
     </Accordion>
   </div>
 </ComponentPreview>
 
-## Customization
-### Borderless Style
-For a more integrated look, use the `borderless` variant.
+## Borderless
 
-<ComponentPreview code={`<Accordion variant="borderless" title="Advanced Settings">
-  Content here...
+Use `variant="borderless"` for a cleaner inline look.
+
+<ComponentPreview code={`<Accordion variant="borderless" title="Settings">
+  Content...
 </Accordion>`}>
-  <div className="w-full max-w-2xl mx-auto space-y-0">
+  <div className="w-full max-w-2xl mx-auto">
     <Accordion variant="borderless" title="Display Settings">
-      <div className="py-2">Modify your theme and layout preferences here.</div>
+      <div className="py-1 text-sm">Adjust theme and layout preferences.</div>
     </Accordion>
     <Accordion variant="borderless" title="Privacy Controls">
-      <div className="py-2">Manage your data and notification settings.</div>
+      <div className="py-1 text-sm">Manage data and notification settings.</div>
     </Accordion>
   </div>
 </ComponentPreview>
 
-### Default Open & Disabled
-Control the initial state or prevent user interaction.
+## Default Open & Disabled
 
 <ComponentPreview code={`<Accordion isDefaultOpen title="Open by Default">...</Accordion>
-<Accordion isDisabled title="Locked Section">...</Accordion>`}>
-  <div className="w-full max-w-2xl mx-auto space-y-4">
-    <Accordion isDefaultOpen title="Expansion Test">
-      This accordion starts in the open state.
+<Accordion isDisabled title="Locked">...</Accordion>`}>
+  <div className="w-full max-w-2xl mx-auto space-y-3">
+    <Accordion isDefaultOpen title="Open by Default">
+      <span className="text-sm">This section starts expanded.</span>
     </Accordion>
     <Accordion isDisabled title="Locked Section">
-      You cannot open this section until criteria are met.
+      <span className="text-sm">Cannot be toggled.</span>
     </Accordion>
   </div>
 </ComponentPreview>
 
-## Reference
+## Props
 <PropsTable props={[
-  { name: 'title', type: 'ReactNode', description: 'The main clickable header content.' },
-  { name: 'subtitle', type: 'string', description: 'Supporting text displayed below the title.' },
-  { name: 'variant', type: '"border" | "borderless"', defaultValue: '"border"', description: 'The overall visual style.' },
-  { name: 'isDefaultOpen', type: 'boolean', defaultValue: 'false', description: 'Starts the accordion in an open state.' },
-  { name: 'isDisabled', type: 'boolean', defaultValue: 'false', description: 'Prevents the accordion from being toggled.' },
+  { name: 'title', type: 'ReactNode', description: 'Clickable header content.' },
+  { name: 'subtitle', type: 'string', description: 'Text below the title.' },
+  { name: 'variant', type: '"border" | "borderless"', defaultValue: '"border"', description: 'Visual style.' },
+  { name: 'isDefaultOpen', type: 'boolean', defaultValue: 'false', description: 'Starts expanded.' },
+  { name: 'isDisabled', type: 'boolean', defaultValue: 'false', description: 'Prevents toggling.' },
 ]} />

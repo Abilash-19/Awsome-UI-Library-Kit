@@ -111,7 +111,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 
         <div
           className={cn(
-            "flex items-center justify-center rounded border-2",
+            "flex shrink-0 items-center justify-center rounded border-2 mt-0.5",
             "transition-all duration-100 ease-out",
             "border-[var(--border-color)] bg-[var(--bg-color)]",
             sizeClasses[size],

@@ -1,68 +1,62 @@
 import { Skeleton } from '@/components/Skeleton';
 import { ComponentPreview } from '../components/ComponentPreview';
 import { PropsTable } from '../components/PropsTable';
+import { PageHeader } from '../components/PageHeader';
 
-Skeletons are used to indicate that a piece of content is loading. They provide a better user experience than blank spaces or spinners by maintaining the layout's structural integrity.
+<PageHeader title="Skeleton" description="Loading placeholders that preserve layout structure. Four shape variants, two animations." />
 
 ## Basic Usage
-Skeletons can mimic any shape from text lines to profile pictures.
+
+Combine shapes to mock a content card during loading.
 
 <ComponentPreview code={`<Skeleton variant="circular" width={64} height={64} />
 <Skeleton variant="text" width="80%" />
 <Skeleton variant="rectangular" height={100} />`}>
-  <div className="w-full max-w-sm p-6 border rounded-[2rem] space-y-6" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-    <div className="flex items-center gap-4">
-      <Skeleton variant="circular" width={56} height={56} />
+  <div className="w-full max-w-sm p-5 border rounded-xl space-y-4" style={{ borderColor: 'var(--color-border)' }}>
+    <div className="flex items-center gap-3">
+      <Skeleton variant="circular" width={48} height={48} />
       <div className="space-y-2 flex-1">
-        <Skeleton variant="text" width="60%" height={16} />
-        <Skeleton variant="text" width="40%" height={12} />
+        <Skeleton variant="text" width="60%" height={14} />
+        <Skeleton variant="text" width="40%" height={10} />
       </div>
     </div>
-    <Skeleton variant="rectangular" height={160} className="rounded-2xl" />
+    <Skeleton variant="rectangular" height={120} className="rounded-lg" />
     <div className="space-y-2">
-      <Skeleton variant="text" height={12} />
-      <Skeleton variant="text" height={12} />
-      <Skeleton variant="text" width="70%" height={12} />
+      <Skeleton variant="text" height={10} />
+      <Skeleton variant="text" height={10} />
+      <Skeleton variant="text" width="70%" height={10} />
     </div>
   </div>
 </ComponentPreview>
 
-## Customization
-### Animation Presets
-Choose between a smooth pulse or a dynamic wave effect.
+## Animations
 
-<ComponentPreview code={`<Skeleton animation="pulse" />
-<Skeleton animation="wave" />
+Wave sweeps across the surface. Pulse fades in and out. None is static.
+
+<ComponentPreview code={`<Skeleton animation="wave" />
+<Skeleton animation="pulse" />
 <Skeleton animation="none" />`}>
-  <div className="space-y-4 w-full">
+  <div className="space-y-3 w-full">
     <div className="flex flex-col gap-1">
-      <span className="text-[10px] font-bold uppercase opacity-30">Wave (Default)</span>
-      <Skeleton animation="wave" height={40} />
+      <span className="text-[10px] font-semibold uppercase opacity-30">Wave</span>
+      <Skeleton animation="wave" height={36} />
     </div>
     <div className="flex flex-col gap-1">
-      <span className="text-[10px] font-bold uppercase opacity-30">Pulse</span>
-      <Skeleton animation="pulse" height={40} />
+      <span className="text-[10px] font-semibold uppercase opacity-30">Pulse</span>
+      <Skeleton animation="pulse" height={36} />
     </div>
     <div className="flex flex-col gap-1">
-      <span className="text-[10px] font-bold uppercase opacity-30">Static</span>
-      <Skeleton animation="none" height={40} />
+      <span className="text-[10px] font-semibold uppercase opacity-30">None</span>
+      <Skeleton animation="none" height={36} />
     </div>
   </div>
 </ComponentPreview>
 
-### Shape Variants
-| Variant | Description |
-| :--- | :--- |
-| `text` | Simulates a line of text with specific scale and radius. |
-| `circular` | Perfect for avatars or round icon placeholders. |
-| `rectangular` | Standard box shape for images or large blocks. |
-| `rounded` | Rectangular with a larger 12px border radius. |
-
-## Reference
+## Props
 <PropsTable props={[
-  { name: 'variant', type: '"text" | "circular" | "rectangular" | "rounded"', defaultValue: '"rectangular"', description: 'The visual shape of the skeleton.' },
-  { name: 'animation', type: '"pulse" | "wave" | "none"', defaultValue: '"wave"', description: 'Sets the loading animation movement.' },
-  { name: 'width', type: 'string | number', description: 'Sets the width of the placeholder (px or %).' },
-  { name: 'height', type: 'string | number', description: 'Sets the height of the placeholder.' },
-  { name: 'className', type: 'string', description: 'Custom CSS for specialized styling.' },
+  { name: 'variant', type: '"text" | "circular" | "rectangular" | "rounded"', defaultValue: '"rectangular"', description: 'Shape of the placeholder.' },
+  { name: 'animation', type: '"pulse" | "wave" | "none"', defaultValue: '"wave"', description: 'Loading animation.' },
+  { name: 'width', type: 'string | number', description: 'Width (px or %).' },
+  { name: 'height', type: 'string | number', description: 'Height.' },
+  { name: 'className', type: 'string', description: 'Additional CSS.' },
 ]} />

@@ -1,14 +1,17 @@
 import { Avatar } from '@/components/Avatar';
 import { ComponentPreview } from '../components/ComponentPreview';
+import { PageHeader } from '../components/PageHeader';
 
-Avatars are used to represent users or entities.
+<PageHeader title="Avatar" description="Profile images with automatic fallback to initials or a placeholder icon." />
 
 ## Basic Usage
-<ComponentPreview code={`<Avatar 
-  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=256&h=256&q=80" 
-  alt="User Name" 
-/>`}>
-  <div className="flex gap-4">
+
+Pass a `src` for an image, `displayName` for initials, or nothing for the default icon.
+
+<ComponentPreview code={`<Avatar src="https://..." alt="User" />
+<Avatar displayName="John Doe" />
+<Avatar />`}>
+  <div className="flex gap-4 items-center">
     <Avatar src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=256&h=256&q=80" />
     <Avatar displayName="John Doe" />
     <Avatar />

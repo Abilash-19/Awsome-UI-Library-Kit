@@ -1,51 +1,219 @@
 import { Button } from '@/components/Button';
+import { Badge } from '@/components/Badge';
+import { Input } from '@/components/Input';
 import { ComponentPreview } from '../components/ComponentPreview';
+import { PropsTable } from '../components/PropsTable';
 
-The library is built on a robust, token-based theming system that supports light mode, dark mode, and custom brand overrides.
+The library ships with a robust, token-based theming system. Every component reads its colors from a centralized theme, so one change updates everything.
 
-## Theme Provider
-To use the theme system, wrap your application in the `ThemeProvider`.
+## Quick Start
+
+Wrap your app in `ThemeProvider` to enable theming across all components.
 
 ```tsx
 import { ThemeProvider } from 'ui-library';
 
 function App() {
   return (
-    <ThemeProvider defaultThemeName="light">
-      <YourAppContents />
+    <ThemeProvider defaultThemeName="light" storageKey="my-app-theme">
+      <YourApp />
     </ThemeProvider>
   );
 }
 ```
 
-## How it Works
-The theme system uses **CSS Variables** defined in `:root` and `.dark` classes (or custom theme classes). This means:
-- **No extra JS weight** for runtime style calculations.
-- **Zero Flash of Unstyled Content** (FOUC).
-- **Infinite customization** — just override the CSS variables.
+## Architecture
 
-## Dynamic Overrides
-You can live-update the theme programmatically using the `useTheme` hook. This is what powers the theme picker in the Playground.
+The theme system is built on three layers:
 
-```tsx
-const { overrideTheme, resetTheme } = useTheme();
+| Layer | Purpose | Example |
+| :--- | :--- | :--- |
+| **Palette** | Raw color scales (50–900) | `primary.500`, `error.600` |
+| **Tokens** | Semantic roles that reference palette values | `background`, `accent`, `border` |
+| **CSS Variables** | Applied to `:root` for zero-JS styling | `--color-background`, `--color-accent` |
 
-const oceanTheme = {
-  palette: {
-    primary: { 500: '#0077ff' }
-  }
-};
-
-<Button onClick={() => overrideTheme(oceanTheme)}>Go Blue</Button>
-```
+This means:
+- **No runtime style calculations** — components read CSS variables directly.
+- **Zero FOUC** — variables are set before first paint.
+- **Full customization** — override any layer to match your brand.
 
 ## Color Modes
-Toggle between light and dark modes with a single call.
 
-<ComponentPreview code={`const { toggleColorMode, theme } = useTheme();
+Toggle between light and dark modes with a single hook call.
 
-<Button onClick={toggleColorMode}>
-  {theme.colorMode === 'light' ? 'Switch to Dark' : 'Switch to Light'}
-</Button>`}>
-  <p className="text-zinc-400 mb-4 text-sm font-medium">Try toggling the mode using the button in the top-right of the docs!</p>
+<ComponentPreview code={`import { useTheme } from 'ui-library';
+
+function ThemeToggle() {
+  const { toggleColorMode, theme } = useTheme();
+
+  return (
+    <Button onClick={toggleColorMode}>
+      Current: {theme.colorMode}
+    </Button>
+  );
+}`}>
+  <div className="flex items-center gap-4">
+    <p className="text-sm" style={{ color: 'var(--color-foreground-muted)' }}>
+      Use the toggle in the top-right header to switch modes.
+    </p>
+  </div>
 </ComponentPreview>
+
+## Dynamic Overrides
+
+Override the theme at runtime using `overrideTheme`. This is how the color picker on the home page works.
+
+```tsx
+import { useTheme } from 'ui-library';
+
+function BrandSwitcher() {
+  const { overrideTheme, resetTheme } = useTheme();
+
+  const applyBrand = () => {
+    overrideTheme({
+      palette: {
+        primary: { 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8' }
+      },
+      tokens: {
+        accent: '#2563eb',
+        accentHover: '#1d4ed8',
+      }
+    });
+  };
+
+  return (
+    <>
+      <Button onClick={applyBrand}>Apply Blue Brand</Button>
+      <Button variant="ghost" onClick={resetTheme}>Reset</Button>
+    </>
+  );
+}
+```
+
+Partial overrides are deep-merged — you only need to specify the values you want to change.
+
+## Registering Custom Themes
+
+Create a fully custom theme and register it so it can be activated by name.
+
+```tsx
+import { registerTheme, type ThemeConfig } from 'ui-library';
+
+const corporateTheme: ThemeConfig = {
+  name: 'corporate',
+  colorMode: 'light',
+  palette: {
+    primary: { 50: '#eff6ff', 100: '#dbeafe', /* ...full scale */ },
+    success: { /* ... */ },
+    warning: { /* ... */ },
+    error: { /* ... */ },
+    info: { /* ... */ },
+  },
+  neutral: { /* 50–900 gray scale */ },
+  tokens: {
+    background: '#ffffff',
+    surface: '#f8fafc',
+    foreground: '#0f172a',
+    foregroundMuted: '#64748b',
+    accent: '#2563eb',
+    // ...all semantic tokens
+  },
+  shape: {
+    radiusSm: '0.25rem',
+    radiusMd: '0.5rem',
+    radiusLg: '0.75rem',
+    radiusFull: '9999px',
+  },
+  typography: {
+    fontFamilySans: '"Inter", sans-serif',
+    fontFamilyMono: '"Fira Code", monospace',
+  },
+};
+
+// Register before rendering
+registerTheme(corporateTheme);
+
+// Then activate it
+const { setTheme } = useTheme();
+setTheme('corporate');
+```
+
+## Semantic Tokens
+
+Tokens give colors a **role** instead of a raw value. This makes themes portable — switch the palette and every component adapts.
+
+<PropsTable props={[
+  { name: 'background', type: 'string', description: 'Page background color.' },
+  { name: 'surface', type: 'string', description: 'Card and container backgrounds.' },
+  { name: 'foreground', type: 'string', description: 'Primary text color.' },
+  { name: 'foregroundMuted', type: 'string', description: 'Secondary/helper text color.' },
+  { name: 'border', type: 'string', description: 'Default border color.' },
+  { name: 'accent', type: 'string', description: 'Primary interactive color (buttons, links).' },
+  { name: 'accentHover', type: 'string', description: 'Hover state for accent elements.' },
+  { name: 'ring', type: 'string', description: 'Focus ring color for accessibility.' },
+  { name: 'successSurface', type: 'string', description: 'Background for success states.' },
+  { name: 'errorSurface', type: 'string', description: 'Background for error states.' },
+  { name: 'warningSurface', type: 'string', description: 'Background for warning states.' },
+]} />
+
+## useTheme Hook
+
+The `useTheme` hook provides full access to the theme system.
+
+```tsx
+const {
+  theme,           // Current ThemeConfig object
+  setTheme,        // Switch to a registered theme by name
+  toggleColorMode, // Toggle light/dark
+  overrideTheme,   // Apply partial overrides
+  resetTheme,      // Clear all overrides
+} = useTheme();
+```
+
+## useTokens Hook
+
+A convenience hook that returns just the semantic tokens — useful in components that only need color values.
+
+```tsx
+import { useTokens } from 'ui-library';
+
+function Card({ children }) {
+  const tokens = useTokens();
+
+  return (
+    <div style={{
+      backgroundColor: tokens.surface,
+      borderColor: tokens.border,
+      color: tokens.foreground,
+    }}>
+      {children}
+    </div>
+  );
+}
+```
+
+## CSS Variables Reference
+
+All theme values are applied as CSS custom properties on `:root`. You can use them directly in your own CSS or Tailwind classes.
+
+```css
+/* Use in your own stylesheets */
+.my-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-foreground);
+  border-radius: var(--radius-md);
+}
+```
+
+| Variable | Source |
+| :--- | :--- |
+| `--color-background` | `tokens.background` |
+| `--color-surface` | `tokens.surface` |
+| `--color-foreground` | `tokens.foreground` |
+| `--color-border` | `tokens.border` |
+| `--color-accent` | `tokens.accent` |
+| `--color-ring` | `tokens.ring` |
+| `--color-primary-500` | `palette.primary.500` |
+| `--radius-sm` / `md` / `lg` | `shape.radius*` |
+| `--font-sans` / `--font-mono` | `typography.fontFamily*` |

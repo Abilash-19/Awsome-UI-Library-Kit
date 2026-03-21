@@ -1,65 +1,159 @@
 import { ScrollArea, ScrollElement as ScrollAreaItem } from '@/components/ScrollArea';
 import { ComponentPreview } from '../components/ComponentPreview';
 import { PropsTable } from '../components/PropsTable';
+import { PageHeader } from '../components/PageHeader';
+import { InfiniteScrollDemo } from '../components/InfiniteScrollDemo';
 
-ScrollArea targets large content blocks by providing a smooth scroll container with reveal-on-scroll animations. It helps keep long lists or documents contained while maintaining a premium feel.
+<PageHeader title="Scroll Area" description="Scrollable containers with reveal-on-scroll animations and a styled scrollbar." />
 
-## Basic Usage
-Wrap your content in a `ScrollArea` and use `ScrollAreaItem` (or `ScrollArea.Item`) for individual items you want to animate.
+## Infinite Scroll
 
-<ComponentPreview code={`import { ScrollArea, ScrollElement } from 'ui-library';
+Use the `onScroll` callback to detect when the user reaches the bottom and load more items.
 
-<ScrollArea className="h-48 border rounded-xl p-4">
-  <div className="space-y-4">
-    <ScrollElement>
-      <div className="h-20 bg-primary-500/10 rounded-lg flex items-center justify-center">Item 1</div>
-    </ScrollElement>
-    <ScrollElement>
-      <div className="h-20 bg-primary-500/10 rounded-lg flex items-center justify-center">Item 2</div>
-    </ScrollElement>
-  </div>
+<ComponentPreview code={`function InfiniteList() {
+  const [items, setItems] = useState(initialItems);
+
+  const handleScroll = (e) => {
+    const el = e.currentTarget;
+    if (el.scrollTop + el.clientHeight >= el.scrollHeight - 40) {
+      loadMore(); // fetch and append items
+    }
+  };
+
+  return (
+    <ScrollArea className="h-72" onScroll={handleScroll}>
+      {items.map(item => (
+        <ScrollElement key={item.id} revealType={item.type}>
+          <div>{item.title}</div>
+        </ScrollElement>
+      ))}
+    </ScrollArea>
+  );
+}`}>
+  <InfiniteScrollDemo />
+</ComponentPreview>
+
+## Vertical Scroll
+
+Items animate as they enter the viewport. Scroll down through the list.
+
+<ComponentPreview code={`<ScrollArea className="h-72 border rounded-lg p-4">
+  <ScrollElement><div>Item 1</div></ScrollElement>
+  <ScrollElement revealType="up"><div>Item 2</div></ScrollElement>
+  <ScrollElement revealType="fade"><div>Item 3</div></ScrollElement>
 </ScrollArea>`}>
-  <ScrollArea className="h-48 border rounded-xl p-4 w-full">
-    <div className="space-y-8">
+  <ScrollArea className="h-72 border rounded-lg p-4 w-full" style={{ borderColor: 'var(--color-border)' }}>
+    <div className="space-y-3">
       <ScrollAreaItem>
-        <div className="h-24 bg-pink-500/5 border border-pink-500/10 rounded-2xl flex items-center justify-center font-bold">Scroll slowly to see the reveal animation</div>
+        <div className="p-3 border rounded-lg text-sm font-medium" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}>
+          Scroll down to see each animation
+        </div>
       </ScrollAreaItem>
       <ScrollAreaItem revealType="up">
-        <div className="h-24 bg-pink-500/5 border border-pink-500/10 rounded-2xl flex items-center justify-center font-bold">Item 2 (Reveal Up)</div>
+        <div className="p-3 border rounded-lg text-sm" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}>Reveal Up</div>
+      </ScrollAreaItem>
+      <ScrollAreaItem revealType="down">
+        <div className="p-3 border rounded-lg text-sm" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}>Reveal Down</div>
       </ScrollAreaItem>
       <ScrollAreaItem revealType="fade">
-        <div className="h-24 bg-pink-500/5 border border-pink-500/10 rounded-2xl flex items-center justify-center font-bold">Item 3 (Fade In)</div>
+        <div className="p-3 border rounded-lg text-sm" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}>Fade In</div>
+      </ScrollAreaItem>
+      <ScrollAreaItem revealType="scale">
+        <div className="p-3 border rounded-lg text-sm" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}>Scale Pop</div>
       </ScrollAreaItem>
       <ScrollAreaItem revealType="blur">
-        <div className="h-24 bg-pink-500/5 border border-pink-500/10 rounded-2xl flex items-center justify-center font-bold">Item 4 (Blur Entrance)</div>
+        <div className="p-3 border rounded-lg text-sm" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}>Blur Entrance</div>
+      </ScrollAreaItem>
+      <ScrollAreaItem revealType="left">
+        <div className="p-3 border rounded-lg text-sm" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}>From Left</div>
+      </ScrollAreaItem>
+      <ScrollAreaItem revealType="right">
+        <div className="p-3 border rounded-lg text-sm" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}>From Right</div>
+      </ScrollAreaItem>
+      <ScrollAreaItem revealType="up">
+        <div className="p-3 border rounded-lg text-sm" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}>Another Up</div>
+      </ScrollAreaItem>
+      <ScrollAreaItem revealType="scale">
+        <div className="p-3 border rounded-lg text-sm" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}>Another Scale</div>
+      </ScrollAreaItem>
+      <ScrollAreaItem revealType="blur">
+        <div className="p-3 border rounded-lg text-sm" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}>Another Blur</div>
+      </ScrollAreaItem>
+      <ScrollAreaItem revealType="fade">
+        <div className="p-3 border rounded-lg text-sm" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}>End of list</div>
       </ScrollAreaItem>
     </div>
   </ScrollArea>
 </ComponentPreview>
 
-## Customization
-### Animation Presets
-You can specify the entrance effect per item.
+## Horizontal Scroll
 
-| Type | Description |
+Set a wide inner container to enable horizontal scrolling.
+
+<ComponentPreview code={`<ScrollArea className="h-auto border rounded-lg p-4">
+  <div className="flex gap-3" style={{ width: '900px' }}>
+    <ScrollElement revealType="left"><div>Card 1</div></ScrollElement>
+    <ScrollElement revealType="left"><div>Card 2</div></ScrollElement>
+  </div>
+</ScrollArea>`}>
+  <ScrollArea className="border rounded-lg p-4 w-full overflow-x-auto" style={{ borderColor: 'var(--color-border)' }}>
+    <div className="flex gap-3" style={{ width: '1000px' }}>
+      <ScrollAreaItem revealType="left">
+        <div className="p-4 border rounded-lg text-sm w-48 shrink-0" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}>
+          <div className="font-medium mb-1">Card 1</div>
+          <div style={{ color: 'var(--color-foreground-muted)' }} className="text-xs">Scroll right</div>
+        </div>
+      </ScrollAreaItem>
+      <ScrollAreaItem revealType="left">
+        <div className="p-4 border rounded-lg text-sm w-48 shrink-0" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}>
+          <div className="font-medium mb-1">Card 2</div>
+          <div style={{ color: 'var(--color-foreground-muted)' }} className="text-xs">Horizontal reveal</div>
+        </div>
+      </ScrollAreaItem>
+      <ScrollAreaItem revealType="fade">
+        <div className="p-4 border rounded-lg text-sm w-48 shrink-0" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}>
+          <div className="font-medium mb-1">Card 3</div>
+          <div style={{ color: 'var(--color-foreground-muted)' }} className="text-xs">Fade in</div>
+        </div>
+      </ScrollAreaItem>
+      <ScrollAreaItem revealType="scale">
+        <div className="p-4 border rounded-lg text-sm w-48 shrink-0" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}>
+          <div className="font-medium mb-1">Card 4</div>
+          <div style={{ color: 'var(--color-foreground-muted)' }} className="text-xs">Scale pop</div>
+        </div>
+      </ScrollAreaItem>
+      <ScrollAreaItem revealType="right">
+        <div className="p-4 border rounded-lg text-sm w-48 shrink-0" style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}>
+          <div className="font-medium mb-1">Card 5</div>
+          <div style={{ color: 'var(--color-foreground-muted)' }} className="text-xs">From right</div>
+        </div>
+      </ScrollAreaItem>
+    </div>
+  </ScrollArea>
+</ComponentPreview>
+
+## Animation Types
+
+| Type | Effect |
 | :--- | :--- |
-| `up` / `down` | Horizontal slide with fade |
-| `left` / `right` | Vertical slide with fade |
-| `fade` | Simple opacity transition |
-| `scale` | Zoom-in effect |
-| `blur` | Soft blur-to-clear transition |
+| `up` / `down` | Slide with fade |
+| `left` / `right` | Horizontal slide |
+| `fade` | Opacity only |
+| `scale` | Zoom in |
+| `blur` | Blur to clear |
 
-## Reference
-### ScrollArea Props
+## Props
+
+### ScrollArea
 <PropsTable props={[
-  { name: 'ScrollAnimation', type: '"up" | "down" | "left" | "right" | "fade" | "scale" | "blur"', defaultValue: '"scale"', description: 'Default animation for all children.' },
-  { name: 'onScroll', type: 'function', description: 'Callback when the user scrolls the container.' },
-  { name: 'className', type: 'string', description: 'Container styles (best used for height and border).' },
+  { name: 'ScrollAnimation', type: '"up" | "down" | "left" | "right" | "fade" | "scale" | "blur"', defaultValue: '"scale"', description: 'Default animation for children.' },
+  { name: 'onScroll', type: 'function', description: 'Scroll event callback.' },
+  { name: 'className', type: 'string', description: 'Container classes.' },
 ]} />
 
-### ScrollAreaItem Props
+### ScrollElement
 <PropsTable props={[
-  { name: 'triggerOnce', type: 'boolean', defaultValue: 'true', description: 'Stop observing after reveal.' },
-  { name: 'threshold', type: 'number', defaultValue: '0.2', description: 'Visibility triggering point (0.0 to 1.0).' },
-  { name: 'revealType', type: 'string', description: 'Override the container animation for this item.' },
+  { name: 'triggerOnce', type: 'boolean', defaultValue: 'true', description: 'Animate only on first appearance.' },
+  { name: 'threshold', type: 'number', defaultValue: '0.2', description: 'Visibility threshold (0-1).' },
+  { name: 'revealType', type: 'string', description: 'Override animation for this item.' },
 ]} />
