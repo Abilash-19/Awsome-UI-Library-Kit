@@ -7,7 +7,7 @@ import {
   helperSizeClasses,
   trackSizeClasses,
 } from "./Switch.constants";
-import Skeleton from "../Skeleton";
+import { Skeleton } from "../Skeleton";
 
 const Switch = forwardRef<HTMLButtonElement, SwitchProps>((props, ref) => {
   const {

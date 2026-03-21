@@ -71,10 +71,11 @@ const Popover = forwardRef<HTMLElement, PopoverProps>((props, ref) => {
       offsetMiddleware(offset + (showArrow ? ARROW_OFFSET : 0)),
       flip({ fallbackAxisSideDirection: "start" }),
       shift({ padding: 8 }),
-      // eslint-disable-next-line react-hooks/refs
+      /* eslint-disable react-hooks/refs */
       ...(showArrow
         ? [arrowMiddleware({ element: arrowRef, padding: 8 })]
         : []),
+      /* eslint-enable react-hooks/refs */
     ],
     whileElementsMounted: autoUpdate,
   });
