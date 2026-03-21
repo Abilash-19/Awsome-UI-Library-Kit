@@ -173,7 +173,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {isLoading ? (
           <>
             <Spinner size={iconSizes[size]} />
-            {children && <span>{children}</span>}
+            {children}
           </>
         ) : (
           <>
@@ -185,7 +185,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                 {prefixIcon}
               </span>
             )}
-            {children && <span>{children}</span>}
+            {children}
             {suffixIcon && (
               <span
                 className={cn("inline-flex shrink-0", iconSizes[size])}
