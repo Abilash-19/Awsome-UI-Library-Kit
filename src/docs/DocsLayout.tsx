@@ -2,7 +2,6 @@ import React, { useState, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/utils";
 import { useTheme } from "@/theme";
-import { Button } from "@/components/Button";
 
 const navigation = [
   {
@@ -59,117 +58,194 @@ export const DocsLayout: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <div
-      className="min-h-screen transition-colors duration-500 flex flex-col"
+      className="min-h-screen flex flex-col"
       style={{
         backgroundColor: theme.tokens.background,
         color: theme.tokens.foreground,
       }}
     >
-      {/* Top Navigation Header */}
+      {/* Header */}
       <header
-        className="sticky top-0 z-[60] h-14 border-b backdrop-blur-xl px-4 sm:px-12 flex items-center justify-between"
+        className="sticky top-0 z-50 h-14 border-b px-4 sm:px-8 flex items-center justify-between"
         style={{
           borderColor: theme.tokens.border,
-          backgroundColor: `${theme.tokens.background}cc`,
+          backgroundColor: theme.tokens.background,
         }}
       >
-        <div className="flex items-center gap-10">
+        <div className="flex items-center gap-8">
           <Link
             to="/docs"
-            className="flex items-center gap-2 font-black tracking-tighter text-xl group"
+            className="flex items-center gap-2.5 font-bold text-base"
           >
-            <div className="w-6 h-6 rounded-lg bg-pink-500 flex items-center justify-center text-white text-[10px] font-black group-hover:scale-110 transition-transform">
+            <div
+              className="w-7 h-7 rounded-md flex items-center justify-center text-white text-[10px] font-extrabold"
+              style={{ backgroundColor: theme.palette.primary[500] }}
+            >
               UI
             </div>
-            <span className="hidden sm:inline-block">Awesome UI</span>
+            <span className="hidden sm:inline">Awesome UI</span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8 text-sm font-bold opacity-60">
+          <nav className="hidden md:flex items-center gap-6 text-sm">
             <Link
               to="/docs"
               className={cn(
-                "transition-colors hover:text-pink-500",
-                isHomePage && "text-pink-500 opacity-100",
+                "transition-colors",
+                isHomePage ? "font-semibold" : "opacity-60 hover:opacity-100",
               )}
+              style={
+                isHomePage ? { color: theme.palette.primary[500] } : undefined
+              }
             >
               Docs
             </Link>
             <Link
               to="/docs/button"
               className={cn(
-                "transition-colors hover:text-pink-500",
-                !isHomePage && "text-pink-500 opacity-100",
+                "transition-colors",
+                !isHomePage ? "font-semibold" : "opacity-60 hover:opacity-100",
               )}
+              style={
+                !isHomePage ? { color: theme.palette.primary[500] } : undefined
+              }
             >
               Components
             </Link>
-            <span className="cursor-not-allowed hover:text-rose-400">
-              Templates
-            </span>
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-pink-500"
-            >
-              GitHub
-            </a>
           </nav>
         </div>
 
-        <div className="flex items-center gap-4">
-          {/* Integrated Search */}
-          <div className="relative hidden lg:block group">
+        <div className="flex items-center gap-3">
+          {/* Search */}
+          <div className="relative hidden lg:block">
             <input
               type="text"
-              placeholder="Type to search..."
+              placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-9 px-4 pl-10 rounded-full border bg-background/50 text-xs w-48 focus:w-72 transition-all outline-none focus:ring-2 focus:ring-pink-500/20"
-              style={{ borderColor: theme.tokens.border }}
+              className="h-8 px-3 pl-8 rounded-md border text-sm w-52 focus:w-64 transition-all outline-none focus:ring-1"
+              style={{
+                borderColor: theme.tokens.border,
+                backgroundColor: theme.tokens.surface,
+                color: theme.tokens.foreground,
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = theme.palette.primary[500];
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = theme.tokens.border;
+              }}
             />
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 opacity-30 select-none">
-              🔍
-            </span>
+            <svg
+              className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 opacity-40"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 opacity-40 hover:opacity-100"
+                className="absolute right-2 top-1/2 -translate-y-1/2 opacity-40 hover:opacity-100 text-xs"
               >
-                ✕
+                &times;
               </button>
             )}
           </div>
 
-          <div className="flex items-center gap-2">
-            <button
-              onClick={toggleColorMode}
-              className="w-10 h-10 flex items-center justify-center hover:bg-white/5 rounded-full transition-all border border-transparent hover:border-white/5"
-            >
-              {theme.colorMode === "light" ? "🌙" : "☀️"}
-            </button>
+          {/* Dark mode toggle */}
+          <button
+            onClick={toggleColorMode}
+            className="w-8 h-8 flex items-center justify-center rounded-md border transition-colors"
+            style={{
+              borderColor: theme.tokens.border,
+              backgroundColor: theme.tokens.surface,
+            }}
+            aria-label="Toggle color mode"
+          >
+            {theme.colorMode === "light" ? (
+              <svg
+                className="w-4 h-4 opacity-60"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="w-4 h-4 opacity-60"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                />
+              </svg>
+            )}
+          </button>
 
-            <Link to="/">
-              <Button className="hidden sm:flex rounded-full px-6 h-10 font-black text-xs uppercase tracking-widest">
-                + New Kit
-              </Button>
-            </Link>
-
+          <Link to="/">
             <button
-              className="lg:hidden p-2 hover:bg-white/5 rounded-full"
-              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="hidden sm:flex items-center h-8 px-4 rounded-md text-xs font-semibold text-white transition-colors"
+              style={{ backgroundColor: theme.palette.primary[500] }}
             >
-              {isSidebarOpen ? "✕" : "☰"}
+              Playground
             </button>
-          </div>
+          </Link>
+
+          {/* Mobile menu */}
+          <button
+            className="lg:hidden w-8 h-8 flex items-center justify-center rounded-md border"
+            style={{ borderColor: theme.tokens.border }}
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            aria-label="Toggle menu"
+          >
+            <svg
+              className="w-4 h-4 opacity-60"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              {isSidebarOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
         </div>
       </header>
 
-      <div className="flex-1 flex w-full max-w-[1600px] mx-auto">
+      <div className="flex-1 flex w-full max-w-[1400px] mx-auto">
         {/* Sidebar */}
         <aside
           className={cn(
-            "fixed inset-0 top-14 z-50 w-full bg-background lg:bg-transparent lg:sticky lg:h-[calc(100vh-3.5rem)] lg:w-72 lg:block border-r p-8 transform transition-transform duration-300 overflow-y-auto custom-scrollbar",
+            "fixed inset-0 top-14 z-40 w-full lg:sticky lg:h-[calc(100vh-3.5rem)] lg:w-60 lg:shrink-0 lg:block border-r overflow-y-auto",
             isSidebarOpen
               ? "translate-x-0"
               : "-translate-x-full lg:translate-x-0",
@@ -177,54 +253,58 @@ export const DocsLayout: React.FC<{ children: React.ReactNode }> = ({
           )}
           style={{
             borderColor: theme.tokens.border,
-            backgroundColor:
-              theme.colorMode === "dark"
-                ? "rgba(0,0,0,0.1)"
-                : "rgba(255,255,255,0.05)",
+            backgroundColor: theme.tokens.background,
           }}
         >
-          {/* Mobile Search */}
-          <div className="lg:hidden mb-10">
+          {/* Mobile search */}
+          <div
+            className="lg:hidden p-4 border-b"
+            style={{ borderColor: theme.tokens.border }}
+          >
             <input
               type="text"
               placeholder="Search components..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-10 px-4 rounded-xl border bg-background text-sm"
-              style={{ borderColor: theme.tokens.border }}
+              className="w-full h-9 px-3 rounded-md border text-sm"
+              style={{
+                borderColor: theme.tokens.border,
+                backgroundColor: theme.tokens.surface,
+                color: theme.tokens.foreground,
+              }}
             />
           </div>
 
-          <nav className="space-y-12 pb-20">
+          <nav className="p-4 pb-20">
             {filteredNavigation.map((section) => (
-              <div
-                key={section.title}
-                className="animate-in fade-in duration-500"
-              >
-                <h4 className="text-[10px] font-black uppercase tracking-[0.3em] mb-6 opacity-30 px-3">
+              <div key={section.title} className="mb-6">
+                <h4
+                  className="text-xs font-semibold uppercase tracking-wider mb-2 px-2"
+                  style={{ color: theme.tokens.foregroundMuted }}
+                >
                   {section.title}
                 </h4>
-                <div className="space-y-1.5 text-left">
+                <div className="space-y-0.5">
                   {section.links.map((link) => (
                     <Link
                       key={link.path}
                       to={link.path}
                       onClick={() => setIsSidebarOpen(false)}
                       className={cn(
-                        "group flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-all",
+                        "block px-2 py-1.5 text-sm rounded-md transition-colors",
                         location.pathname === link.path
-                          ? "bg-pink-500/10 text-pink-500 font-bold"
-                          : "text-foreground/50 hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5",
+                          ? "font-medium"
+                          : "opacity-60 hover:opacity-100",
                       )}
+                      style={
+                        location.pathname === link.path
+                          ? {
+                              color: theme.palette.primary[500],
+                              backgroundColor: `${theme.palette.primary[500]}10`,
+                            }
+                          : undefined
+                      }
                     >
-                      <span
-                        className={cn(
-                          "w-1 h-1 rounded-full bg-current transition-all",
-                          location.pathname === link.path
-                            ? "scale-100"
-                            : "scale-0 group-hover:scale-100",
-                        )}
-                      />
                       {link.name}
                     </Link>
                   ))}
@@ -238,46 +318,71 @@ export const DocsLayout: React.FC<{ children: React.ReactNode }> = ({
         <main
           className={cn(
             "flex-1 min-w-0 min-h-[calc(100vh-3.5rem)]",
-            isHomePage
-              ? "w-full"
-              : "max-w-[1200px] px-8 py-12 lg:px-20 lg:py-20",
+            isHomePage ? "w-full" : "max-w-4xl px-6 py-10 lg:px-12 lg:py-14",
           )}
         >
+          {/* Breadcrumb */}
           {!isHomePage && (
-            <nav className="flex items-center gap-3 mb-12 text-[10px] font-bold uppercase tracking-widest opacity-30">
-              <Link to="/docs" className="hover:text-pink-500 transition-all">
+            <nav
+              className="flex items-center gap-2 mb-8 text-xs"
+              style={{ color: theme.tokens.foregroundMuted }}
+            >
+              <Link to="/docs" className="hover:underline">
                 Docs
               </Link>
-              <span className="opacity-20">/</span>
-              <span className="text-pink-500">{activeLink?.name}</span>
+              <span>/</span>
+              <span style={{ color: theme.palette.primary[500] }}>
+                {activeLink?.name}
+              </span>
             </nav>
           )}
+
           <div
             className={cn(
-              "animate-in fade-in slide-in-from-bottom-2 duration-700",
               !isHomePage &&
-                "prose prose-zinc dark:prose-invert max-w-none prose-headings:tracking-tighter",
+                "prose max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-h2:text-lg prose-h2:mt-8 prose-h2:mb-3 prose-h3:text-sm prose-h3:mt-5 prose-h3:mb-2 prose-p:text-sm prose-p:leading-relaxed prose-p:my-2 prose-code:text-sm",
             )}
+            style={
+              !isHomePage
+                ? ({
+                    "--tw-prose-body": theme.tokens.foreground,
+                    "--tw-prose-headings": theme.tokens.foreground,
+                    "--tw-prose-lead": theme.tokens.foregroundMuted,
+                    "--tw-prose-links": theme.palette.primary[500],
+                    "--tw-prose-bold": theme.tokens.foreground,
+                    "--tw-prose-counters": theme.tokens.foregroundMuted,
+                    "--tw-prose-bullets": theme.tokens.foregroundMuted,
+                    "--tw-prose-hr": theme.tokens.border,
+                    "--tw-prose-quotes": theme.tokens.foreground,
+                    "--tw-prose-quote-borders": theme.tokens.border,
+                    "--tw-prose-captions": theme.tokens.foregroundMuted,
+                    "--tw-prose-code": theme.tokens.foreground,
+                    "--tw-prose-pre-code": "#d4d4d4",
+                    "--tw-prose-pre-bg":
+                      theme.colorMode === "dark" ? "#111" : "#1e1e2e",
+                    "--tw-prose-th-borders": theme.tokens.border,
+                    "--tw-prose-td-borders": theme.tokens.borderSubtle,
+                  } as React.CSSProperties)
+                : undefined
+            }
           >
             {children}
           </div>
         </main>
       </div>
 
-      <style>{`
-                .custom-scrollbar::-webkit-scrollbar {
-                    width: 4px;
-                }
-                .custom-scrollbar::-webkit-scrollbar-thumb {
-                    background: rgba(128, 128, 128, 0.1);
-                    border-radius: 10px;
-                }
-                .prose pre {
-                    background: #0d0d0d !important;
-                    border: 1px solid rgba(255,255,255,0.05);
-                    border-radius: 1rem;
-                }
-            `}</style>
+      {/* Footer */}
+      {isHomePage && (
+        <footer
+          className="border-t py-8 px-8 text-center text-sm"
+          style={{
+            borderColor: theme.tokens.border,
+            color: theme.tokens.foregroundMuted,
+          }}
+        >
+          Built with React, TypeScript & Tailwind CSS
+        </footer>
+      )}
     </div>
   );
 };

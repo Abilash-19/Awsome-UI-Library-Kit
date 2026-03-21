@@ -72,7 +72,7 @@ export const PropsTable: React.FC<PropsTableProps> = ({ props }) => {
               className="hover:bg-black/5 dark:hover:bg-white/[0.02] transition-colors group"
             >
               <td
-                className="px-6 py-5 text-sm font-mono font-bold transition-colors group-hover:text-pink-500"
+                className="px-6 py-5 text-sm font-mono font-bold transition-colors"
                 style={{ color: theme.palette.primary[500] }}
               >
                 {prop.name}

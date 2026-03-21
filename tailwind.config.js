@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-    content: ['./src/**/*.{js,ts,jsx,tsx}'],
+    content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
     darkMode: 'class',
     theme: {
         extend: {
@@ -12,7 +12,6 @@ export default {
                 border: 'var(--color-border)',
                 accent: 'var(--color-accent)',
                 ring: 'var(--color-ring)',
-                // ...etc
             },
             borderRadius: {
                 sm: 'var(--radius-sm)',
@@ -25,5 +24,7 @@ export default {
             },
         },
     },
-    plugins: [],
+    plugins: [
+        require('@tailwindcss/typography'),
+    ],
 };

@@ -1,11 +1,13 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy, useState } from "react";
 import { Routes, Route, Navigate, Link } from "react-router-dom";
 import { DocsLayout } from "./DocsLayout";
 import { useTheme } from "@/theme";
-import { Typography } from "@/components/Typography";
 import { Button } from "@/components/Button";
+import { Input } from "@/components/Input";
+import { Badge } from "@/components/Badge";
+import { Checkbox } from "@/components/Checkbox";
 
-// Lazy load MDX components
+// Lazy load MDX pages
 const ButtonDocs = lazy(() => import("./pages/Button.mdx"));
 const InputDocs = lazy(() => import("./pages/Input.mdx"));
 const RadioGroupDocs = lazy(() => import("./pages/RadioGroup.mdx"));
@@ -17,185 +19,566 @@ const ModalDocs = lazy(() => import("./pages/Modal.mdx"));
 const ScrollAreaDocs = lazy(() => import("./pages/ScrollArea.mdx"));
 const SkeletonDocs = lazy(() => import("./pages/Skeleton.mdx"));
 const TypographyDocs = lazy(() => import("./pages/Typography.mdx"));
-const ThemingDocs = lazy(() => import("./pages/Theming.mdx"));
+const ThemingPage = lazy(() =>
+  import("./pages/ThemingPage").then((m) => ({ default: m.ThemingPage })),
+);
 
-const navigation = [
-  { name: "Accordion", path: "/docs/accordion", icon: "🪗" },
-  { name: "Avatar", path: "/docs/avatar", icon: "👤" },
-  { name: "Badge", path: "/docs/badge", icon: "🏷️" },
-  { name: "Button", path: "/docs/button", icon: "🔘" },
-  { name: "Checkbox", path: "/docs/checkbox", icon: "✅" },
-  { name: "Input", path: "/docs/input", icon: "⌨️" },
-  { name: "Modal", path: "/docs/modal", icon: "🪟" },
-  { name: "Radio Group", path: "/docs/radio-group", icon: "🔘" },
-  { name: "Scroll Area", path: "/docs/scroll-area", icon: "🖱️" },
-  { name: "Skeleton", path: "/docs/skeleton", icon: "🦴" },
-  { name: "Typography", path: "/docs/typography", icon: "✍️" },
+const components = [
+  {
+    name: "Accordion",
+    path: "/docs/accordion",
+    description: "Collapsible content sections",
+  },
+  {
+    name: "Avatar",
+    path: "/docs/avatar",
+    description: "User profile images with fallbacks",
+  },
+  {
+    name: "Badge",
+    path: "/docs/badge",
+    description: "Status indicators and labels",
+  },
+  {
+    name: "Button",
+    path: "/docs/button",
+    description: "Interactive action triggers",
+  },
+  {
+    name: "Checkbox",
+    path: "/docs/checkbox",
+    description: "Multi-select form controls",
+  },
+  {
+    name: "Input",
+    path: "/docs/input",
+    description: "Text fields with validation",
+  },
+  {
+    name: "Modal",
+    path: "/docs/modal",
+    description: "Accessible dialog overlays",
+  },
+  {
+    name: "Radio Group",
+    path: "/docs/radio-group",
+    description: "Single-select option groups",
+  },
+  {
+    name: "Scroll Area",
+    path: "/docs/scroll-area",
+    description: "Scrollable content containers",
+  },
+  {
+    name: "Skeleton",
+    path: "/docs/skeleton",
+    description: "Loading placeholders",
+  },
+  {
+    name: "Typography",
+    path: "/docs/typography",
+    description: "Text styles and hierarchy",
+  },
 ];
 
-const homeThemes = [
-  {
-    name: "Ocean Drift",
-    color: "#0ea5e9",
-    desc: "Deep atmospheric blues for professional data interfaces.",
-    config: { palette: { primary: { 500: "#0ea5e9" } } },
-  },
-  {
-    name: "Electric Violet",
-    color: "#8b5cf6",
-    desc: "Bold purple tones for creative and modern startups.",
-    config: { palette: { primary: { 500: "#8b5cf6" } } },
-  },
-  {
-    name: "Rose Gold",
-    color: "#f43f5e",
-    desc: "Warm and elegant rose tones for premium experiences.",
-    config: { palette: { primary: { 500: "#f43f5e" } } },
-  },
+const COLOR_PRESETS = [
+  { name: "Pink", value: "#ec4899" },
+  { name: "Blue", value: "#3b82f6" },
+  { name: "Violet", value: "#8b5cf6" },
+  { name: "Emerald", value: "#10b981" },
+  { name: "Orange", value: "#f97316" },
+  { name: "Red", value: "#ef4444" },
+  { name: "Cyan", value: "#06b6d4" },
+  { name: "Rose", value: "#f43f5e" },
 ];
 
-const LandingPage = () => {
-  const { overrideTheme, resetTheme, theme } = useTheme();
+function hexToHSL(hex: string): [number, number, number] {
+  const r = parseInt(hex.slice(1, 3), 16) / 255;
+  const g = parseInt(hex.slice(3, 5), 16) / 255;
+  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  const max = Math.max(r, g, b),
+    min = Math.min(r, g, b);
+  const l = (max + min) / 2;
+  if (max === min) return [0, 0, l];
+  const d = max - min;
+  const s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+  let h = 0;
+  if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+  else if (max === g) h = ((b - r) / d + 2) / 6;
+  else h = ((r - g) / d + 4) / 6;
+  return [h * 360, s * 100, l * 100];
+}
+
+function hslToHex(h: number, s: number, l: number): string {
+  s /= 100;
+  l /= 100;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n: number) => {
+    const k = (n + h / 30) % 12;
+    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+    return Math.round(255 * Math.max(0, Math.min(1, color)))
+      .toString(16)
+      .padStart(2, "0");
+  };
+  return `#${f(0)}${f(8)}${f(4)}`;
+}
+
+function generatePaletteFromColor(hex: string) {
+  const [h, s] = hexToHSL(hex);
+  return {
+    50: hslToHex(h, Math.min(100, s * 1.1), 97),
+    100: hslToHex(h, Math.min(100, s * 1.1), 93),
+    200: hslToHex(h, Math.min(100, s), 85),
+    300: hslToHex(h, Math.min(100, s * 0.95), 73),
+    400: hslToHex(h, Math.min(100, s * 0.9), 60),
+    500: hex,
+    600: hslToHex(h, Math.min(100, s * 0.95), 42),
+    700: hslToHex(h, Math.min(100, s * 0.9), 34),
+    800: hslToHex(h, Math.min(100, s * 0.85), 26),
+    900: hslToHex(h, Math.min(100, s * 0.8), 18),
+  };
+}
+
+const CopyInstallButton: React.FC = () => {
+  const { theme } = useTheme();
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      onClick={() => {
+        navigator.clipboard.writeText("npm install awesome-ui-library");
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
+      }}
+      className="h-8 px-4 rounded-md border text-xs font-mono flex items-center gap-2 transition-colors"
+      style={{
+        borderColor: theme.tokens.border,
+        color: theme.tokens.foregroundMuted,
+        backgroundColor: theme.tokens.surface,
+      }}
+    >
+      npm install awesome-ui-library
+      {copied ? (
+        <svg
+          className="w-3.5 h-3.5 shrink-0"
+          style={{ color: theme.palette.success[500] }}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M5 13l4 4L19 7"
+          />
+        </svg>
+      ) : (
+        <svg
+          className="w-3.5 h-3.5 shrink-0 opacity-50"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+          />
+        </svg>
+      )}
+    </button>
+  );
+};
+
+const ColorPicker: React.FC = () => {
+  const { theme, overrideTheme, resetTheme } = useTheme();
+  const [customColor, setCustomColor] = useState(theme.palette.primary[500]);
+  const [copied, setCopied] = useState<string | null>(null);
+
+  const applyColor = (color: string) => {
+    setCustomColor(color);
+    const palette = generatePaletteFromColor(color);
+    overrideTheme({
+      palette: { primary: palette },
+      tokens: {
+        accent: palette[600],
+        accentForeground: "#ffffff",
+        accentHover: palette[700],
+        ring: palette[500],
+      },
+    });
+  };
+
+  const copyColor = (value: string, label: string) => {
+    navigator.clipboard.writeText(value);
+    setCopied(label);
+    setTimeout(() => setCopied(null), 1500);
+  };
 
   return (
-    <div className="flex flex-col items-center px-6 py-24 sm:py-48 relative overflow-hidden">
-      {/* Background Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-pink-500/10 blur-[120px] rounded-full -z-10" />
+    <div
+      className="rounded-lg border p-6"
+      style={{
+        borderColor: theme.tokens.border,
+        backgroundColor: theme.tokens.surface,
+      }}
+    >
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-sm font-semibold">Primary Color</h3>
+        <button
+          onClick={() => {
+            resetTheme();
+            setCustomColor("#ec4899");
+          }}
+          className="text-xs opacity-50 hover:opacity-100 transition-opacity"
+        >
+          Reset
+        </button>
+      </div>
 
-      {/* Announcement */}
-      <div className="mb-12 animate-in fade-in slide-in-from-top-8 duration-1000">
-        <div className="group flex items-center gap-3 px-6 py-2 rounded-full border border-white/5 bg-white/[0.02] backdrop-blur-sm text-xs font-black tracking-widest uppercase hover:bg-white/[0.05 transition-all cursor-pointer">
-          <span className="text-pink-500">New Release</span>
-          <span className="opacity-30">|</span>
-          <span className="opacity-60">Version 2.0.0 is now live</span>
-          <span className="group-hover:translate-x-1 transition-transform ml-2">
-            →
+      {/* Preset swatches */}
+      <div className="flex flex-wrap gap-2 mb-4">
+        {COLOR_PRESETS.map((preset) => (
+          <button
+            key={preset.name}
+            onClick={() => applyColor(preset.value)}
+            className="w-8 h-8 rounded-md border-2 transition-transform hover:scale-110"
+            style={{
+              backgroundColor: preset.value,
+              borderColor:
+                customColor === preset.value
+                  ? theme.tokens.foreground
+                  : "transparent",
+            }}
+            title={preset.name}
+          />
+        ))}
+      </div>
+
+      {/* Custom color input + copy */}
+      <div className="flex items-center gap-2">
+        <input
+          type="color"
+          value={customColor}
+          onChange={(e) => applyColor(e.target.value)}
+          className="w-8 h-8 rounded cursor-pointer border-0 p-0"
+        />
+        <input
+          type="text"
+          value={customColor}
+          onChange={(e) => {
+            const v = e.target.value;
+            if (/^#[0-9a-fA-F]{6}$/.test(v)) applyColor(v);
+            setCustomColor(v);
+          }}
+          className="h-8 px-3 rounded-md border text-sm font-mono w-28"
+          style={{
+            borderColor: theme.tokens.border,
+            backgroundColor: theme.tokens.background,
+            color: theme.tokens.foreground,
+          }}
+          maxLength={7}
+        />
+        <button
+          onClick={() => copyColor(customColor, "hex")}
+          className="h-8 px-3 rounded-md border text-xs font-medium transition-colors"
+          style={{
+            borderColor: theme.tokens.border,
+            color:
+              copied === "hex"
+                ? theme.palette.success[500]
+                : theme.tokens.foregroundMuted,
+          }}
+        >
+          {copied === "hex" ? "Copied!" : "Copy"}
+        </button>
+      </div>
+
+      {/* Palette preview with clickable shades */}
+      <div className="mt-5">
+        <div className="flex items-center justify-between mb-2">
+          <span
+            className="text-xs font-medium"
+            style={{ color: theme.tokens.foregroundMuted }}
+          >
+            Generated Palette
+          </span>
+          <span
+            className="text-[10px]"
+            style={{ color: theme.tokens.foregroundMuted }}
+          >
+            {copied && copied !== "hex"
+              ? `Copied ${copied}!`
+              : "Click a shade to copy"}
           </span>
         </div>
+        <div className="flex rounded-md overflow-hidden">
+          {([50, 100, 200, 300, 400, 500, 600, 700, 800, 900] as const).map(
+            (shade) => {
+              const shadeColor =
+                theme.palette.primary[
+                  shade as keyof typeof theme.palette.primary
+                ];
+              return (
+                <button
+                  key={shade}
+                  className="flex-1 h-10 transition-transform hover:scale-y-125 relative group cursor-pointer"
+                  style={{ backgroundColor: shadeColor }}
+                  onClick={() => copyColor(shadeColor, String(shade))}
+                  title={`${shade}: ${shadeColor}`}
+                >
+                  <span
+                    className="absolute inset-0 flex items-center justify-center text-[9px] font-bold opacity-0 group-hover:opacity-100 transition-opacity"
+                    style={{ color: shade <= 300 ? "#000" : "#fff" }}
+                  >
+                    {shade}
+                  </span>
+                </button>
+              );
+            },
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const LivePreview: React.FC = () => {
+  const { theme } = useTheme();
+
+  return (
+    <div
+      className="rounded-lg border p-6 space-y-5"
+      style={{
+        borderColor: theme.tokens.border,
+        backgroundColor: theme.tokens.surface,
+      }}
+    >
+      <h3 className="text-sm font-semibold mb-4">Live Preview</h3>
+      <div className="flex flex-wrap gap-3">
+        <Button variant="primary" size="sm">
+          Primary
+        </Button>
+        <Button variant="secondary" size="sm">
+          Secondary
+        </Button>
+        <Button variant="outline" size="sm">
+          Outline
+        </Button>
+        <Button variant="ghost" size="sm">
+          Ghost
+        </Button>
+      </div>
+      <Input label="Email" placeholder="you@example.com" inputSize="sm" />
+      <div className="flex flex-wrap gap-2">
+        <Badge variant="primary">Active</Badge>
+        <Badge variant="success">Online</Badge>
+        <Badge variant="warning">Pending</Badge>
+        <Badge variant="danger">Offline</Badge>
+      </div>
+      <Checkbox label="Accept terms and conditions" defaultChecked />
+    </div>
+  );
+};
+
+const LandingPage: React.FC = () => {
+  const { theme } = useTheme();
+
+  return (
+    <div className="max-w-5xl mx-auto px-6 py-8 sm:py-12">
+      {/* Hero + Theme Customizer */}
+      <div className="text-center max-w-2xl mx-auto mb-8">
+        <div
+          className="inline-block text-xs font-medium px-2.5 py-1 rounded-md mb-4"
+          style={{
+            backgroundColor: `${theme.palette.primary[500]}15`,
+            color: theme.palette.primary[500],
+          }}
+        >
+          v2.0.0
+        </div>
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight mb-3">
+          Build better interfaces,{" "}
+          <span style={{ color: theme.palette.primary[500] }}>faster.</span>
+        </h1>
+        <p
+          className="text-base leading-relaxed mb-6"
+          style={{ color: theme.tokens.foregroundMuted }}
+        >
+          A production-ready React component library with built-in theming,
+          accessibility, and TypeScript support.
+        </p>
+        <div className="flex flex-wrap items-center gap-3 justify-center">
+          <Link to="/docs/button">
+            <Button size="sm">Browse Components</Button>
+          </Link>
+          <CopyInstallButton />
+        </div>
       </div>
 
-      {/* Hero Text */}
-      <div className="text-center max-w-[1000px] mb-16 space-y-8">
-        <h1 className="text-5xl sm:text-8xl font-black tracking-tighter leading-[0.9] animate-in fade-in slide-in-from-bottom-8 duration-700">
-          Craft <span className="text-pink-500 italic">Exceptional</span>{" "}
-          Interfaces.
-        </h1>
-        <p className="text-xl sm:text-2xl leading-relaxed opacity-40 max-w-[700px] mx-auto animate-in fade-in duration-1000 delay-300">
-          A premium component library designed to give your projects a distinct
-          visual edge. Built with performance, accessibility, and high-end
-          aesthetics at its core.
+      {/* Theme Customizer - visible without scrolling */}
+      <div className="text-center mb-2">
+        <p
+          className="text-xs font-medium"
+          style={{ color: theme.tokens.foregroundMuted }}
+        >
+          Pick a primary color to preview
         </p>
       </div>
-
-      {/* CTA's */}
-      <div className="flex flex-wrap items-center justify-center gap-6 mb-32 animate-in fade-in zoom-in duration-700 delay-500">
-        <Link to="/docs/theming">
-          <Button
-            size="lg"
-            className="rounded-full px-10 h-14 font-black text-xs uppercase tracking-widest bg-pink-500 hover:bg-pink-600 shadow-[0_0_20px_rgba(236,72,153,0.3)]"
-          >
-            Get Started Free
-          </Button>
-        </Link>
-        <Link to="/docs/button">
-          <Button
-            variant="ghost"
-            size="lg"
-            className="rounded-full px-10 h-14 font-black text-xs uppercase tracking-widest border border-white/5 hover:bg-white/5"
-          >
-            Browse Library
-          </Button>
-        </Link>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-10">
+        <ColorPicker />
+        <LivePreview />
       </div>
 
-      {/* Premium Theme Showcase */}
-      <div className="w-full max-w-6xl mt-20">
-        <div className="flex items-end justify-between mb-12 px-4 border-b border-white/5 pb-8">
-          <div className="space-y-2 text-left">
-            <Typography
-              variant="h3"
-              weight="black"
-              className="tracking-tighter"
-            >
-              Instant Theming
-            </Typography>
-            <p className="opacity-40 text-sm">
-              One click to completely redefine your experience.
-            </p>
-          </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => resetTheme()}
-            className="text-[10px] font-black uppercase tracking-widest opacity-40 hover:opacity-100 hover:text-pink-500"
-          >
-            Default System
-          </Button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {homeThemes.map((t, idx) => (
-            <button
-              key={t.name}
-              onClick={() => overrideTheme(t.config as any)}
-              className="group p-10 rounded-[2.5rem] border text-left transition-all duration-700 hover:scale-[1.05] active:scale-[0.98] outline-none relative overflow-hidden animate-in fade-in slide-in-from-bottom-8"
+      {/* Features */}
+      <section
+        className="rounded-xl border p-8 sm:p-10"
+        style={{
+          borderColor: theme.tokens.border,
+          background:
+            theme.colorMode === "dark"
+              ? `linear-gradient(135deg, ${theme.palette.primary[500]}08 0%, transparent 60%)`
+              : `linear-gradient(135deg, ${theme.palette.primary[500]}06 0%, transparent 60%)`,
+        }}
+      >
+        <h2 className="text-2xl font-bold tracking-tight mb-2">
+          Why Awesome UI?
+        </h2>
+        <p
+          className="text-sm mb-8"
+          style={{ color: theme.tokens.foregroundMuted }}
+        >
+          Built for teams that ship fast without cutting corners.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {[
+            {
+              icon: (
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                  />
+                </svg>
+              ),
+              title: "Accessible",
+              desc: "WAI-ARIA compliant. Full keyboard navigation and screen reader support out of the box.",
+            },
+            {
+              icon: (
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
+                  />
+                </svg>
+              ),
+              title: "Themeable",
+              desc: "CSS variable theming with light/dark modes. Override any color at runtime — zero JS cost.",
+            },
+            {
+              icon: (
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                  />
+                </svg>
+              ),
+              title: "TypeScript",
+              desc: "Every component is fully typed. Exported interfaces for all props — autocomplete just works.",
+            },
+          ].map((feature) => (
+            <div
+              key={feature.title}
+              className="rounded-lg border p-5"
               style={{
                 borderColor: theme.tokens.border,
                 backgroundColor: theme.tokens.surface,
-                animationDelay: `${idx * 150}ms`,
               }}
             >
               <div
-                className="absolute -top-10 -right-10 w-40 h-40 blur-[80px] opacity-10 group-hover:opacity-30 transition-opacity"
-                style={{ background: t.color }}
-              />
-              <div
-                className="w-16 h-16 rounded-3xl mb-8 flex items-center justify-center text-3xl shadow-xl transition-all group-hover:rotate-[15deg] group-hover:scale-110"
-                style={{ backgroundColor: `${t.color}15`, color: t.color }}
+                className="w-9 h-9 rounded-lg flex items-center justify-center mb-3"
+                style={{
+                  backgroundColor: `${theme.palette.primary[500]}12`,
+                  color: theme.palette.primary[500],
+                }}
               >
-                {idx === 0 ? "🌊" : idx === 1 ? "⚡" : "🌹"}
+                {feature.icon}
               </div>
-              <h3 className="text-2xl font-black mb-3 tracking-tight">
-                {t.name}
-              </h3>
-              <p className="text-sm leading-relaxed opacity-40">{t.desc}</p>
-            </button>
+              <h3 className="text-sm font-semibold mb-1.5">{feature.title}</h3>
+              <p
+                className="text-xs leading-relaxed"
+                style={{ color: theme.tokens.foregroundMuted }}
+              >
+                {feature.desc}
+              </p>
+            </div>
           ))}
         </div>
-      </div>
+      </section>
 
-      {/* Visual Component Discovery */}
-      <div className="w-full max-w-6xl mt-48">
-        <div className="px-4 mb-12 text-left border-b border-white/5 pb-8">
-          <Typography variant="h3" weight="black" className="tracking-tighter">
-            Explore Ecosystem
-          </Typography>
-          <p className="opacity-40 text-sm">
-            {navigation.length} components ready for integration.
-          </p>
+      {/* Components Grid */}
+      <section className="mt-12">
+        <div className="flex items-baseline justify-between mb-6">
+          <h2 className="text-xl font-semibold tracking-tight">Components</h2>
+          <span
+            className="text-sm"
+            style={{ color: theme.tokens.foregroundMuted }}
+          >
+            {components.length} available
+          </span>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {navigation.map((comp, idx) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {components.map((comp) => (
             <Link
               key={comp.path}
               to={comp.path}
-              className="group p-8 rounded-3xl border text-center transition-all duration-500 hover:border-pink-500/50 hover:bg-pink-500/[0.02] animate-in fade-in hover:shadow-2xl hover:shadow-pink-500/5 translate-y-0 hover:-translate-y-2"
+              className="group rounded-lg border p-4 transition-colors"
               style={{
                 borderColor: theme.tokens.border,
                 backgroundColor: theme.tokens.surface,
-                animationDelay: `${idx * 50}ms`,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = theme.palette.primary[500];
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = theme.tokens.border;
               }}
             >
-              <div className="text-4xl mb-6 grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-125 group-hover:rotate-12">
-                {comp.icon}
+              <div className="font-medium text-sm mb-1">{comp.name}</div>
+              <div
+                className="text-xs"
+                style={{ color: theme.tokens.foregroundMuted }}
+              >
+                {comp.description}
               </div>
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-30 group-hover:opacity-100 group-hover:text-pink-500 transition-all">
-                {comp.name}
-              </span>
             </Link>
           ))}
         </div>
-      </div>
+      </section>
     </div>
   );
 };
@@ -205,15 +588,17 @@ export const DocsApp: React.FC = () => {
     <DocsLayout>
       <Suspense
         fallback={
-          <div className="animate-pulse h-64 bg-white/5 rounded-[2rem]" />
+          <div className="h-64 flex items-center justify-center opacity-40 text-sm">
+            Loading...
+          </div>
         }
       >
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/theming" element={<ThemingDocs />} />
+          <Route path="/theming" element={<ThemingPage />} />
           <Route path="/button" element={<ButtonDocs />} />
           <Route path="/input" element={<InputDocs />} />
-          <Route path="/radio-group" element={<RadioGroup_Docs />} />
+          <Route path="/radio-group" element={<RadioGroupDocs />} />
           <Route path="/accordion" element={<AccordionDocs />} />
           <Route path="/avatar" element={<AvatarDocs />} />
           <Route path="/badge" element={<BadgeDocs />} />
@@ -229,5 +614,4 @@ export const DocsApp: React.FC = () => {
   );
 };
 
-const RadioGroup_Docs = RadioGroupDocs;
 export default DocsApp;

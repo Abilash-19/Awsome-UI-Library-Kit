@@ -1,76 +1,74 @@
 import { Button } from '@/components/Button';
 import { ComponentPreview } from '../components/ComponentPreview';
 import { PropsTable } from '../components/PropsTable';
+import { PageHeader } from '../components/PageHeader';
 
-Buttons are fundamental interactive elements that trigger actions, submit forms, or navigate the user. Our design system provides a rich set of variants, sizes, and states to fit every functional requirement.
+<PageHeader title="Button" description="Trigger actions, submit forms, or navigate. Seven variants, three sizes, loading and icon support." />
 
 ## Variants
-Use different variants to signal the importance of an action and maintain visual hierarchy.
+
+Each variant signals a different level of emphasis.
 
 <ComponentPreview code={`<Button variant="primary">Primary</Button>
 <Button variant="secondary">Secondary</Button>
 <Button variant="outline">Outline</Button>
 <Button variant="ghost">Ghost</Button>`}>
-  <div className="flex flex-wrap gap-4 items-center">
-    <Button variant="primary">Primary Action</Button>
+  <div className="flex flex-wrap gap-3 items-center">
+    <Button variant="primary">Primary</Button>
     <Button variant="secondary">Secondary</Button>
     <Button variant="outline">Outline</Button>
-    <Button variant="ghost">Ghost Link</Button>
+    <Button variant="ghost">Ghost</Button>
   </div>
 </ComponentPreview>
 
-## States
-### Loading & Disabled
-Handle asynchronous operations and form validation gracefully.
+## Loading & Disabled
 
-<ComponentPreview code={`<Button isLoading>Processing...</Button>
-<Button disabled>Action Locked</Button>`}>
-  <div className="flex flex-wrap gap-4 items-center">
-    <Button isLoading>Loading State</Button>
-    <Button disabled variant="outline">Disabled View</Button>
-    <Button isLoading variant="secondary">Secondary Load</Button>
+Shows a spinner during async operations. Disabled prevents interaction.
+
+<ComponentPreview code={`<Button isLoading>Saving...</Button>
+<Button disabled>Unavailable</Button>`}>
+  <div className="flex flex-wrap gap-3 items-center">
+    <Button isLoading>Saving...</Button>
+    <Button disabled variant="outline">Unavailable</Button>
+    <Button isLoading variant="secondary">Loading</Button>
   </div>
 </ComponentPreview>
 
-## Customization
-### Sizes
-Buttons support three sizes: `sm`, `md` (default), and `lg`.
+## Sizes
+
+Three sizes: `sm` for toolbars, `md` for forms, `lg` for landing pages.
 
 <ComponentPreview code={`<Button size="sm">Small</Button>
 <Button size="md">Medium</Button>
 <Button size="lg">Large</Button>`}>
-  <div className="flex flex-wrap items-center gap-6">
-    <Button size="sm" className="rounded-xl">Small (Compact UI)</Button>
-    <Button size="md" className="rounded-2xl">Medium (Standard)</Button>
-    <Button size="lg" className="rounded-3xl">Large (Landing Page)</Button>
+  <div className="flex flex-wrap items-center gap-3">
+    <Button size="sm">Small</Button>
+    <Button size="md">Medium</Button>
+    <Button size="lg">Large</Button>
   </div>
 </ComponentPreview>
 
-### Semantic Colors
-Communicate success, warning, or danger states instantly.
+## Semantic Colors
 
-<ComponentPreview code={`<Button variant="success">Save Changes</Button>
-<Button variant="warning">Reset Data</Button>
-<Button variant="danger">Delete Account</Button>`}>
-  <div className="flex flex-wrap gap-4 items-center">
-    <Button variant="success">Success Action</Button>
-    <Button variant="warning">Warning Notice</Button>
-    <Button variant="danger">Delete Item</Button>
+Convey intent at a glance — success, warning, or danger.
+
+<ComponentPreview code={`<Button variant="success">Save</Button>
+<Button variant="warning">Reset</Button>
+<Button variant="danger">Delete</Button>`}>
+  <div className="flex flex-wrap gap-3 items-center">
+    <Button variant="success">Save</Button>
+    <Button variant="warning">Reset</Button>
+    <Button variant="danger">Delete</Button>
   </div>
 </ComponentPreview>
 
-## Best Practices
-- **Labeling**: Use clear, actionable verbs (e.g., "Save", "Create", "Post").
-- **Hierarchy**: Use only one Primary button per view to draw focus.
-- **Accessibility**: All buttons are keyboard navigable and support `aria-label` for icons.
-
-## Reference
+## Props
 <PropsTable props={[
-  { name: 'variant', type: '"primary" | "secondary" | "outline" | "ghost" | "success" | "warning" | "danger"', defaultValue: '"primary"', description: 'Sets the theme and visual emphasis.' },
-  { name: 'size', type: '"sm" | "md" | "lg"', defaultValue: '"md"', description: 'Height and internal padding scale.' },
-  { name: 'isLoading', type: 'boolean', description: 'Replaces label with a spinner and disables clicks.' },
-  { name: 'disabled', type: 'boolean', description: 'Lowers opacity and prevents all user interaction.' },
-  { name: 'prefixIcon', type: 'ReactNode', description: 'Icon displayed before the button text.' },
-  { name: 'suffixIcon', type: 'ReactNode', description: 'Icon displayed after the button text.' },
-  { name: 'className', type: 'string', description: 'Custom CSS (useful for rounding or full-width).' },
+  { name: 'variant', type: '"primary" | "secondary" | "outline" | "ghost" | "success" | "warning" | "danger"', defaultValue: '"primary"', description: 'Visual style and emphasis level.' },
+  { name: 'size', type: '"sm" | "md" | "lg"', defaultValue: '"md"', description: 'Height and padding.' },
+  { name: 'isLoading', type: 'boolean', description: 'Shows a spinner and disables clicks.' },
+  { name: 'disabled', type: 'boolean', description: 'Prevents interaction.' },
+  { name: 'prefixIcon', type: 'ReactNode', description: 'Icon before the label.' },
+  { name: 'suffixIcon', type: 'ReactNode', description: 'Icon after the label.' },
+  { name: 'className', type: 'string', description: 'Additional CSS classes.' },
 ]} />

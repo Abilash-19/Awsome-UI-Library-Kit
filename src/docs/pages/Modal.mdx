@@ -1,53 +1,51 @@
 import { ModalDemo } from '../components/ModalDemo';
 import { ComponentPreview } from '../components/ComponentPreview';
 import { PropsTable } from '../components/PropsTable';
+import { PageHeader } from '../components/PageHeader';
 
-Modals are overlay windows used to focus the user's attention on a specific task or information. They block interaction with the rest of the application until closed.
+<PageHeader title="Modal" description="Accessible dialog overlays. Four sizes, backdrop/escape close control, and portal rendering." />
 
 ## Basic Usage
-Use the `isOpen` and `onClose` props to control the modal's state.
+
+Control visibility with `isOpen` and `onClose`.
 
 <ComponentPreview code={`const [isOpen, setIsOpen] = useState(false);
 
-<Button onClick={() => setIsOpen(true)}>Open Modal</Button>
-
-<Modal 
-  isOpen={isOpen} 
-  onClose={() => setIsOpen(false)} 
-  title="Confirmation"
->
-  Are you sure you want to proceed with this action?
+<Button onClick={() => setIsOpen(true)}>Open</Button>
+<Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title="Confirm">
+  Are you sure?
 </Modal>`}>
-  <ModalDemo title="Basic Modal Example" />
+  <ModalDemo title="Example Modal" />
 </ComponentPreview>
 
-## Customization
-### Modal Sizes
-Modals support multiple widths: `sm`, `md` (default), `lg`, and `xl`.
+## Sizes
+
+Four widths: `sm`, `md`, `lg`, and `xl`.
 
 <ComponentPreview code={`<Modal size="sm" ... />
 <Modal size="lg" ... />`}>
-  <div className="flex flex-wrap gap-4">
-    <ModalDemo size="sm" title="Small Modal" />
-    <ModalDemo size="md" title="Default Modal" />
-    <ModalDemo size="lg" title="Large Modal" />
+  <div className="flex flex-wrap gap-3">
+    <ModalDemo size="sm" title="Small" />
+    <ModalDemo size="md" title="Medium" />
+    <ModalDemo size="lg" title="Large" />
   </div>
 </ComponentPreview>
 
-### Header Configuration
-You can toggle the close button or change the title.
+## Without Close Button
 
-<ComponentPreview code={`<Modal showCloseButton={false} title="No Close Action" ... />`}>
-  <ModalDemo showCloseButton={false} title="Persistent Modal Header" />
+Set `showCloseButton={false}` to require an explicit action.
+
+<ComponentPreview code={`<Modal showCloseButton={false} title="Required Action" />`}>
+  <ModalDemo showCloseButton={false} title="Required Action" />
 </ComponentPreview>
 
 ## Props
 <PropsTable props={[
-  { name: 'isOpen', type: 'boolean', required: true, description: 'Whether the modal is visible.' },
-  { name: 'onClose', type: '() => void', required: true, description: 'Function called when the modal is closed via backdrop, escape, or close button.' },
-  { name: 'title', type: 'string', description: 'Header text for the modal.' },
-  { name: 'size', type: '"sm" | "md" | "lg" | "xl"', defaultValue: '"md"', description: 'Width of the modal container.' },
-  { name: 'showCloseButton', type: 'boolean', defaultValue: 'true', description: 'Shows the "X" button in the top right.' },
-  { name: 'preventBackdropClose', type: 'boolean', defaultValue: 'false', description: 'Disables closing the modal when clicking outside.' },
-  { name: 'preventEscapeClose', type: 'boolean', defaultValue: 'false', description: 'Disables closing the modal when pressing the Escape key.' },
+  { name: 'isOpen', type: 'boolean', required: true, description: 'Controls visibility.' },
+  { name: 'onClose', type: '() => void', required: true, description: 'Called on close.' },
+  { name: 'title', type: 'string', description: 'Header text.' },
+  { name: 'size', type: '"sm" | "md" | "lg" | "xl"', defaultValue: '"md"', description: 'Dialog width.' },
+  { name: 'showCloseButton', type: 'boolean', defaultValue: 'true', description: 'Shows the X button.' },
+  { name: 'preventBackdropClose', type: 'boolean', defaultValue: 'false', description: 'Disables backdrop click close.' },
+  { name: 'preventEscapeClose', type: 'boolean', defaultValue: 'false', description: 'Disables Escape key close.' },
 ]} />

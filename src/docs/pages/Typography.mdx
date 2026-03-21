@@ -1,52 +1,57 @@
 import { Typography } from '@/components/Typography';
 import { ComponentPreview } from '../components/ComponentPreview';
 import { PropsTable } from '../components/PropsTable';
+import { PageHeader } from '../components/PageHeader';
 
-Typography is used to maintain visual hierarchy and readability throughout the application.
+<PageHeader title="Typography" description="Consistent text styles for headings, body copy, and captions. Weight overrides and loading state." />
 
-## Display Variants
-Use display variants for large, impactful text like hero headlines.
+## Display
+
+Large-scale text for hero sections and landing pages.
 
 <ComponentPreview code={`<Typography variant="display1">Display 1</Typography>
 <Typography variant="display2">Display 2</Typography>`}>
-  <div className="space-y-4">
+  <div className="space-y-3">
     <Typography variant="display1">Display 1</Typography>
     <Typography variant="display2">Display 2</Typography>
   </div>
 </ComponentPreview>
 
-## Heading Variants
-Standard headings from H1 to H6.
+## Headings
+
+Semantic headings H1 through H3.
 
 <ComponentPreview code={`<Typography variant="h1">Heading 1</Typography>
 <Typography variant="h2">Heading 2</Typography>
 <Typography variant="h3">Heading 3</Typography>`}>
-  <div className="space-y-4">
+  <div className="space-y-3">
     <Typography variant="h1">Heading 1</Typography>
     <Typography variant="h2">Heading 2</Typography>
     <Typography variant="h3">Heading 3</Typography>
   </div>
 </ComponentPreview>
 
-## Body & Support
-Text styles for paragraphs, captions, and overlines.
+## Body & Caption
 
-<ComponentPreview code={`<Typography variant="body1">Body 1: The standard paragraph style.</Typography>
-<Typography variant="body2">Body 2: A slightly smaller paragraph style.</Typography>
-<Typography variant="caption">Caption: Smallest text for meta info.</Typography>`}>
-  <div className="space-y-4 flex flex-col">
-    <Typography variant="body1">Body 1: The standard paragraph style.</Typography>
-    <Typography variant="body2">Body 2: A slightly smaller paragraph style.</Typography>
-    <Typography variant="caption">Caption: Smallest text for meta info.</Typography>
+Paragraph and meta text styles.
+
+<ComponentPreview code={`<Typography variant="body1">Body 1</Typography>
+<Typography variant="body2">Body 2</Typography>
+<Typography variant="caption">Caption</Typography>`}>
+  <div className="space-y-2 flex flex-col">
+    <Typography variant="body1">Body 1 — standard paragraph text.</Typography>
+    <Typography variant="body2">Body 2 — smaller secondary text.</Typography>
+    <Typography variant="caption">Caption — metadata and labels.</Typography>
   </div>
 </ComponentPreview>
 
-## Custom Weights
-You can override the default weight of any variant.
+## Weight Overrides
+
+Override the default weight on any variant.
 
 <ComponentPreview code={`<Typography variant="h4" weight="bold">Bold H4</Typography>
 <Typography variant="h4" weight="thin">Thin H4</Typography>`}>
-  <div className="space-y-4">
+  <div className="space-y-2">
     <Typography variant="h4" weight="bold">Bold H4</Typography>
     <Typography variant="h4" weight="thin">Thin H4</Typography>
   </div>
@@ -54,8 +59,8 @@ You can override the default weight of any variant.
 
 ## Props
 <PropsTable props={[
-  { name: 'variant', type: 'TypographyVariant', defaultValue: '"body1"', description: 'The visual style and semantic element mapping.' },
-  { name: 'as', type: 'string', description: 'Override the default HTML tag (e.g., render a h1 as a span).' },
-  { name: 'weight', type: 'TypographyWeight', description: 'Explicit font weight override.' },
-  { name: 'isLoading', type: 'boolean', description: 'Shows a skeleton loading state if true.' },
+  { name: 'variant', type: 'TypographyVariant', defaultValue: '"body1"', description: 'Text style and semantic HTML tag.' },
+  { name: 'as', type: 'string', description: 'Override the rendered HTML element.' },
+  { name: 'weight', type: 'TypographyWeight', description: 'Font weight override.' },
+  { name: 'isLoading', type: 'boolean', description: 'Shows a skeleton placeholder.' },
 ]} />

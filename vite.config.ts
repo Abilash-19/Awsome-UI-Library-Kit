@@ -11,13 +11,13 @@ const __dirname = dirname(__filename);
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    mdx(),
     react(),
     dts({
       include: ["src"],
-      exclude: ["**/*.test.tsx", "**/*.test.ts"],
+      exclude: ["**/*.test.tsx", "**/*.test.ts", "**/*.mdx"],
       rollupTypes: false,
     }),
-    mdx(),
   ],
   resolve: {
     alias: {
