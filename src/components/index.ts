@@ -9,6 +9,7 @@ export * from "./Skeleton";
 export * from "./Checkbox";
 export * from "./ScrollArea";
 export * from "./RadioGroup";
+export * from "./Switch";
 
 // ── Theme ──
 export { ThemeProvider, useTheme, defaultTheme, darkTheme } from "../theme";

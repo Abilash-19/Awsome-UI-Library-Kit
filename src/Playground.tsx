@@ -12,6 +12,8 @@ import { Skeleton } from "@/components/Skeleton";
 import { Checkbox } from "@/components/Checkbox";
 import { ScrollArea, ScrollElement } from "@/components/ScrollArea";
 import { RadioGroup } from "@/components/RadioGroup";
+import Switch from "@/components/Switch/Switch";
+import Popover from "@/components/Popover/Popover";
 import reactLogo from "@/assets/react.svg";
 import type { ThemeOverride } from "@/theme";
 
@@ -168,6 +170,7 @@ export default function Playground() {
 
   const [isSimulatingData, setIsSimulatingData] = useState(true);
   const [radioValue, setRadioValue] = useState("option-1");
+  const [switchState, setSwitchState] = useState(false);
 
   const [checkedItems, setCheckedItems] = useState({
     item1: false,
@@ -1462,6 +1465,98 @@ export default function Playground() {
         </div>
       </section>
 
+      {/* Switch Section */}
+      <section
+        className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl lg:col-span-2 mt-6 overflow-hidden"
+        style={sectionStyles}
+      >
+        <div className="mb-8">
+          <Typography variant="h4" weight="bold" className="mb-2">
+            Switches
+          </Typography>
+          <Typography variant="body2" style={mutedColor}>
+            Binary toggle controls with support for labels, loading states, and
+            different sizes.
+          </Typography>
+        </div>
+
+        <div className="grid gap-8 lg:grid-cols-2">
+          {/* Basic Usage */}
+          <div className="space-y-6">
+            <div
+              className="p-6 border rounded-2xl shadow-sm"
+              style={{
+                backgroundColor: theme.tokens.background,
+                borderColor: theme.tokens.border,
+              }}
+            >
+              <Typography variant="subtitle2" weight="bold" className="mb-4">
+                Interactive State
+              </Typography>
+              <div className="space-y-4">
+                <Switch
+                  label={`Interactive: ${switchState ? "On" : "Off"}`}
+                  checked={switchState}
+                  onChange={setSwitchState}
+                />
+                <Switch label="Default Toggle" />
+                <Switch label="Disabled" disabled />
+                <Switch label="Disabled Checked" disabled checked />
+              </div>
+            </div>
+          </div>
+
+          {/* Sizes & States */}
+          <div className="space-y-6">
+            <div
+              className="p-6 border rounded-2xl shadow-sm"
+              style={{
+                backgroundColor: theme.tokens.background,
+                borderColor: theme.tokens.border,
+              }}
+            >
+              <Typography variant="subtitle2" weight="bold" className="mb-4">
+                Sizes & States
+              </Typography>
+              <div className="flex flex-wrap gap-6 items-center mb-6">
+                <Switch size="small" label="Small" />
+                <Switch size="medium" label="Medium" />
+                <Switch size="large" label="Large" />
+              </div>
+              <div className="space-y-4">
+                <Switch label="Loading State" isLoading />
+                <Switch label="Error State" error="Selection required" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Labels & Descriptions */}
+        <div
+          className="mt-8 pt-8 border-t"
+          style={{ borderColor: theme.tokens.border }}
+        >
+          <Typography variant="subtitle2" weight="bold" className="mb-4">
+            Labels & Descriptions
+          </Typography>
+          <div className="grid gap-6 md:grid-cols-3">
+            <Switch
+              label="Email Notifications"
+              description="Receive daily summaries of your account activity."
+            />
+            <Switch
+              label="Public Profile"
+              description="Allow others to see your profile information and activity."
+            />
+            <Switch
+              label="Dark Mode"
+              helperText="Adjust the application appearance to reduce eye strain."
+              size="large"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* ScrollArea Section */}
       <section
         className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl lg:col-span-2 mt-6 overflow-hidden"
@@ -1566,6 +1661,273 @@ export default function Playground() {
                   ))}
                 </div>
               </ScrollArea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Popover Section */}
+      <section
+        className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl lg:col-span-2 mt-6"
+        style={sectionStyles}
+      >
+        <div className="mb-8">
+          <Typography variant="h4" weight="bold" className="mb-2">
+            Popover
+          </Typography>
+          <Typography variant="body2" style={mutedColor}>
+            Smart, accessible floating popovers powered by @floating-ui/react.
+          </Typography>
+        </div>
+
+        <div className="flex flex-wrap gap-6 items-center">
+          <Popover
+            placement="bottom"
+            className="z-50 outline-none focus:outline-none"
+            content={
+              <div
+                className="p-4 rounded-xl shadow-xl border w-64 space-y-2"
+                style={{
+                  backgroundColor: theme.tokens.surface,
+                  borderColor: theme.tokens.border,
+                }}
+              >
+                <Typography variant="subtitle2" weight="bold">
+                  Interactive Popover
+                </Typography>
+                <Typography variant="body2" style={mutedColor}>
+                  This popover handles clicks naturally. Notice how focus is
+                  trapped correctly.
+                </Typography>
+                <div className="pt-2">
+                  <Button size="sm" className="w-full">
+                    Acknowledge
+                  </Button>
+                </div>
+              </div>
+            }
+          >
+            <Button variant="primary">Open Dialog Popover</Button>
+          </Popover>
+
+          <Popover
+            placement="top"
+            className="z-50 outline-none focus:outline-none"
+            content={
+              <div
+                className="p-3 rounded-lg shadow-xl border w-48"
+                style={{
+                  backgroundColor: theme.tokens.surface,
+                  borderColor: theme.tokens.border,
+                }}
+              >
+                <Typography variant="body2" weight="medium">
+                  Aligned Top
+                </Typography>
+                <Typography variant="caption" style={mutedColor}>
+                  Fades and shifts if screen is too small.
+                </Typography>
+              </div>
+            }
+          >
+            <Button variant="outline">Top Info</Button>
+          </Popover>
+        </div>
+
+        <div
+          className="mt-8 border-t pt-8"
+          style={{ borderColor: theme.tokens.border }}
+        >
+          <Typography variant="subtitle2" weight="bold" className="mb-4">
+            Real-World Use Cases
+          </Typography>
+
+          <div className="flex flex-wrap gap-12 mt-6">
+            {/* Real Case 1: Profile Menu */}
+            <div className="flex flex-col items-center gap-4">
+              <Typography variant="caption" style={mutedColor}>
+                Profile Menu
+              </Typography>
+              <Popover
+                placement="bottom-start"
+                offset={10}
+                className="z-50 outline-none focus:outline-none"
+                content={
+                  <div
+                    className="p-2 shadow-xl rounded-xl border w-56 flex flex-col gap-1 pointer-events-auto"
+                    style={{
+                      backgroundColor: theme.tokens.surface,
+                      borderColor: theme.tokens.border,
+                    }}
+                  >
+                    <div
+                      className="p-3 border-b mb-1"
+                      style={{ borderColor: theme.tokens.border }}
+                    >
+                      <Typography variant="subtitle2" weight="bold">
+                        John Doe
+                      </Typography>
+                      <Typography variant="caption" style={mutedColor}>
+                        john.doe@enterprise.com
+                      </Typography>
+                    </div>
+                    <button
+                      className="text-left font-medium w-full px-3 py-2 text-sm rounded-md transition-colors hover:bg-black/5 dark:hover:bg-white/5"
+                      style={{ color: theme.tokens.foreground }}
+                    >
+                      Account Settings
+                    </button>
+                    <button
+                      className="text-left font-medium w-full px-3 py-2 text-sm rounded-md transition-colors hover:bg-black/5 dark:hover:bg-white/5"
+                      style={{ color: theme.tokens.foreground }}
+                    >
+                      Billing & Teams
+                    </button>
+                    <button
+                      className="text-left font-medium w-full px-3 py-2 text-sm rounded-md transition-colors hover:bg-black/5 dark:hover:bg-white/5"
+                      style={{ color: theme.tokens.foreground }}
+                    >
+                      Help & Support
+                    </button>
+                    <div
+                      className="border-t my-1"
+                      style={{ borderColor: theme.tokens.border }}
+                    />
+                    <button className="text-left font-medium w-full px-3 py-2 text-sm rounded-md transition-colors text-red-500 hover:bg-red-500/10 hover:text-red-600">
+                      Sign Out
+                    </button>
+                  </div>
+                }
+              >
+                <div className="cursor-pointer hover:ring-2 ring-[var(--ring-color)] ring-offset-2 rounded-full transition-all">
+                  <Avatar
+                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    alt="John Doe"
+                    size="medium"
+                  />
+                </div>
+              </Popover>
+            </div>
+
+            {/* Real Case 2: Advanced Filter */}
+            <div className="flex flex-col items-center gap-4">
+              <Typography variant="caption" style={mutedColor}>
+                Advanced Filter / Settings
+              </Typography>
+              <Popover
+                placement="bottom-start"
+                className="z-50 outline-none focus:outline-none"
+                content={
+                  <div
+                    className="p-5 shadow-xl rounded-xl border w-80 space-y-4 pointer-events-auto"
+                    style={{
+                      backgroundColor: theme.tokens.surface,
+                      borderColor: theme.tokens.border,
+                    }}
+                  >
+                    <div>
+                      <Typography variant="subtitle2" weight="bold">
+                        Dimensions Configuration
+                      </Typography>
+                      <Typography variant="caption" style={mutedColor}>
+                        Set properties for the current view.
+                      </Typography>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <Input label="Width" defaultValue="100%" inputSize="sm" />
+                      <Input
+                        label="Max. width"
+                        defaultValue="300px"
+                        inputSize="sm"
+                      />
+                      <Input
+                        label="Height"
+                        defaultValue="25px"
+                        inputSize="sm"
+                      />
+                      <Input
+                        label="Max. height"
+                        defaultValue="none"
+                        inputSize="sm"
+                      />
+                    </div>
+
+                    <div
+                      className="border-t pt-4 mt-2 flex gap-2 justify-end"
+                      style={{ borderColor: theme.tokens.border }}
+                    >
+                      <Button variant="ghost" size="sm">
+                        Reset
+                      </Button>
+                      <Button size="sm">Apply Filters</Button>
+                    </div>
+                  </div>
+                }
+              >
+                <Button variant="outline">
+                  Dimensions{" "}
+                  <Badge
+                    variant="primary"
+                    size="small"
+                    className="ml-2 w-5 h-5 flex items-center justify-center rounded-full p-0"
+                  >
+                    3
+                  </Badge>
+                </Button>
+              </Popover>
+            </div>
+
+            {/* Real Case 3: Interactive Info Card */}
+            <div className="flex flex-col items-center gap-4">
+              <Typography variant="caption" style={mutedColor}>
+                System Info Tooltip
+              </Typography>
+              <Popover
+                placement="top"
+                className="z-50 outline-none focus:outline-none"
+                content={
+                  <div
+                    className="p-4 shadow-xl rounded-xl border w-72 flex gap-4 pointer-events-auto"
+                    style={{
+                      backgroundColor: theme.tokens.surface,
+                      borderColor: theme.tokens.border,
+                    }}
+                  >
+                    <div className="flex-shrink-0 pt-0.5">
+                      <div className="w-4 h-4 rounded-full bg-green-500 ring-4 ring-green-500/20"></div>
+                    </div>
+                    <div className="flex-1">
+                      <Typography
+                        variant="subtitle2"
+                        weight="bold"
+                        className="mb-1 block"
+                      >
+                        Systems Operational
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        style={mutedColor}
+                        className="block mb-2"
+                      >
+                        All database clusters and API endpoints are currently
+                        reporting 100% uptime in the US-East region.
+                      </Typography>
+                      <a
+                        href="#"
+                        className="text-sm font-semibold hover:underline"
+                        style={{ color: theme.tokens.ring }}
+                      >
+                        View Detailed Status →
+                      </a>
+                    </div>
+                  </div>
+                }
+              >
+                <button className="w-6 h-6 rounded-full border border-[var(--ring-color)] text-[var(--ring-color)] flex items-center justify-center hover:bg-[var(--ring-color)] hover:text-white transition-colors cursor-pointer text-xs font-bold">
+                  i
+                </button>
+              </Popover>
             </div>
           </div>
         </div>

@@ -182,7 +182,7 @@ const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
                         "border-[var(--primary)] bg-[var(--primary-muted)]",
                         checkedBorderWidths[size],
                       ),
-                    "peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--ring)] peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[var(--bg-color)]",
+                    "peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--ring)]",
                   )}
                 />
 
