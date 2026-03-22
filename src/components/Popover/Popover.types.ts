@@ -63,4 +63,18 @@ export interface PopoverProps {
 
   /** Portal container element */
   portalContainer?: HTMLElement | null;
+
+  /**
+   * When true the floating panel will match the width of the trigger element.
+   * Useful for dropdowns / selects.
+   * @default false
+   */
+  matchTriggerWidth?: boolean;
+
+  /**
+   * When true, focus stays on the trigger instead of moving into the floating panel.
+   * Useful for combobox/dropdown patterns where keyboard is handled on the trigger.
+   * @default false
+   */
+  keepTriggerFocus?: boolean;
 }

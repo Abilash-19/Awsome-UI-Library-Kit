@@ -24,16 +24,18 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
 
   return (
     <div
-      className={`my-8 rounded-lg border overflow-hidden ${className ?? ""}`}
+      className={`my-8 rounded-lg border ${className ?? ""}`}
       style={{
         borderColor: theme.tokens.border,
         backgroundColor: theme.tokens.surface,
+        overflow: "visible",
       }}
     >
       {/* Preview */}
       <div
         className="flex min-h-[200px] items-center justify-center p-8"
         style={{
+          overflow: "visible",
           backgroundImage:
             theme.colorMode === "dark"
               ? "radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)"

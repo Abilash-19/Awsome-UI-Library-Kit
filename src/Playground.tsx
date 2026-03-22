@@ -172,6 +172,7 @@ export default function Playground() {
   const [isSimulatingData, setIsSimulatingData] = useState(true);
   const [radioValue, setRadioValue] = useState("option-1");
   const [dropdownValue, setDropdownValue] = useState("");
+  const [paymentValue, setPaymentValue] = useState("");
   const [switchState, setSwitchState] = useState(false);
 
   const [checkedItems, setCheckedItems] = useState({
@@ -1942,134 +1943,262 @@ export default function Playground() {
       >
         <div className="mb-6 text-center lg:text-left">
           <Typography variant="h4" weight="bold" className="mb-2">
-            Dropdown Menus
+            Dropdown
           </Typography>
           <Typography variant="body2" style={mutedColor}>
-            Highly accessible, themeable select menus with support for labels,
-            validation, and loading states.
+            Accessible select menus with keyboard navigation, validation, sizes,
+            and loading states.
           </Typography>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2">
-          {/* Column 1: Configurable Examples */}
-          <div className="space-y-8">
-            <div>
-              <Typography
-                variant="subtitle2"
-                weight="bold"
-                className="mb-4 flex items-center gap-2"
-              >
-                <span className="w-2 h-2 rounded-full bg-primary-500"></span>
-                Basic Usage
-              </Typography>
-              <div className="p-4 rounded-xl border border-dashed border-gray-300 bg-gray-50/50">
-                <Dropdown
-                  label="Select Framework"
-                  required
-                  options={[
-                    { label: "React", value: "react" },
-                    { label: "Vue", value: "vue" },
-                    { label: "Svelte", value: "svelte" },
-                    { label: "Angular", value: "angular", disabled: true },
-                  ]}
-                  selectedValue={dropdownValue}
-                  onChange={(val: string) => setDropdownValue(val)}
-                />
-                {dropdownValue && (
-                  <Typography
-                    variant="caption"
-                    className="mt-3 block text-primary-600 font-medium"
-                  >
-                    Output: {dropdownValue}
-                  </Typography>
-                )}
-              </div>
+        <div className="grid gap-8 lg:grid-cols-3">
+          {/* Interactive */}
+          <div className="space-y-6">
+            <Typography
+              variant="subtitle2"
+              weight="bold"
+              className="flex items-center gap-2"
+            >
+              <span className="w-2 h-2 rounded-full bg-primary-500" />
+              Interactive
+            </Typography>
+
+            <div className="space-y-4">
+              <Dropdown
+                label="Framework"
+                required
+                placeholder="Pick a framework"
+                options={[
+                  { label: "React", value: "react" },
+                  { label: "Vue", value: "vue" },
+                  { label: "Svelte", value: "svelte" },
+                  { label: "Angular", value: "angular" },
+                  { label: "Solid", value: "solid" },
+                  { label: "Qwik", value: "qwik" },
+                ]}
+                selectedValue={dropdownValue}
+                onChange={(val: string) => setDropdownValue(val)}
+              />
+              {dropdownValue && (
+                <Typography
+                  variant="caption"
+                  className="block text-primary-600 font-medium"
+                >
+                  Selected: {dropdownValue}
+                </Typography>
+              )}
             </div>
 
             <div>
-              <Typography
-                variant="subtitle2"
-                weight="bold"
-                className="mb-4 flex items-center gap-2"
-              >
-                <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
-                Validation & Error States
-              </Typography>
-              <div className="space-y-4">
-                <Dropdown
-                  label="Shipping Method"
-                  error="Please select a carrier to continue"
-                  options={[
-                    { label: "FedEx Express", value: "fedex" },
-                    { label: "UPS Ground", value: "ups" },
-                  ]}
-                />
-              </div>
+              <Dropdown
+                label="Database"
+                placeholder="Choose database"
+                options={[
+                  { label: "PostgreSQL", value: "pg" },
+                  { label: "MySQL", value: "mysql" },
+                  { label: "MongoDB", value: "mongo" },
+                  {
+                    label: "SQLite (coming soon)",
+                    value: "sqlite",
+                    disabled: true,
+                  },
+                ]}
+              />
+            </div>
+
+            <div>
+              <Dropdown
+                label="Country"
+                placeholder="Select country"
+                options={[
+                  { label: "United States", value: "us" },
+                  { label: "United Kingdom", value: "uk" },
+                  { label: "Canada", value: "ca" },
+                  { label: "Germany", value: "de" },
+                  { label: "France", value: "fr" },
+                  { label: "Japan", value: "jp" },
+                  { label: "Australia", value: "au" },
+                  { label: "Brazil", value: "br" },
+                  { label: "India", value: "in" },
+                  { label: "South Korea", value: "kr" },
+                  { label: "Mexico", value: "mx" },
+                  { label: "Italy", value: "it" },
+                  { label: "Spain", value: "es" },
+                  { label: "Netherlands", value: "nl" },
+                  { label: "Sweden", value: "se" },
+                  { label: "Norway", value: "no" },
+                  { label: "Switzerland", value: "ch" },
+                  { label: "Singapore", value: "sg" },
+                  { label: "New Zealand", value: "nz" },
+                  { label: "Argentina", value: "ar" },
+                ]}
+              />
+            </div>
+
+            <div>
+              <Dropdown
+                label="Payment Method"
+                placeholder="Select payment"
+                selectedValue={paymentValue}
+                onChange={(val: string) => setPaymentValue(val)}
+                options={[
+                  {
+                    label: "Credit Card",
+                    value: "card",
+                    icon: (
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="w-4 h-4"
+                      >
+                        <rect
+                          x="1"
+                          y="4"
+                          width="22"
+                          height="16"
+                          rx="2"
+                          ry="2"
+                        />
+                        <line x1="1" y1="10" x2="23" y2="10" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    label: "PayPal",
+                    value: "paypal",
+                    icon: (
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="w-4 h-4"
+                      >
+                        <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106z" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    label: "Bank Transfer",
+                    value: "bank",
+                    icon: (
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="w-4 h-4"
+                      >
+                        <line x1="12" y1="1" x2="12" y2="23" />
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    label: "Crypto",
+                    value: "crypto",
+                    icon: (
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="w-4 h-4"
+                      >
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                      </svg>
+                    ),
+                    disabled: true,
+                  },
+                ]}
+              />
             </div>
           </div>
 
-          {/* Column 2: Visual Variations */}
-          <div className="space-y-8">
-            <div>
-              <Typography
-                variant="subtitle2"
-                weight="bold"
-                className="mb-4 flex items-center gap-2"
-              >
-                <span className="w-2 h-2 rounded-full bg-green-500"></span>
-                Sizes & Loading
-              </Typography>
-              <div className="flex flex-col gap-4">
-                <div className="flex items-end gap-3 flex-wrap">
-                  <div className="w-24">
-                    <Dropdown
-                      size="sm"
-                      label="Small"
-                      options={[]}
-                      selectedValue="sm"
-                    />
-                  </div>
-                  <div className="w-32">
-                    <Dropdown
-                      size="md"
-                      label="Medium"
-                      options={[]}
-                      selectedValue="md"
-                    />
-                  </div>
-                  <div className="w-40">
-                    <Dropdown
-                      size="lg"
-                      label="Large"
-                      options={[]}
-                      selectedValue="lg"
-                    />
-                  </div>
-                </div>
-                <div className="max-w-xs">
-                  <Dropdown isLoading label="Fetching data..." options={[]} />
-                </div>
-              </div>
-            </div>
+          {/* States */}
+          <div className="space-y-6">
+            <Typography
+              variant="subtitle2"
+              weight="bold"
+              className="flex items-center gap-2"
+            >
+              <span className="w-2 h-2 rounded-full bg-yellow-500" />
+              States
+            </Typography>
 
-            <div>
-              <Typography
-                variant="subtitle2"
-                weight="bold"
-                className="mb-4 flex items-center gap-2"
-              >
-                <span className="w-2 h-2 rounded-full bg-gray-400"></span>
-                Disabled States
-              </Typography>
-              <div className="max-w-xs opacity-80">
-                <Dropdown
-                  disabled
-                  label="Configuration (Locked)"
-                  options={[]}
-                  selectedValue="production"
-                />
-              </div>
-            </div>
+            <Dropdown
+              label="Shipping Method"
+              error="Please select a carrier"
+              placeholder="Select carrier"
+              options={[
+                { label: "FedEx Express", value: "fedex" },
+                { label: "UPS Ground", value: "ups" },
+                { label: "DHL International", value: "dhl" },
+              ]}
+            />
+
+            <Dropdown
+              disabled
+              label="Environment (Locked)"
+              placeholder="Select environment"
+              options={[
+                { label: "Production", value: "production" },
+                { label: "Staging", value: "staging" },
+              ]}
+              selectedValue="production"
+            />
+
+            <Dropdown isLoading label="Loading regions..." options={[]} />
+          </div>
+
+          {/* Sizes */}
+          <div className="space-y-6">
+            <Typography
+              variant="subtitle2"
+              weight="bold"
+              className="flex items-center gap-2"
+            >
+              <span className="w-2 h-2 rounded-full bg-green-500" />
+              Sizes
+            </Typography>
+
+            <Dropdown
+              size="sm"
+              label="Small"
+              placeholder="Select..."
+              options={[
+                { label: "Option A", value: "a" },
+                { label: "Option B", value: "b" },
+              ]}
+            />
+
+            <Dropdown
+              size="md"
+              label="Medium (default)"
+              placeholder="Select..."
+              options={[
+                { label: "Option A", value: "a" },
+                { label: "Option B", value: "b" },
+              ]}
+            />
+
+            <Dropdown
+              size="lg"
+              label="Large"
+              placeholder="Select..."
+              options={[
+                { label: "Option A", value: "a" },
+                { label: "Option B", value: "b" },
+              ]}
+            />
           </div>
         </div>
       </section>

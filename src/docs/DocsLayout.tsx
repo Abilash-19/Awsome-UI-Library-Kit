@@ -19,6 +19,7 @@ const navigation = [
       { name: "Badge", path: "/docs/badge" },
       { name: "Button", path: "/docs/button" },
       { name: "Checkbox", path: "/docs/checkbox" },
+      { name: "Dropdown", path: "/docs/dropdown" },
       { name: "Input", path: "/docs/input" },
       { name: "Modal", path: "/docs/modal" },
       { name: "Popover", path: "/docs/popover" },
