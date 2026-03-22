@@ -42,6 +42,8 @@ const Popover = forwardRef<HTMLElement, PopoverProps>((props, ref) => {
     disabled = false,
     className,
     zIndex = 1000,
+    usePortal = true,
+    portalContainer,
   } = props;
 
   const [internalOpen, setInternalOpen] = useState(defaultOpen);
@@ -149,12 +151,15 @@ const Popover = forwardRef<HTMLElement, PopoverProps>((props, ref) => {
 
   // ─── Render ──────────────────────────────────────────────────────────────
 
+  const ContentWrapper = usePortal ? FloatingPortal : React.Fragment;
+  const portalProps = usePortal ? { root: portalContainer } : {};
+
   return (
     <>
       {trigger}
 
       {isMounted && (
-        <FloatingPortal>
+        <ContentWrapper {...portalProps}>
           <FloatingFocusManager
             context={context}
             modal={false}
@@ -207,7 +212,7 @@ const Popover = forwardRef<HTMLElement, PopoverProps>((props, ref) => {
               )}
             </div>
           </FloatingFocusManager>
-        </FloatingPortal>
+        </ContentWrapper>
       )}
     </>
   );

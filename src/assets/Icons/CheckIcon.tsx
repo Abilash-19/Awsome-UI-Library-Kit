@@ -1,11 +1,18 @@
 import { cn } from "@/utils";
 
-export const CheckIcon = ({ size }: { size: string }) => {
+export const CheckIcon = ({
+  size,
+  className,
+}: {
+  size?: string;
+  className?: string;
+}) => {
   return (
     <svg
       className={cn(
-        "check-icon shrink-0 text-white opacity-0 scale-75 transition-all duration-200",
+        "check-icon shrink-0 transition-all duration-200",
         size,
+        className,
       )}
       viewBox="0 0 24 24"
       fill="none"

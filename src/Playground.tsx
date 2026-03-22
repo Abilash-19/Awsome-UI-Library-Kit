@@ -14,6 +14,7 @@ import { ScrollArea, ScrollElement } from "@/components/ScrollArea";
 import { RadioGroup } from "@/components/RadioGroup";
 import Switch from "@/components/Switch/Switch";
 import Popover from "@/components/Popover/Popover";
+import { Dropdown } from "@/components/Dropdown/Dropdown";
 import reactLogo from "@/assets/react.svg";
 import type { ThemeOverride } from "@/theme";
 
@@ -170,6 +171,7 @@ export default function Playground() {
 
   const [isSimulatingData, setIsSimulatingData] = useState(true);
   const [radioValue, setRadioValue] = useState("option-1");
+  const [dropdownValue, setDropdownValue] = useState("");
   const [switchState, setSwitchState] = useState(false);
 
   const [checkedItems, setCheckedItems] = useState({
@@ -1928,6 +1930,145 @@ export default function Playground() {
                   i
                 </button>
               </Popover>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Dropdown Section */}
+      <section
+        className="rounded-xl p-6 shadow-lg ring-1 ring-[var(--ring-color)] transition-all duration-300 hover:shadow-xl"
+        style={sectionStyles}
+      >
+        <div className="mb-6 text-center lg:text-left">
+          <Typography variant="h4" weight="bold" className="mb-2">
+            Dropdown Menus
+          </Typography>
+          <Typography variant="body2" style={mutedColor}>
+            Highly accessible, themeable select menus with support for labels,
+            validation, and loading states.
+          </Typography>
+        </div>
+
+        <div className="grid gap-8 md:grid-cols-2">
+          {/* Column 1: Configurable Examples */}
+          <div className="space-y-8">
+            <div>
+              <Typography
+                variant="subtitle2"
+                weight="bold"
+                className="mb-4 flex items-center gap-2"
+              >
+                <span className="w-2 h-2 rounded-full bg-primary-500"></span>
+                Basic Usage
+              </Typography>
+              <div className="p-4 rounded-xl border border-dashed border-gray-300 bg-gray-50/50">
+                <Dropdown
+                  label="Select Framework"
+                  required
+                  options={[
+                    { label: "React", value: "react" },
+                    { label: "Vue", value: "vue" },
+                    { label: "Svelte", value: "svelte" },
+                    { label: "Angular", value: "angular", disabled: true },
+                  ]}
+                  selectedValue={dropdownValue}
+                  onChange={(val: string) => setDropdownValue(val)}
+                />
+                {dropdownValue && (
+                  <Typography
+                    variant="caption"
+                    className="mt-3 block text-primary-600 font-medium"
+                  >
+                    Output: {dropdownValue}
+                  </Typography>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <Typography
+                variant="subtitle2"
+                weight="bold"
+                className="mb-4 flex items-center gap-2"
+              >
+                <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
+                Validation & Error States
+              </Typography>
+              <div className="space-y-4">
+                <Dropdown
+                  label="Shipping Method"
+                  error="Please select a carrier to continue"
+                  options={[
+                    { label: "FedEx Express", value: "fedex" },
+                    { label: "UPS Ground", value: "ups" },
+                  ]}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Column 2: Visual Variations */}
+          <div className="space-y-8">
+            <div>
+              <Typography
+                variant="subtitle2"
+                weight="bold"
+                className="mb-4 flex items-center gap-2"
+              >
+                <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                Sizes & Loading
+              </Typography>
+              <div className="flex flex-col gap-4">
+                <div className="flex items-end gap-3 flex-wrap">
+                  <div className="w-24">
+                    <Dropdown
+                      size="sm"
+                      label="Small"
+                      options={[]}
+                      selectedValue="sm"
+                    />
+                  </div>
+                  <div className="w-32">
+                    <Dropdown
+                      size="md"
+                      label="Medium"
+                      options={[]}
+                      selectedValue="md"
+                    />
+                  </div>
+                  <div className="w-40">
+                    <Dropdown
+                      size="lg"
+                      label="Large"
+                      options={[]}
+                      selectedValue="lg"
+                    />
+                  </div>
+                </div>
+                <div className="max-w-xs">
+                  <Dropdown isLoading label="Fetching data..." options={[]} />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <Typography
+                variant="subtitle2"
+                weight="bold"
+                className="mb-4 flex items-center gap-2"
+              >
+                <span className="w-2 h-2 rounded-full bg-gray-400"></span>
+                Disabled States
+              </Typography>
+              <div className="max-w-xs opacity-80">
+                <Dropdown
+                  disabled
+                  label="Configuration (Locked)"
+                  options={[]}
+                  selectedValue="production"
+                />
+              </div>
             </div>
           </div>
         </div>

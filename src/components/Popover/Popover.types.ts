@@ -57,4 +57,10 @@ export interface PopoverProps {
    * @default 1000
    */
   zIndex?: number;
+
+  /** Use React Portal? */
+  usePortal?: boolean;
+
+  /** Portal container element */
+  portalContainer?: HTMLElement | null;
 }
