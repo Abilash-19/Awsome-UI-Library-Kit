@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import RadioGroup from "./RadioGroup";
+import { RadioGroup } from "./RadioGroup";
 import { ThemeProvider } from "../../theme";
 
 const options = [

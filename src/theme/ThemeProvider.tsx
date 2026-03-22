@@ -116,6 +116,15 @@ export function ThemeProvider({
     );
     if (nextTheme) {
       setActiveThemeName(nextTheme.name);
+      // Keep palette (primary color) but clear surface overrides
+      setOverride((prev) => {
+        if (!prev?.palette) return null;
+        const kept = { palette: prev.palette };
+        if (storageKey) {
+          localStorage.setItem(`${storageKey}-override`, JSON.stringify(kept));
+        }
+        return kept;
+      });
       if (storageKey) localStorage.setItem(storageKey, nextTheme.name);
     }
   }, [theme.colorMode, storageKey]);

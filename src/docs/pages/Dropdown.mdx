@@ -1,0 +1,141 @@
+import { Dropdown } from '@/components/Dropdown/Dropdown';
+import { ComponentPreview } from '../components/ComponentPreview';
+import { PropsTable } from '../components/PropsTable';
+import { PageHeader } from '../components/PageHeader';
+import { BasicDemo, IconDemo, ScrollDemo, SearchDemo, SizesDemo, StatesDemo } from '../components/DropdownDemo';
+
+<PageHeader title="Dropdown" description="Accessible select menus with keyboard navigation, search, icons, validation, and glassmorphic styling." />
+
+## Basic Usage
+
+Use `selectedValue` and `onChange` to control the selected option. Options support `label`, `value`, and `disabled`.
+
+<ComponentPreview code={`const [value, setValue] = useState("");
+
+
+<Dropdown
+  label="Framework"
+  required
+  placeholder="Pick a framework"
+  options={[
+    { label: "React", value: "react" },
+    { label: "Vue", value: "vue" },
+    { label: "Svelte", value: "svelte" },
+    { label: "Angular", value: "angular" },
+  ]}
+  selectedValue={value}
+  onChange={setValue}
+/>`}>
+  <BasicDemo />
+</ComponentPreview>
+
+## With Icons
+
+Each option can include an `icon` prop. The icon is displayed in both the trigger and the dropdown list.
+
+<ComponentPreview code={`<Dropdown
+  label="Payment Method"
+  placeholder="Select payment"
+  options={[
+    { label: "Credit Card", value: "card", icon: <CreditCardIcon /> },
+    { label: "Bank Transfer", value: "bank", icon: <BankIcon /> },
+    { label: "Crypto", value: "crypto", icon: <CryptoIcon />, disabled: true },
+  ]}
+  selectedValue={value}
+  onChange={setValue}
+/>`}>
+  <IconDemo />
+</ComponentPreview>
+
+## Searchable
+
+Add `searchable` to enable a filter input inside the panel. Options are filtered as you type, with keyboard navigation still fully supported.
+
+<ComponentPreview code={`<Dropdown
+  label="Country"
+  placeholder="Search & select country"
+  searchable
+  searchPlaceholder="Type to filter..."
+  options={countries.map(c => ({ label: c, value: c.toLowerCase() }))}
+  selectedValue={value}
+  onChange={setValue}
+/>`}>
+  <SearchDemo />
+</ComponentPreview>
+
+## Scrollable List
+
+When options exceed the panel height, a themed scrollbar appears. Keyboard navigation (Arrow keys, Home, End) auto-scrolls the highlighted item into view.
+
+<ComponentPreview code={`<Dropdown
+  label="Country"
+  placeholder="Select country"
+  options={countries.map(c => ({ label: c, value: c.toLowerCase() }))}
+  selectedValue={value}
+  onChange={setValue}
+/>`}>
+  <ScrollDemo />
+</ComponentPreview>
+
+## Sizes
+
+Three size variants: `sm`, `md` (default), and `lg`.
+
+<ComponentPreview code={`<Dropdown size="sm" label="Small" options={options} />
+<Dropdown size="md" label="Medium" options={options} />
+<Dropdown size="lg" label="Large" options={options} />`}>
+  <SizesDemo />
+</ComponentPreview>
+
+## States
+
+Error validation, disabled state, and loading skeleton.
+
+<ComponentPreview code={`<Dropdown label="With Error" error="Please select a carrier" options={options} />
+<Dropdown disabled label="Disabled" selectedValue="locked" options={options} />
+<Dropdown isLoading label="Loading..." options={[]} />`}>
+  <StatesDemo />
+</ComponentPreview>
+
+## Keyboard Navigation
+
+| Key | Action |
+|-----|--------|
+| `Arrow Down` | Open dropdown / highlight next option |
+| `Arrow Up` | Open dropdown / highlight previous option |
+| `Enter` / `Space` | Select highlighted option / open dropdown |
+| `Escape` | Close dropdown |
+| `Home` | Jump to first enabled option |
+| `End` | Jump to last enabled option |
+| Type characters | Filter options (when `searchable` is enabled) |
+
+## Props
+
+<PropsTable props={[
+  { name: 'options', type: 'DropdownOption[]', description: 'Array of options with label, value, icon, and disabled.' },
+  { name: 'selectedValue', type: 'string', description: 'Currently selected option value.' },
+  { name: 'onChange', type: '(value: string) => void', description: 'Callback fired when an option is selected.' },
+  { name: 'placeholder', type: 'string', defaultValue: '"Select option"', description: 'Placeholder text when no option is selected.' },
+  { name: 'searchable', type: 'boolean', defaultValue: 'false', description: 'Enables a search input inside the dropdown panel.' },
+  { name: 'searchPlaceholder', type: 'string', defaultValue: '"Search..."', description: 'Placeholder for the search input.' },
+  { name: 'label', type: 'ReactNode', description: 'Label rendered above the trigger.' },
+  { name: 'required', type: 'boolean', defaultValue: 'false', description: 'Shows a required indicator on the label.' },
+  { name: 'size', type: '"sm" | "md" | "lg"', defaultValue: '"md"', description: 'Size variant of the trigger.' },
+  { name: 'error', type: 'string', description: 'Error message displayed below the trigger.' },
+  { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables the dropdown.' },
+  { name: 'isLoading', type: 'boolean', defaultValue: 'false', description: 'Shows a skeleton loader.' },
+  { name: 'isOpen', type: 'boolean', description: 'Controlled open state.' },
+  { name: 'defaultOpen', type: 'boolean', defaultValue: 'false', description: 'Initial open state (uncontrolled).' },
+  { name: 'offset', type: 'number', defaultValue: '4', description: 'Gap between trigger and panel in pixels.' },
+  { name: 'zIndex', type: 'number', defaultValue: '50', description: 'CSS z-index of the dropdown panel.' },
+  { name: 'className', type: 'string', description: 'Custom class for the trigger button.' },
+]} />
+
+### DropdownOption
+
+<PropsTable props={[
+  { name: 'label', type: 'ReactNode', description: 'Display text for the option.' },
+  { name: 'value', type: 'string', description: 'Unique value identifier.' },
+  { name: 'icon', type: 'ReactNode', description: 'Icon rendered before the label.' },
+  { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables the option.' },
+]} />

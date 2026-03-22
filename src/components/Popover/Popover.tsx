@@ -6,6 +6,7 @@ import {
   offset as offsetMiddleware,
   flip,
   shift,
+  size as sizeMiddleware,
   arrow as arrowMiddleware,
   useClick,
   useDismiss,
@@ -44,6 +45,8 @@ const Popover = forwardRef<HTMLElement, PopoverProps>((props, ref) => {
     zIndex = 1000,
     usePortal = true,
     portalContainer,
+    matchTriggerWidth = false,
+    keepTriggerFocus = false,
   } = props;
 
   const [internalOpen, setInternalOpen] = useState(defaultOpen);
@@ -73,6 +76,17 @@ const Popover = forwardRef<HTMLElement, PopoverProps>((props, ref) => {
       offsetMiddleware(offset + (showArrow ? ARROW_OFFSET : 0)),
       flip({ fallbackAxisSideDirection: "start" }),
       shift({ padding: 8 }),
+      ...(matchTriggerWidth
+        ? [
+            sizeMiddleware({
+              apply({ rects, elements }) {
+                Object.assign(elements.floating.style, {
+                  width: `${rects.reference.width}px`,
+                });
+              },
+            }),
+          ]
+        : []),
       /* eslint-disable react-hooks/refs */
       ...(showArrow
         ? [arrowMiddleware({ element: arrowRef, padding: 8 })]
@@ -85,9 +99,14 @@ const Popover = forwardRef<HTMLElement, PopoverProps>((props, ref) => {
   const { setReference, setFloating } = floatingRefs;
   const mergedRef = useMergeRefs([setReference, ref]);
 
-  const click = useClick(context, { enabled: !disabled });
+  const click = useClick(context, {
+    enabled: !disabled,
+    keyboardHandlers: !keepTriggerFocus,
+  });
   const dismiss = useDismiss(context, { outsidePressEvent: "mousedown" });
-  const role = useRole(context, { role: "dialog" });
+  const role = useRole(context, {
+    role: keepTriggerFocus ? "listbox" : "dialog",
+  });
 
   const { getReferenceProps, getFloatingProps } = useInteractions([
     click,
@@ -160,16 +179,12 @@ const Popover = forwardRef<HTMLElement, PopoverProps>((props, ref) => {
 
       {isMounted && (
         <ContentWrapper {...portalProps}>
-          <FloatingFocusManager
-            context={context}
-            modal={false}
-            initialFocus={-1}
-            returnFocus
-          >
+          {keepTriggerFocus ? (
             <div
               ref={setFloating}
               style={{ ...floatingStyles, zIndex }}
               {...getFloatingProps()}
+              tabIndex={-1}
             >
               <div
                 style={
@@ -190,7 +205,7 @@ const Popover = forwardRef<HTMLElement, PopoverProps>((props, ref) => {
                   "rounded-[var(--popover-radius)]",
                   "shadow-[var(--popover-shadow)]",
                   "outline-none overflow-hidden",
-                  "min-w-[8rem]",
+                  !matchTriggerWidth && "min-w-[8rem]",
                   className,
                 )}
                 role="presentation"
@@ -211,7 +226,60 @@ const Popover = forwardRef<HTMLElement, PopoverProps>((props, ref) => {
                 />
               )}
             </div>
-          </FloatingFocusManager>
+          ) : (
+            <FloatingFocusManager
+              context={context}
+              modal={false}
+              initialFocus={-1}
+              returnFocus
+            >
+              <div
+                ref={setFloating}
+                style={{ ...floatingStyles, zIndex }}
+                {...getFloatingProps()}
+              >
+                <div
+                  style={
+                    {
+                      ...transitionStyles,
+                      "--popover-bg": theme.tokens.elevated,
+                      "--popover-border": theme.tokens.border,
+                      "--popover-text": theme.tokens.foreground,
+                      "--popover-radius": theme.shape.radiusMd,
+                      "--popover-shadow":
+                        "0 8px 30px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08)",
+                    } as React.CSSProperties
+                  }
+                  className={cn(
+                    "bg-[var(--popover-bg)]",
+                    "border border-[var(--popover-border)]",
+                    "text-[var(--popover-text)]",
+                    "rounded-[var(--popover-radius)]",
+                    "shadow-[var(--popover-shadow)]",
+                    "outline-none overflow-hidden",
+                    !matchTriggerWidth && "min-w-[8rem]",
+                    className,
+                  )}
+                  role="presentation"
+                >
+                  {content}
+                </div>
+
+                {showArrow && (
+                  <FloatingArrow
+                    ref={arrowRef}
+                    context={context}
+                    fill={arrowFill}
+                    stroke={theme.tokens.border}
+                    strokeWidth={1}
+                    height={ARROW_HEIGHT}
+                    width={ARROW_WIDTH}
+                    tipRadius={2}
+                  />
+                )}
+              </div>
+            </FloatingFocusManager>
+          )}
         </ContentWrapper>
       )}
     </>

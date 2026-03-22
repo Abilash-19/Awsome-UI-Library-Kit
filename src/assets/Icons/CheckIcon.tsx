@@ -10,7 +10,7 @@ export const CheckIcon = ({
   return (
     <svg
       className={cn(
-        "check-icon shrink-0 transition-all duration-200",
+        "check-icon absolute shrink-0 text-white opacity-0 scale-75 transition-all duration-200",
         size,
         className,
       )}
