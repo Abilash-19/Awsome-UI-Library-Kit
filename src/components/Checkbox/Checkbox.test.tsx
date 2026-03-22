@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import Checkbox from "./Checkbox";
+import { Checkbox } from "./Checkbox";
 import { ThemeProvider } from "@/theme";
 
 const renderWithTheme = (ui: React.ReactElement) => {
